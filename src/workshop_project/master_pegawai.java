@@ -5,11 +5,15 @@
 package workshop_project;
 
 /**
- *
- * @author bimai
+ * @author bima
  */
-public class master_pegawai extends javax.swing.JFrame {
 
+import java.awt.event.KeyEvent;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import workshop_project.Workshop_project;
+public class master_pegawai extends javax.swing.JFrame {
     /**
      * Creates new form master_pegawai
      */
@@ -41,13 +45,13 @@ public class master_pegawai extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        field_nama = new javax.swing.JTextField();
+        field_alamat = new javax.swing.JTextField();
+        field_username = new javax.swing.JTextField();
+        field_nik = new javax.swing.JTextField();
+        cmb_gaji = new javax.swing.JComboBox<>();
+        field_nomer = new javax.swing.JTextField();
+        field_password = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -63,8 +67,8 @@ public class master_pegawai extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        rdb_laki = new javax.swing.JRadioButton();
+        rdb_perempuan = new javax.swing.JRadioButton();
         jLabel19 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -163,45 +167,45 @@ public class master_pegawai extends javax.swing.JFrame {
         getContentPane().add(jPanel9);
         jPanel9.setBounds(20, 470, 150, 40);
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1.setForeground(new java.awt.Color(114, 114, 114));
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(230, 140, 220, 28);
+        field_nama.setBackground(new java.awt.Color(255, 255, 255));
+        field_nama.setForeground(new java.awt.Color(114, 114, 114));
+        getContentPane().add(field_nama);
+        field_nama.setBounds(230, 140, 220, 28);
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setForeground(new java.awt.Color(114, 114, 114));
-        getContentPane().add(jTextField2);
-        jTextField2.setBounds(230, 180, 220, 28);
+        field_alamat.setBackground(new java.awt.Color(255, 255, 255));
+        field_alamat.setForeground(new java.awt.Color(114, 114, 114));
+        getContentPane().add(field_alamat);
+        field_alamat.setBounds(230, 180, 220, 28);
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField3.setForeground(new java.awt.Color(114, 114, 114));
-        getContentPane().add(jTextField3);
-        jTextField3.setBounds(230, 220, 220, 28);
+        field_username.setBackground(new java.awt.Color(255, 255, 255));
+        field_username.setForeground(new java.awt.Color(114, 114, 114));
+        getContentPane().add(field_username);
+        field_username.setBounds(230, 220, 220, 28);
 
-        jTextField4.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField4.setForeground(new java.awt.Color(114, 114, 114));
-        getContentPane().add(jTextField4);
-        jTextField4.setBounds(530, 140, 230, 28);
+        field_nik.setBackground(new java.awt.Color(255, 255, 255));
+        field_nik.setForeground(new java.awt.Color(114, 114, 114));
+        getContentPane().add(field_nik);
+        field_nik.setBounds(530, 140, 230, 28);
 
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rp. 2.500.000", "Rp. 2.000.000", "Rp. 1.500.000", "RP. 1.000.000" }));
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(530, 180, 230, 26);
+        cmb_gaji.setForeground(new java.awt.Color(255, 255, 255));
+        cmb_gaji.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rp. 2.500.000", "Rp. 2.000.000", "Rp. 1.500.000", "RP. 1.000.000" }));
+        getContentPane().add(cmb_gaji);
+        cmb_gaji.setBounds(530, 180, 230, 26);
 
-        jTextField5.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField5.setForeground(new java.awt.Color(114, 114, 114));
-        getContentPane().add(jTextField5);
-        jTextField5.setBounds(530, 220, 230, 28);
+        field_nomer.setBackground(new java.awt.Color(255, 255, 255));
+        field_nomer.setForeground(new java.awt.Color(114, 114, 114));
+        getContentPane().add(field_nomer);
+        field_nomer.setBounds(530, 220, 230, 28);
 
-        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField6.setForeground(new java.awt.Color(114, 114, 114));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        field_password.setBackground(new java.awt.Color(255, 255, 255));
+        field_password.setForeground(new java.awt.Color(114, 114, 114));
+        field_password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                field_passwordActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField6);
-        jTextField6.setBounds(530, 260, 230, 28);
+        getContentPane().add(field_password);
+        field_password.setBounds(530, 260, 230, 28);
 
         jTextField7.setBackground(new java.awt.Color(255, 255, 255));
         jTextField7.setForeground(new java.awt.Color(114, 114, 114));
@@ -244,6 +248,11 @@ public class master_pegawai extends javax.swing.JFrame {
 
         btn_simpan.setBackground(new java.awt.Color(255, 153, 50));
         btn_simpan.setText("Simpan");
+        btn_simpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_simpanActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_simpan);
         btn_simpan.setBounds(673, 470, 80, 28);
 
@@ -280,14 +289,14 @@ public class master_pegawai extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(114, 114, 114));
         jLabel18.setText("Cari Data");
 
-        jRadioButton2.setForeground(new java.awt.Color(114, 114, 114));
-        jRadioButton2.setText("Laki-laki");
+        rdb_laki.setForeground(new java.awt.Color(114, 114, 114));
+        rdb_laki.setText("Laki-laki");
 
-        jRadioButton1.setForeground(new java.awt.Color(114, 114, 114));
-        jRadioButton1.setText("Perempuan");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        rdb_perempuan.setForeground(new java.awt.Color(114, 114, 114));
+        rdb_perempuan.setText("Perempuan");
+        rdb_perempuan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                rdb_perempuanActionPerformed(evt);
             }
         });
 
@@ -307,9 +316,9 @@ public class master_pegawai extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rdb_laki, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rdb_perempuan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,8 +358,8 @@ public class master_pegawai extends javax.swing.JFrame {
                         .addComponent(jLabel19)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rdb_laki, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rdb_perempuan, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
                 .addComponent(jLabel18)
                 .addGap(14, 14, 14))
@@ -416,13 +425,48 @@ public class master_pegawai extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void field_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_field_passwordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_field_passwordActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void rdb_perempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_perempuanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_rdb_perempuanActionPerformed
+
+    private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
+        // TODO add your handling code here:
+        try{
+            String jenis_kelamin = null; 
+            if(rdb_laki.isSelected()){
+                jenis_kelamin = "Laki-Laki";
+            }else if(rdb_perempuan.isSelected()){
+                jenis_kelamin = "Perempuan";
+            }
+            
+            int gaji_pegawai = 0;
+            if(cmb_gaji.getSelectedItem()== "Rp. 2.500.000" ){
+                gaji_pegawai = 2500000;
+            }else if(cmb_gaji.getSelectedItem()== "Rp. 2.000.000"){
+                gaji_pegawai = 2000000;
+            }else if(cmb_gaji.getSelectedItem()== "Rp. 1.500.000"){
+                gaji_pegawai = 1500000;
+            }else if(cmb_gaji.getSelectedItem()== "Rp. 1.000.000"){
+                gaji_pegawai = 1000000;
+            }
+            
+            String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,gaji_pegawai) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()
+                    +"','"+field_username.getText()+"','"+field_password.getText()
+                    +"','"+field_alamat.getText()+"','"+field_nomer.getText()
+                    +"','"+jenis_kelamin
+                    +"','"+gaji_pegawai+"')";
+            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
+            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btn_simpanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -463,7 +507,13 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_simpan;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmb_gaji;
+    private javax.swing.JTextField field_alamat;
+    private javax.swing.JTextField field_nama;
+    private javax.swing.JTextField field_nik;
+    private javax.swing.JTextField field_nomer;
+    private javax.swing.JTextField field_password;
+    private javax.swing.JTextField field_username;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -496,16 +546,10 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JRadioButton rdb_laki;
+    private javax.swing.JRadioButton rdb_perempuan;
     // End of variables declaration//GEN-END:variables
 }
