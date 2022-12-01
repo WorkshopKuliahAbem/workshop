@@ -10,17 +10,83 @@ package workshop_project;
 
 import java.awt.event.KeyEvent;
 import java.sql.*;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.time.format.DateTimeFormatter;
+
 import workshop_project.Workshop_project;
+
 public class master_pegawai extends javax.swing.JFrame {
+    private Connection con;
+    private Statement stat;
+    private ResultSet res;
     /**
      * Creates new form master_pegawai
      */
     public master_pegawai() {
         initComponents();
+        koneksi();
+        tabel();
+        tanggal.setText(getDate());
     }
+    
+    // menampilkan tanggal di layar
+    static String getDate(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime dt = LocalDateTime.now();
+        return String.valueOf(dtf.format(dt));
+    }
+    
+    // koneksi ke database
+    private void koneksi(){
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con=DriverManager.getConnection("jdbc:mysql://localhost/project_akhir_db", "root", "");
+        stat=con.createStatement();
+    }catch (Exception e){
+        JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    // isi table
+    private void tabel(){
+        DefaultTableModel tb= new DefaultTableModel();
+        // Memberi nama pada setiap kolom tabel
+        tb.addColumn("NIK");
+        tb.addColumn("Nama Pegawai");
+        tb.addColumn("Username");
+        tb.addColumn("Password");
+        tb.addColumn("Alamat");
+        tb.addColumn("No. Telpon ");
+        tb.addColumn("Jenis Kelamin");
+        tb.addColumn("Gaji Pegawai");
+        tabel.setModel(tb);
+    try{
+        // Mengambil data dari database
+        Statement statement=(Statement)Workshop_project.foderoDB().createStatement();
+        res=stat.executeQuery("select * from pegawai group by created_at order by created_at desc");
 
+    while (res.next())
+    {
+        // Mengambil data dari database berdasarkan nama kolom pada tabel
+        // Lalu di tampilkan ke dalam Table
+        tb.addRow(new Object[]{
+        res.getString("nik"),
+        res.getString("nama_pegawai"),
+        res.getString("username"),
+        res.getString("PASSWORD"),
+        res.getString("alamat"),
+        res.getString("no_telp"),
+        res.getString("jenis_kelamin"),
+        res.getInt("gaji_pegawai")
+        });
+        tabel.setModel(tb);
+    }
+    }catch (Exception e){
+        JOptionPane.showMessageDialog(rootPane, "salah");
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,9 +118,6 @@ public class master_pegawai extends javax.swing.JFrame {
         cmb_gaji = new javax.swing.JComboBox<>();
         field_nomer = new javax.swing.JTextField();
         field_password = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         btn_edit = new javax.swing.JButton();
         btn_hapus = new javax.swing.JButton();
         btn_simpan = new javax.swing.JButton();
@@ -70,11 +133,14 @@ public class master_pegawai extends javax.swing.JFrame {
         rdb_laki = new javax.swing.JRadioButton();
         rdb_perempuan = new javax.swing.JRadioButton();
         jLabel19 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabel = new javax.swing.JTable();
+        jTextField7 = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        tanggal = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
@@ -207,42 +273,17 @@ public class master_pegawai extends javax.swing.JFrame {
         getContentPane().add(field_password);
         field_password.setBounds(530, 260, 230, 28);
 
-        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField7.setForeground(new java.awt.Color(114, 114, 114));
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField7);
-        jTextField7.setBounds(280, 478, 130, 20);
-
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setBackground(new java.awt.Color(239, 245, 245));
-        jTable1.setBorder(null);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTable1.setRowHeight(35);
-        jScrollPane1.setViewportView(jTable1);
-
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(210, 306, 560, 160);
-
         btn_edit.setText("Edit");
         getContentPane().add(btn_edit);
         btn_edit.setBounds(503, 470, 80, 28);
 
         btn_hapus.setBackground(new java.awt.Color(255, 16, 12));
         btn_hapus.setText("Hapus");
+        btn_hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_hapusActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_hapus);
         btn_hapus.setBounds(590, 470, 80, 28);
 
@@ -304,17 +345,47 @@ public class master_pegawai extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(114, 114, 114));
         jLabel19.setText("Jenis Kelamin :");
 
+        tabel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tabel);
+
+        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField7.setForeground(new java.awt.Color(114, 114, 114));
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel18)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
+                        .addGap(163, 163, 163))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(rdb_laki, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -322,17 +393,12 @@ public class master_pegawai extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15))
-                        .addGap(163, 163, 163))))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 19, Short.MAX_VALUE))))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,9 +426,13 @@ public class master_pegawai extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdb_laki, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rdb_perempuan, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
-                .addComponent(jLabel18)
-                .addGap(14, 14, 14))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel10);
@@ -384,29 +454,27 @@ public class master_pegawai extends javax.swing.JFrame {
         jPanel12.setBounds(750, 70, 50, 20);
 
         jPanel13.setBackground(new java.awt.Color(239, 245, 245));
+        jPanel13.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
 
-        jLabel10.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel10.setText("Tanggal");
+        tanggal.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
+        tanggal.setForeground(new java.awt.Color(114, 114, 114));
+        tanggal.setText("Tanggal");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jLabel10)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addComponent(tanggal)
+                .addGap(0, 148, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jLabel10))
+            .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel13);
-        jPanel13.setBounds(200, 80, 160, 30);
+        jPanel13.setBounds(200, 80, 200, 30);
 
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/workshop_project/Master Pegawai - Jadi_Revisi.jpg"))); // NOI18N
@@ -419,6 +487,7 @@ public class master_pegawai extends javax.swing.JFrame {
         jPanel3.setBounds(0, 510, 800, 90);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
@@ -454,19 +523,35 @@ public class master_pegawai extends javax.swing.JFrame {
                 gaji_pegawai = 1000000;
             }
             
-            String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,gaji_pegawai) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()
-                    +"','"+field_username.getText()+"','"+field_password.getText()
-                    +"','"+field_alamat.getText()+"','"+field_nomer.getText()
-                    +"','"+jenis_kelamin
-                    +"','"+gaji_pegawai+"')";
+            String tipe = "karyawan";
+            String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,tipe,gaji_pegawai,created_at) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()+"',"
+                    + "'"+field_username.getText()+"','"+field_password.getText()+"',"
+                    + "'"+field_alamat.getText()+"','"+field_nomer.getText()+"',"
+                    + "'"+jenis_kelamin+"',"
+                    + "'"+tipe+"','"+gaji_pegawai+"', now())";
             java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
             java.sql.PreparedStatement pst=conn.prepareStatement(sql);
             pst.execute();
+            // memanggil ulang table
+            tabel();
             JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
         }catch (Exception e){
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btn_simpanActionPerformed
+
+    private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
+        // TODO add your handling code here:
+        field_nik.setText("");
+        field_nama.setText("");
+        field_alamat.setText("");
+        cmb_gaji.setSelectedItem(null);
+        field_username.setText("");
+        field_nomer.setText("");
+        field_password.setText("");
+        rdb_laki.setSelected(false);
+        rdb_perempuan.setSelected(false);
+    }//GEN-LAST:event_btn_hapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -515,7 +600,6 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JTextField field_password;
     private javax.swing.JTextField field_username;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -546,10 +630,12 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JRadioButton rdb_laki;
     private javax.swing.JRadioButton rdb_perempuan;
+    private javax.swing.JTable tabel;
+    private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables
+
 }
