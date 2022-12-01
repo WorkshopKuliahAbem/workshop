@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.time.format.DateTimeFormatter;
+import javax.swing.table.TableModel;
 
 import workshop_project.Workshop_project;
 
@@ -96,6 +97,7 @@ public class master_pegawai extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jenis_kelamin = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -115,7 +117,7 @@ public class master_pegawai extends javax.swing.JFrame {
         field_alamat = new javax.swing.JTextField();
         field_username = new javax.swing.JTextField();
         field_nik = new javax.swing.JTextField();
-        cmb_gaji = new javax.swing.JComboBox<>();
+        field_gaji = new javax.swing.JTextField();
         field_nomer = new javax.swing.JTextField();
         field_password = new javax.swing.JTextField();
         btn_edit = new javax.swing.JButton();
@@ -253,10 +255,10 @@ public class master_pegawai extends javax.swing.JFrame {
         getContentPane().add(field_nik);
         field_nik.setBounds(530, 140, 230, 28);
 
-        cmb_gaji.setForeground(new java.awt.Color(255, 255, 255));
-        cmb_gaji.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rp. 2.500.000", "Rp. 2.000.000", "Rp. 1.500.000", "RP. 1.000.000" }));
-        getContentPane().add(cmb_gaji);
-        cmb_gaji.setBounds(530, 180, 230, 26);
+        field_gaji.setBackground(new java.awt.Color(255, 255, 255));
+        field_gaji.setForeground(new java.awt.Color(114, 114, 114));
+        getContentPane().add(field_gaji);
+        field_gaji.setBounds(530, 180, 230, 28);
 
         field_nomer.setBackground(new java.awt.Color(255, 255, 255));
         field_nomer.setForeground(new java.awt.Color(114, 114, 114));
@@ -330,9 +332,11 @@ public class master_pegawai extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(114, 114, 114));
         jLabel18.setText("Cari Data");
 
+        jenis_kelamin.add(rdb_laki);
         rdb_laki.setForeground(new java.awt.Color(114, 114, 114));
         rdb_laki.setText("Laki-laki");
 
+        jenis_kelamin.add(rdb_perempuan);
         rdb_perempuan.setForeground(new java.awt.Color(114, 114, 114));
         rdb_perempuan.setText("Perempuan");
         rdb_perempuan.addActionListener(new java.awt.event.ActionListener() {
@@ -356,6 +360,11 @@ public class master_pegawai extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabel);
 
         jTextField7.setBackground(new java.awt.Color(255, 255, 255));
@@ -512,23 +521,12 @@ public class master_pegawai extends javax.swing.JFrame {
                 jenis_kelamin = "Perempuan";
             }
             
-            int gaji_pegawai = 0;
-            if(cmb_gaji.getSelectedItem()== "Rp. 2.500.000" ){
-                gaji_pegawai = 2500000;
-            }else if(cmb_gaji.getSelectedItem()== "Rp. 2.000.000"){
-                gaji_pegawai = 2000000;
-            }else if(cmb_gaji.getSelectedItem()== "Rp. 1.500.000"){
-                gaji_pegawai = 1500000;
-            }else if(cmb_gaji.getSelectedItem()== "Rp. 1.000.000"){
-                gaji_pegawai = 1000000;
-            }
-            
             String tipe = "karyawan";
             String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,tipe,gaji_pegawai,created_at) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()+"',"
                     + "'"+field_username.getText()+"','"+field_password.getText()+"',"
                     + "'"+field_alamat.getText()+"','"+field_nomer.getText()+"',"
                     + "'"+jenis_kelamin+"',"
-                    + "'"+tipe+"','"+gaji_pegawai+"', now())";
+                    + "'"+tipe+"','"+field_gaji.getText()+"', now())";
             java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
             java.sql.PreparedStatement pst=conn.prepareStatement(sql);
             pst.execute();
@@ -542,16 +540,47 @@ public class master_pegawai extends javax.swing.JFrame {
 
     private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
         // TODO add your handling code here:
-        field_nik.setText("");
-        field_nama.setText("");
-        field_alamat.setText("");
-        cmb_gaji.setSelectedItem(null);
-        field_username.setText("");
-        field_nomer.setText("");
-        field_password.setText("");
-        rdb_laki.setSelected(false);
-        rdb_perempuan.setSelected(false);
+        try{
+            String sql = "DELETE FROM pegawai where nik='"+field_nik.getText()+"'";
+            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
+            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(this, "berhasil di hapus");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        tabel();
     }//GEN-LAST:event_btn_hapusActionPerformed
+
+    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
+        // TODO add your handling code here:
+        
+        int i = tabel.getSelectedRow();
+        TableModel tbl = tabel.getModel();
+        // Mengambil value dari table
+        String field1 = tbl.getValueAt(i, 0).toString();
+        String field2 = tbl.getValueAt(i, 1).toString();
+        String field3 = tbl.getValueAt(i, 2).toString();
+        String field4 = tbl.getValueAt(i, 3).toString();
+        String field5 = tbl.getValueAt(i, 4).toString();
+        String field6 = tbl.getValueAt(i, 5).toString();
+        String field7 = tbl.getValueAt(i, 6).toString();
+        String field8 = tbl.getValueAt(i, 7).toString();
+        // Paste data yang telah diambil
+        field_nik.setText(field1);
+        field_nik.disable();
+        field_nama.setText(field2);
+        field_username.setText(field3);
+        field_password.setText(field4);
+        field_alamat.setText(field5);
+        field_nomer.setText(field6);
+        if(field7.equals("Laki-Laki")){
+            rdb_laki.setSelected(true);
+        }else{
+            rdb_perempuan.setSelected(true);
+        }
+        field_gaji.setText(field8);
+    }//GEN-LAST:event_tabelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -592,8 +621,8 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_simpan;
-    private javax.swing.JComboBox<String> cmb_gaji;
     private javax.swing.JTextField field_alamat;
+    private javax.swing.JTextField field_gaji;
     private javax.swing.JTextField field_nama;
     private javax.swing.JTextField field_nik;
     private javax.swing.JTextField field_nomer;
@@ -632,6 +661,7 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.ButtonGroup jenis_kelamin;
     private javax.swing.JRadioButton rdb_laki;
     private javax.swing.JRadioButton rdb_perempuan;
     private javax.swing.JTable tabel;
