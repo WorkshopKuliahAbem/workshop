@@ -19,15 +19,11 @@ import javax.swing.table.TableModel;
 import workshop_project.Workshop_project;
 
 public class master_pegawai extends javax.swing.JFrame {
-    private Connection con;
-    private Statement stat;
-    private ResultSet res;
     /**
      * Creates new form master_pegawai
      */
     public master_pegawai() {
         initComponents();
-        koneksi();
         tabel();
         tanggal.setText(getDate());
     }
@@ -38,18 +34,7 @@ public class master_pegawai extends javax.swing.JFrame {
         LocalDateTime dt = LocalDateTime.now();
         return String.valueOf(dtf.format(dt));
     }
-    
-    // koneksi ke database
-    private void koneksi(){
-    try {
-        Class.forName("com.mysql.jdbc.Driver");
-        con=DriverManager.getConnection("jdbc:mysql://localhost/project_akhir_db", "root", "");
-        stat=con.createStatement();
-    }catch (Exception e){
-        JOptionPane.showMessageDialog(null, e);
-        }
-    }
-    
+   
     // isi table
     private void tabel(){
         DefaultTableModel tb= new DefaultTableModel();
@@ -57,7 +42,6 @@ public class master_pegawai extends javax.swing.JFrame {
         tb.addColumn("NIK");
         tb.addColumn("Nama Pegawai");
         tb.addColumn("Username");
-        tb.addColumn("Password");
         tb.addColumn("Alamat");
         tb.addColumn("No. Telpon ");
         tb.addColumn("Jenis Kelamin");
@@ -66,26 +50,25 @@ public class master_pegawai extends javax.swing.JFrame {
     try{
         // Mengambil data dari database
         Statement statement=(Statement)Workshop_project.foderoDB().createStatement();
-        res=stat.executeQuery("select * from pegawai group by created_at order by created_at desc");
+        ResultSet rs=statement.executeQuery("select * from pegawai group by created_at order by created_at desc");
 
-    while (res.next())
+    while (rs.next())
     {
         // Mengambil data dari database berdasarkan nama kolom pada tabel
         // Lalu di tampilkan ke dalam Table
         tb.addRow(new Object[]{
-        res.getString("nik"),
-        res.getString("nama_pegawai"),
-        res.getString("username"),
-        res.getString("PASSWORD"),
-        res.getString("alamat"),
-        res.getString("no_telp"),
-        res.getString("jenis_kelamin"),
-        res.getInt("gaji_pegawai")
+        rs.getString("nik"),
+        rs.getString("nama_pegawai"),
+        rs.getString("username"),
+        rs.getString("alamat"),
+        rs.getString("no_telp"),
+        rs.getString("jenis_kelamin"),
+        rs.getInt("gaji_pegawai")
         });
         tabel.setModel(tb);
     }
     }catch (Exception e){
-        JOptionPane.showMessageDialog(rootPane, "salah");
+        JOptionPane.showMessageDialog(rootPane, e.getMessage());
     }
 }
     /**
@@ -119,7 +102,7 @@ public class master_pegawai extends javax.swing.JFrame {
         field_nik = new javax.swing.JTextField();
         field_gaji = new javax.swing.JTextField();
         field_nomer = new javax.swing.JTextField();
-        field_password = new javax.swing.JTextField();
+        field_password = new javax.swing.JPasswordField();
         btn_edit = new javax.swing.JButton();
         btn_hapus = new javax.swing.JButton();
         btn_simpan = new javax.swing.JButton();
@@ -137,7 +120,7 @@ public class master_pegawai extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabel = new javax.swing.JTable();
-        jTextField7 = new javax.swing.JTextField();
+        cari_data = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
@@ -267,11 +250,6 @@ public class master_pegawai extends javax.swing.JFrame {
 
         field_password.setBackground(new java.awt.Color(255, 255, 255));
         field_password.setForeground(new java.awt.Color(114, 114, 114));
-        field_password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                field_passwordActionPerformed(evt);
-            }
-        });
         getContentPane().add(field_password);
         field_password.setBounds(530, 260, 230, 28);
 
@@ -367,11 +345,11 @@ public class master_pegawai extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabel);
 
-        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField7.setForeground(new java.awt.Color(114, 114, 114));
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+        cari_data.setBackground(new java.awt.Color(255, 255, 255));
+        cari_data.setForeground(new java.awt.Color(114, 114, 114));
+        cari_data.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cari_dataKeyPressed(evt);
             }
         });
 
@@ -405,7 +383,7 @@ public class master_pegawai extends javax.swing.JFrame {
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jLabel18)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cari_data, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 19, Short.MAX_VALUE))))
         );
@@ -440,7 +418,7 @@ public class master_pegawai extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cari_data, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -499,14 +477,6 @@ public class master_pegawai extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void field_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_field_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_field_passwordActionPerformed
-
     private void rdb_perempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_perempuanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdb_perempuanActionPerformed
@@ -546,7 +516,7 @@ public class master_pegawai extends javax.swing.JFrame {
             java.sql.PreparedStatement pst=conn.prepareStatement(sql);
             pst.execute();
             JOptionPane.showMessageDialog(this, "berhasil di hapus");
-        } catch (Exception e) {
+        }catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         tabel();
@@ -554,7 +524,6 @@ public class master_pegawai extends javax.swing.JFrame {
 
     private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
         // TODO add your handling code here:
-        
         int i = tabel.getSelectedRow();
         TableModel tbl = tabel.getModel();
         // Mengambil value dari table
@@ -565,22 +534,54 @@ public class master_pegawai extends javax.swing.JFrame {
         String field5 = tbl.getValueAt(i, 4).toString();
         String field6 = tbl.getValueAt(i, 5).toString();
         String field7 = tbl.getValueAt(i, 6).toString();
-        String field8 = tbl.getValueAt(i, 7).toString();
         // Paste data yang telah diambil
         field_nik.setText(field1);
         field_nik.disable();
         field_nama.setText(field2);
         field_username.setText(field3);
-        field_password.setText(field4);
-        field_alamat.setText(field5);
-        field_nomer.setText(field6);
-        if(field7.equals("Laki-Laki")){
+        field_alamat.setText(field4);
+        field_nomer.setText(field5);
+        if(field6.equals("Laki-Laki")){
             rdb_laki.setSelected(true);
         }else{
             rdb_perempuan.setSelected(true);
         }
-        field_gaji.setText(field8);
+        field_gaji.setText(field7);
     }//GEN-LAST:event_tabelMouseClicked
+
+    private void cari_dataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cari_dataKeyPressed
+        // TODO add your handling code here:
+        String cari = cari_data.getText();
+
+        DefaultTableModel dtm = new DefaultTableModel();
+        dtm.addColumn("nik");
+        dtm.addColumn("nama_pegawai");
+        dtm.addColumn("username");
+        dtm.addColumn("alamat");
+        dtm.addColumn("no_telp");
+        dtm.addColumn("jenis_kelamin");
+        dtm.addColumn("gaji_pegawai");
+        tabel.setModel(dtm);
+        try {
+            Statement statement = (Statement)Workshop_project.foderoDB().createStatement();
+            ResultSet res = statement.executeQuery("select * from pegawai where nik like '%"+cari+"%' or nama_pegawai like '%"+cari+"%'");
+
+            while(res.next()){
+                dtm.addRow(new Object[]{
+                    res.getString("nik"),
+                    res.getString("nama_pegawai"),
+                    res.getString("username"),
+                    res.getString("alamat"),
+                    res.getString("no_telp"),
+                    res.getString("jenis_kelamin"),
+                    res.getString("gaji_pegawai")
+                });
+                tabel.setModel(dtm);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_cari_dataKeyPressed
 
     /**
      * @param args the command line arguments
@@ -621,12 +622,13 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_simpan;
+    private javax.swing.JTextField cari_data;
     private javax.swing.JTextField field_alamat;
     private javax.swing.JTextField field_gaji;
     private javax.swing.JTextField field_nama;
     private javax.swing.JTextField field_nik;
     private javax.swing.JTextField field_nomer;
-    private javax.swing.JTextField field_password;
+    private javax.swing.JPasswordField field_password;
     private javax.swing.JTextField field_username;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -660,7 +662,6 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.ButtonGroup jenis_kelamin;
     private javax.swing.JRadioButton rdb_laki;
     private javax.swing.JRadioButton rdb_perempuan;
