@@ -48,7 +48,7 @@ public class master_pegawai extends javax.swing.JFrame {
         tb.addColumn("Gaji Pegawai");
         tabel.setModel(tb);
     try{
-        // Mengambil data dari database
+        // Mengambil data dibuat dari database
         Statement statement=(Statement)Workshop_project.foderoDB().createStatement();
         ResultSet rs=statement.executeQuery("select * from pegawai group by created_at order by created_at desc");
 
@@ -254,6 +254,11 @@ public class master_pegawai extends javax.swing.JFrame {
         field_password.setBounds(530, 260, 230, 28);
 
         btn_edit.setText("Edit");
+        btn_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_edit);
         btn_edit.setBounds(503, 470, 80, 28);
 
@@ -582,6 +587,23 @@ public class master_pegawai extends javax.swing.JFrame {
             System.out.println(e);
         }
     }//GEN-LAST:event_cari_dataKeyPressed
+
+    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql = "UPDATE pegawai SET nama_pegawai = '"+ field_nama.getText()
+                    +"', username = '"+field_username.getText()+"', PASSWORD = '"+ field_password.getText()
+                    +"', alamat = '"+field_alamat.getText()+"', no_telp = '"+ field_nomer.getText()
+                    +"', gaji_pegawai = '"+ field_gaji.getText() + "'WHERE nik = '"+field_nik.getText()+"'";
+            java.sql.Connection conn=(Connection)Workshop_project.foderoDB();
+            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Data berhasil diedit");
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Perubahan data gagal" + e.getMessage());
+        }
+        tabel();
+    }//GEN-LAST:event_btn_editActionPerformed
 
     /**
      * @param args the command line arguments
