@@ -8,6 +8,7 @@ package workshop_project;
  * @author bima
  */
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.*;
@@ -27,6 +28,7 @@ public class master_pegawai extends javax.swing.JFrame {
         initComponents();
         tabel();
         tanggal.setText(getDate());
+        btn_edit.setEnabled(false);
     }
     
     // menampilkan tanggal di layar
@@ -35,27 +37,53 @@ public class master_pegawai extends javax.swing.JFrame {
         LocalDateTime dt = LocalDateTime.now();
         return String.valueOf(dtf.format(dt));
     }
+    
+    // setter & getter
+    public class userLogin{
+        private String name;
+        // getter
+        public String getName(){
+            return name;
+        }
+        // setter
+        public void setName(String newName){
+            this.name = newName;
+        }
+    }
+    
     // validasi
-    boolean val(){
+    boolean val_simpan(){
         if(field_nik.getText().length() < 1 || field_nama.getText().length() < 1 || field_alamat.getText().length() < 1
                 || field_gaji.getText().length() < 1 || field_username.getText().length() < 1 || field_nomer.getText().length() < 1 
                 || field_password.getText().length() < 1){
             JOptionPane.showMessageDialog(null, "Field harus diisi semua!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
+        return true;
+    }
+    // validasi
+    boolean val_delete(){
+        if(field_nik.getText().length() < 1){
+            JOptionPane.showMessageDialog(null, "Pilih salah satu data terlebih dahulu!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         return true;
     }
     // clear text
     void clear_text(){
-    field_nik.setText("");
-    field_nama.setText("");
-    field_alamat.setText("");
-    field_gaji.setText("");
-    field_username.setText("");
-    field_nomer.setText("");
-    field_password.setText("");
-    jenis_kelamin.clearSelection();
+        field_nik.setText("");
+        field_nama.setText("");
+        field_alamat.setText("");
+        field_gaji.setText("");
+        field_username.setText("");
+        field_nomer.setText("");
+        field_password.setText("");
+        jenis_kelamin.clearSelection();
+        btn_edit.setEnabled(false);
+        field_nik.setEnabled(true);
+        field_password.setEnabled(true);
+        field_password.setBackground(Color.white);
+        btn_simpan.setEnabled(true);
     }
     // isi table
     private void tabel(){
@@ -144,7 +172,7 @@ public class master_pegawai extends javax.swing.JFrame {
         btn_edit = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         tanggal = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
@@ -166,7 +194,6 @@ public class master_pegawai extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(244, 244, 244));
@@ -269,6 +296,7 @@ public class master_pegawai extends javax.swing.JFrame {
 
         field_password.setBackground(new java.awt.Color(255, 255, 255));
         field_password.setForeground(new java.awt.Color(114, 114, 114));
+        field_password.setDisabledTextColor(new java.awt.Color(192, 192, 192));
         getContentPane().add(field_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 260, 230, -1));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
@@ -363,6 +391,7 @@ public class master_pegawai extends javax.swing.JFrame {
             }
         });
 
+        btn_edit.setBackground(new java.awt.Color(90, 90, 90));
         btn_edit.setText("Edit");
         btn_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -370,7 +399,7 @@ public class master_pegawai extends javax.swing.JFrame {
             }
         });
 
-        btn_clear.setBackground(new java.awt.Color(255, 153, 50));
+        btn_clear.setBackground(new java.awt.Color(90, 90, 90));
         btn_clear.setText("Clear");
         btn_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -385,40 +414,39 @@ public class master_pegawai extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel10Layout.createSequentialGroup()
+                            .addComponent(jLabel18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cari_data, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btn_hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13)
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(201, 201, 201)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
                             .addComponent(jLabel16)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15))
-                        .addGap(163, 163, 163))
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel17)))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(rdb_laki, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rdb_perempuan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel10Layout.createSequentialGroup()
-                                    .addComponent(jLabel18)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cari_data, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btn_clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btn_hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 19, Short.MAX_VALUE))))
+                        .addComponent(rdb_laki, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rdb_perempuan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(202, 202, 202)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 58, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -463,10 +491,10 @@ public class master_pegawai extends javax.swing.JFrame {
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel9.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel9.setText("Nama Pegawai");
-        jPanel11.add(jLabel9);
+        name.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        name.setForeground(new java.awt.Color(114, 114, 114));
+        name.setText("Nama Pegawai");
+        jPanel11.add(name);
 
         getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 84, 100, -1));
 
@@ -721,42 +749,48 @@ public class master_pegawai extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rdb_perempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_perempuanActionPerformed
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdb_perempuanActionPerformed
+        clear_text();
+    }//GEN-LAST:event_btn_clearActionPerformed
 
-    private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
+    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
         // TODO add your handling code here:
-        if(val()){
+        int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Mengedit Data ?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION){
         try{
-            String jenis_kelamin = null; 
+            String jenis_kelamin = null;
             if(rdb_laki.isSelected()){
                 jenis_kelamin = "Laki-Laki";
             }else if(rdb_perempuan.isSelected()){
                 jenis_kelamin = "Perempuan";
             }
-            
-            String tipe = "karyawan";
-            String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,tipe,gaji_pegawai,created_at) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()+"',"
-                    + "'"+field_username.getText()+"','"+field_password.getText()+"',"
-                    + "'"+field_alamat.getText()+"','"+field_nomer.getText()+"',"
-                    + "'"+jenis_kelamin+"',"
-                    + "'"+tipe+"','"+field_gaji.getText()+"', now())";
-            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
+            String sql = "UPDATE pegawai SET nama_pegawai = '"+ field_nama.getText()
+            +"', username = '"+field_username.getText()+"', PASSWORD = '"+ field_password.getText()
+            +"', alamat = '"+field_alamat.getText()+"', no_telp = '"+ field_nomer.getText()
+            +"', gaji_pegawai = '"+ field_gaji.getText()+"', jenis_kelamin = '"+ jenis_kelamin
+            +"'WHERE nik = '"+field_nik.getText()+"'";
+            java.sql.Connection conn=(Connection)Workshop_project.foderoDB();
             java.sql.PreparedStatement pst=conn.prepareStatement(sql);
             pst.execute();
-            // memanggil ulang table
-            tabel();
-            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+            JOptionPane.showMessageDialog(null, "Data berhasil diedit");
         }catch (Exception e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(null, "Perubahan data gagal" + e.getMessage());
         }
+        tabel();
         clear_text();
+        field_nik.setEnabled(true);
+        field_password.setEnabled(true);
+        field_password.setBackground(Color.white);
         }
-    }//GEN-LAST:event_btn_simpanActionPerformed
+    }//GEN-LAST:event_btn_editActionPerformed
 
     private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
         // TODO add your handling code here:
+        if(val_delete()){
+            int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Menghapus", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (opt == JOptionPane.YES_OPTION){
+                
         try{
             String sql = "DELETE FROM pegawai where nik='"+field_nik.getText()+"'";
             java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
@@ -768,34 +802,43 @@ public class master_pegawai extends javax.swing.JFrame {
         }
         tabel();
         clear_text();
+        field_nik.setEnabled(true);
+        field_password.setEnabled(true);
+        field_password.setBackground(Color.white);
+        }
+        }
     }//GEN-LAST:event_btn_hapusActionPerformed
 
-    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
+    private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
         // TODO add your handling code here:
-        int i = tabel.getSelectedRow();
-        TableModel tbl = tabel.getModel();
-        // Mengambil value dari table
-        String field1 = tbl.getValueAt(i, 0).toString();
-        String field2 = tbl.getValueAt(i, 1).toString();
-        String field3 = tbl.getValueAt(i, 2).toString();
-        String field4 = tbl.getValueAt(i, 3).toString();
-        String field5 = tbl.getValueAt(i, 4).toString();
-        String field6 = tbl.getValueAt(i, 5).toString();
-        String field7 = tbl.getValueAt(i, 6).toString();
-        // Paste data yang telah diambil
-        field_nik.setText(field1);
-        field_nik.disable();
-        field_nama.setText(field2);
-        field_username.setText(field3);
-        field_alamat.setText(field4);
-        field_nomer.setText(field5);
-        if(field6.equals("Laki-Laki")){
-            rdb_laki.setSelected(true);
-        }else{
-            rdb_perempuan.setSelected(true);
+        if(val_simpan()){
+            try{
+                String jenis_kelamin = null;
+                if(rdb_laki.isSelected()){
+                    jenis_kelamin = "Laki-Laki";
+                }else if(rdb_perempuan.isSelected()){
+                    jenis_kelamin = "Perempuan";
+                }
+
+                String tipe = "karyawan";
+                String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,tipe,gaji_pegawai,created_at) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()+"',"
+                + "'"+field_username.getText()+"','"+field_password.getText()+"',"
+                + "'"+field_alamat.getText()+"','"+field_nomer.getText()+"',"
+                + "'"+jenis_kelamin+"',"
+                + "'"+tipe+"','"+field_gaji.getText()+"', now())";
+                java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
+                java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+                pst.execute();
+                // memanggil ulang table
+                tabel();
+                clear_text();
+                JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+            }catch (Exception e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            
         }
-        field_gaji.setText(field7);
-    }//GEN-LAST:event_tabelMouseClicked
+    }//GEN-LAST:event_btn_simpanActionPerformed
 
     private void cari_dataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cari_dataKeyPressed
         // TODO add your handling code here:
@@ -831,28 +874,40 @@ public class master_pegawai extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cari_dataKeyPressed
 
-    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
+    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
         // TODO add your handling code here:
-        try{
-            String sql = "UPDATE pegawai SET nama_pegawai = '"+ field_nama.getText()
-                    +"', username = '"+field_username.getText()+"', PASSWORD = '"+ field_password.getText()
-                    +"', alamat = '"+field_alamat.getText()+"', no_telp = '"+ field_nomer.getText()
-                    +"', gaji_pegawai = '"+ field_gaji.getText() + "'WHERE nik = '"+field_nik.getText()+"'";
-            java.sql.Connection conn=(Connection)Workshop_project.foderoDB();
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Data berhasil diedit");
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Perubahan data gagal" + e.getMessage());
+        int i = tabel.getSelectedRow();
+        TableModel tbl = tabel.getModel();
+        // Mengambil value dari table
+        String field1 = tbl.getValueAt(i, 0).toString();
+        String field2 = tbl.getValueAt(i, 1).toString();
+        String field3 = tbl.getValueAt(i, 2).toString();
+        String field4 = tbl.getValueAt(i, 3).toString();
+        String field5 = tbl.getValueAt(i, 4).toString();
+        String field6 = tbl.getValueAt(i, 5).toString();
+        String field7 = tbl.getValueAt(i, 6).toString();
+        // Paste data yang telah diambil
+        field_nik.setText(field1);
+        field_nik.disable();
+        field_nama.setText(field2);
+        field_username.setText(field3);
+        field_alamat.setText(field4);
+        field_nomer.setText(field5);
+        if(field6.equals("Laki-Laki")){
+            rdb_laki.setSelected(true);
+        }else{
+            rdb_perempuan.setSelected(true);
         }
-        tabel();
-        clear_text();
-    }//GEN-LAST:event_btn_editActionPerformed
+        field_gaji.setText(field7);
+        field_password.disable();
+        field_password.setBackground(Color.black);
+        btn_edit.setEnabled(true);
+        btn_simpan.setEnabled(false);
+    }//GEN-LAST:event_tabelMouseClicked
 
-    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+    private void rdb_perempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdb_perempuanActionPerformed
         // TODO add your handling code here:
-        clear_text();
-    }//GEN-LAST:event_btn_clearActionPerformed
+    }//GEN-LAST:event_rdb_perempuanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -921,7 +976,6 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -948,6 +1002,7 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.ButtonGroup jenis_kelamin;
+    private javax.swing.JLabel name;
     private javax.swing.JRadioButton rdb_laki;
     private javax.swing.JRadioButton rdb_perempuan;
     private javax.swing.JTable tabel;
