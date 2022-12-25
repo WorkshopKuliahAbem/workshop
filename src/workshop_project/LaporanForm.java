@@ -11,6 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.OrientationRequested;
@@ -21,7 +24,8 @@ import javax.swing.JTable;
  * @author Tole
  */
 public class LaporanForm extends javax.swing.JFrame {
-
+    ArrayList<Integer> total = new ArrayList<Integer>();
+    
     /**
      * Creates new form LaporanForm
      */
@@ -38,8 +42,23 @@ public class LaporanForm extends javax.swing.JFrame {
         return true;
     }
     
-    void loadData(String query){
+    int sum(){
+        int s = 0;
+        for(int i = 0; i < total.size(); i++){
+            s += total.get(i);
+        }
+        return s;
+    }
+    
+    String rupiah(int num){
+        double a = Double.valueOf(String.valueOf(num));
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+       
+        //merubah mendari 10.000.000.000
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
         
+        return String.valueOf(nf.format(a));
     }
 
     /**
@@ -61,6 +80,8 @@ public class LaporanForm extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,33 +123,43 @@ public class LaporanForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jLabel4.setText("Rp.");
+
+        jLabel5.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel5.setText("Total Pengeluaran:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(212, 212, 212)
+                .addGap(180, 180, 180)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(300, 300, 300)
                             .addComponent(jButton2))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(192, 192, 192))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(81, 81, 81)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(192, 192, 192))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(81, 81, 81)))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(32, 32, 32)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,13 +173,17 @@ public class LaporanForm extends javax.swing.JFrame {
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21))
@@ -168,16 +203,15 @@ public class LaporanForm extends javax.swing.JFrame {
             akhir = new java.sql.Date(jDateChooser2.getDate().getTime());
             tipe = (jComboBox1.getSelectedIndex() == 0) ? null : jComboBox1.getSelectedItem().toString();
             if (tipe == "Gaji") {
+                total.clear();
                 query = "select pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, monthname(tanggal_pengeluaran) as bulan, day(tanggal_pengeluaran) as tanggal, mst_bonus.nama_bonus, mst_minus.nama_minus from pengeluaran "
                         + "left join gaji on gaji.id_pengeluaran = pengeluaran.id_pengeluaran "
                         + "left join mst_minus on gaji.id_minus = mst_minus.id_minus "
                         + "left join mst_bonus on gaji.id_bonus = mst_bonus.id_bonus "
                         + "join pegawai on pegawai.nik = pengeluaran.nik "
-                        + "where jenis_pengeluaran = '"+ tipe +"' and tanggal_pengeluaran >= '"+ awal +"' and tanggal_pengeluaran <= '"+ akhir +"'";    
-                dt.addColumn("#");                
+                        + "where jenis_pengeluaran = '"+ tipe +"' and tanggal_pengeluaran >= '"+ awal +"' and tanggal_pengeluaran <= '"+ akhir +"'";  
                 dt.addColumn("Nama Pegawai");
                 dt.addColumn("Tanggal");
-                dt.addColumn("Bulan");
                 dt.addColumn("Nominal");
                 dt.addColumn("Bonus");
                 dt.addColumn("Minus");
@@ -188,27 +222,27 @@ public class LaporanForm extends javax.swing.JFrame {
                     rs.next();
                     while(rs.next()){
                         dt.addRow(new Object[]{
-                            i++,
                             rs.getString("nama_pegawai"),
-                            rs.getString("tanggal"),
-                            rs.getString("bulan"),
-                            rs.getString("jumlah_pengeluaran"),
+                            rs.getString("tanggal") + " " + rs.getString("bulan"),
+                            "Rp."+rupiah(Integer.valueOf(rs.getString("jumlah_pengeluaran"))),
                             rs.getString("nama_bonus"),
                             rs.getString("nama_minus"),
                         });
+                        total.add(Integer.valueOf(rs.getString("jumlah_pengeluaran")));
                         
                         jTable1.setModel(dt);
                     }
+                    jLabel4.setText("Rp. " + rupiah(sum()));
                 } catch(Exception e){
                     JOptionPane.showMessageDialog(null, e, "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
 
             } else {
+                total.clear();
                 query = "select pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, tanggal_pengeluaran as tanggal from pengeluaran "
                         + "left join gaji on gaji.id_pengeluaran = pengeluaran.id_pengeluaran "
                         + "join pegawai on pegawai.nik = pengeluaran.nik "
-                        + "where jenis_pengeluaran = '"+ tipe +"' and tanggal_pengeluaran >= '"+ awal +"' and tanggal_pengeluaran <= '"+ akhir +"'";    
-                dt.addColumn("#");                
+                        + "where jenis_pengeluaran = '"+ tipe +"' and tanggal_pengeluaran >= '"+ awal +"' and tanggal_pengeluaran <= '"+ akhir +"'";
                 dt.addColumn("Nama Pegawai");
                 dt.addColumn("Tanggal");
                 dt.addColumn("Nominal");
@@ -220,15 +254,16 @@ public class LaporanForm extends javax.swing.JFrame {
                     rs.next();
                     while(rs.next()){
                         dt.addRow(new Object[]{
-                            i++,
                             rs.getString("nama_pegawai"),
                             rs.getString("tanggal"),
-                            rs.getString("jumlah_pengeluaran"),
+                            "Rp."+rupiah(Integer.valueOf(rs.getString("jumlah_pengeluaran"))),
                             rs.getString("keterangan_pengeluaran"),
                         });
+                        total.add(Integer.valueOf(rs.getString("jumlah_pengeluaran")));
                         
                         jTable1.setModel(dt);
                     }
+                    jLabel4.setText("Rp. " + rupiah(sum()));
                 } catch(Exception e){
                     JOptionPane.showMessageDialog(null, e, "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
@@ -295,6 +330,8 @@ public class LaporanForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
