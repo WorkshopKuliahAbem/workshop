@@ -17,10 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.time.format.DateTimeFormatter;
 import javax.swing.table.TableModel;
+import static workshop_project.Utils.getSaldo;
 
 import workshop_project.Workshop_project;
 
 public class master_pegawai extends javax.swing.JFrame {
+    private String saldo;
     /**
      * Creates new form master_pegawai
      */
@@ -29,6 +31,11 @@ public class master_pegawai extends javax.swing.JFrame {
         tabel();
         tanggal.setText(getDate());
         btn_edit.setEnabled(false);
+        try{
+            saldo = getSaldo();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Saldo Tidak Terpanggil");
+        }
     }
     
     // menampilkan tanggal di layar
@@ -175,6 +182,7 @@ public class master_pegawai extends javax.swing.JFrame {
         name = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         tanggal = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
@@ -505,17 +513,25 @@ public class master_pegawai extends javax.swing.JFrame {
         tanggal.setForeground(new java.awt.Color(114, 114, 114));
         tanggal.setText("Tanggal");
 
+        jLabel9.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(114, 114, 114));
+        jLabel9.setText("Saldo");
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(tanggal)
-                .addGap(0, 148, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 75, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addComponent(jLabel9))
         );
 
         getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, -1, -1));
@@ -976,6 +992,7 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
