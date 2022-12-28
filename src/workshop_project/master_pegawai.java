@@ -216,6 +216,11 @@ public class master_pegawai extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(244, 244, 244));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
@@ -547,7 +552,8 @@ public class master_pegawai extends javax.swing.JFrame {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -994,6 +1000,16 @@ public class master_pegawai extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel8MouseClicked
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        try {
+            // TODO add your handling code here:
+            new DashboardForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(master_pegawai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     /**
      * @param args the command line arguments

@@ -19,6 +19,7 @@ import java.util.Locale;
  */
 public class Utils {
     public static String nama;
+    public static String nik;
     private static Connection koneksi;
     public static Connection foderoDB() throws SQLException{
         try{
