@@ -7,6 +7,8 @@ package workshop_project;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Tole
  */
 public class MasterBonus extends javax.swing.JFrame {
-
+    Utils util = new Utils();
     /**
      * Creates new form MasterBonus
      */
@@ -24,6 +26,7 @@ public class MasterBonus extends javax.swing.JFrame {
         loadData("");
         dis();
         tanggal.setText(getDate());
+        name.setText(util.nama);
     }
     
     // menampilkan tanggal di layar
@@ -144,13 +147,12 @@ public class MasterBonus extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -321,6 +323,11 @@ public class MasterBonus extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(244, 244, 244));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(114, 114, 114));
@@ -400,6 +407,11 @@ public class MasterBonus extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(244, 244, 244));
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(114, 114, 114));
@@ -478,6 +490,11 @@ public class MasterBonus extends javax.swing.JFrame {
 
         jPanel12.setBackground(new java.awt.Color(244, 244, 244));
         jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel12MouseClicked(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(114, 114, 114));
@@ -504,8 +521,14 @@ public class MasterBonus extends javax.swing.JFrame {
 
         jPanel13.setBackground(new java.awt.Color(252, 102, 103));
         jPanel13.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel13MouseClicked(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("LOGOUT");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -544,26 +567,22 @@ public class MasterBonus extends javax.swing.JFrame {
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel6.setText("Nama Pegawai");
+        name.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        name.setForeground(new java.awt.Color(114, 114, 114));
+        name.setText("Nama Pegawai");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addComponent(jLabel6)
-                .addGap(0, 19, Short.MAX_VALUE))
+            .addComponent(name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addGap(0, 5, Short.MAX_VALUE)
-                .addComponent(jLabel6))
+            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, 20));
+        getContentPane().add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 150, 20));
 
         jLabel4.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/workshop_project/Bonus - Jadi_800x449.jpg"))); // NOI18N
@@ -602,6 +621,7 @@ public class MasterBonus extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 80));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -706,6 +726,34 @@ public class MasterBonus extends javax.swing.JFrame {
         jTextField3.setText(model.getValueAt(i, 3).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+        // TODO add your handling code here:
+        new master_pegawai().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel6MouseClicked
+
+    private void jPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel13MouseClicked
+        // TODO add your handling code here:
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel13MouseClicked
+
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+        // TODO add your handling code here:
+        new MasterMinus().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel9MouseClicked
+
+    private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
+        try {
+            // TODO add your handling code here:
+            new LaporanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterBonus.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel12MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -758,7 +806,6 @@ public class MasterBonus extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -781,6 +828,7 @@ public class MasterBonus extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel name;
     private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables
 }

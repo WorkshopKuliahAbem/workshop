@@ -6,9 +6,12 @@
 package workshop_project;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Tole
  */
 public class MasterMinus extends javax.swing.JFrame {
-
+    Utils util = new Utils();
     /**
      * Creates new form MasterMinus
      */
@@ -26,6 +29,7 @@ public class MasterMinus extends javax.swing.JFrame {
         loadData("");
         dis();
         tanggal.setText(getDate());
+        name.setText(util.nama);
     }
     
     int id = 0;
@@ -131,7 +135,7 @@ public class MasterMinus extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
@@ -374,30 +378,32 @@ public class MasterMinus extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel4.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel4.setText("Nama Pegawai");
+        name.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        name.setForeground(new java.awt.Color(114, 114, 114));
+        name.setText("Nama Pegawai");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
-                .addComponent(jLabel4))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addComponent(name)
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 100, 20));
+        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 150, 20));
 
         jPanel9.setBackground(new java.awt.Color(252, 102, 103));
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
@@ -424,6 +430,11 @@ public class MasterMinus extends javax.swing.JFrame {
 
         jPanel10.setBackground(new java.awt.Color(244, 244, 244));
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(114, 114, 114));
@@ -502,6 +513,11 @@ public class MasterMinus extends javax.swing.JFrame {
 
         jPanel13.setBackground(new java.awt.Color(244, 244, 244));
         jPanel13.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel13MouseClicked(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(114, 114, 114));
@@ -606,6 +622,11 @@ public class MasterMinus extends javax.swing.JFrame {
 
         jPanel17.setBackground(new java.awt.Color(244, 244, 244));
         jPanel17.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel17MouseClicked(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(114, 114, 114));
@@ -665,6 +686,7 @@ public class MasterMinus extends javax.swing.JFrame {
         getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, -1, 80));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -769,6 +791,34 @@ public class MasterMinus extends javax.swing.JFrame {
         clear();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        // TODO add your handling code here:
+        new master_pegawai().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel13MouseClicked
+        // TODO add your handling code here:
+        new MasterBonus().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel13MouseClicked
+
+    private void jPanel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel17MouseClicked
+        try {
+            // TODO add your handling code here:
+            new LaporanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterMinus.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel17MouseClicked
+
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+        // TODO add your handling code here:
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel9MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -818,7 +868,6 @@ public class MasterMinus extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -847,6 +896,7 @@ public class MasterMinus extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel name;
     private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables
 }

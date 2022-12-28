@@ -16,26 +16,23 @@ import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.TableModel;
-import static workshop_project.Utils.getSaldo;
 
 import workshop_project.Workshop_project;
 
 public class master_pegawai extends javax.swing.JFrame {
-    private String saldo;
+    Utils util = new Utils();
     /**
      * Creates new form master_pegawai
      */
     public master_pegawai() {
         initComponents();
         tabel();
+        name.setText(util.nama);
         tanggal.setText(getDate());
         btn_edit.setEnabled(false);
-        try{
-            saldo = getSaldo();
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Saldo Tidak Terpanggil");
-        }
     }
     
     // menampilkan tanggal di layar
@@ -43,19 +40,6 @@ public class master_pegawai extends javax.swing.JFrame {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime dt = LocalDateTime.now();
         return String.valueOf(dtf.format(dt));
-    }
-    
-    // setter & getter
-    public class userLogin{
-        private String name;
-        // getter
-        public String getName(){
-            return name;
-        }
-        // setter
-        public void setName(String newName){
-            this.name = newName;
-        }
     }
     
     // validasi
@@ -72,6 +56,15 @@ public class master_pegawai extends javax.swing.JFrame {
     boolean val_delete(){
         if(field_nik.getText().length() < 1){
             JOptionPane.showMessageDialog(null, "Pilih salah satu data terlebih dahulu!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    // validasi
+    //validasi NIK
+    boolean val_nik(){
+        if(field_nik.getText().length() != 16){
+            JOptionPane.showMessageDialog(null, "NIK harus 16 karakter !", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
@@ -182,7 +175,7 @@ public class master_pegawai extends javax.swing.JFrame {
         name = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         tanggal = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        saldo = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
@@ -206,12 +199,13 @@ public class master_pegawai extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(244, 244, 244));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(114, 114, 114));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Dashboard");
-        jPanel1.add(jLabel1);
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 7, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 170, 30));
 
@@ -260,6 +254,11 @@ public class master_pegawai extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(244, 244, 244));
         jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(114, 114, 114));
@@ -270,6 +269,11 @@ public class master_pegawai extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(252, 102, 103));
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -454,7 +458,7 @@ public class master_pegawai extends javax.swing.JFrame {
                         .addComponent(jLabel11)
                         .addGap(202, 202, 202)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 58, Short.MAX_VALUE))
+                .addGap(0, 29, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -495,16 +499,18 @@ public class master_pegawai extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, -1, 390));
+        getContentPane().add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 590, 390));
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel11.setLayout(null);
 
         name.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         name.setForeground(new java.awt.Color(114, 114, 114));
         name.setText("Nama Pegawai");
         jPanel11.add(name);
+        name.setBounds(0, 5, 150, 20);
 
-        getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 84, 100, -1));
+        getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 84, 150, 30));
 
         jPanel13.setBackground(new java.awt.Color(239, 245, 245));
         jPanel13.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -513,31 +519,36 @@ public class master_pegawai extends javax.swing.JFrame {
         tanggal.setForeground(new java.awt.Color(114, 114, 114));
         tanggal.setText("Tanggal");
 
-        jLabel9.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel9.setText("Saldo");
+        saldo.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
+        saldo.setForeground(new java.awt.Color(114, 114, 114));
+        saldo.setText("Saldo");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addComponent(tanggal)
-                .addGap(32, 32, 32)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 75, Short.MAX_VALUE))
+                .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addComponent(jLabel9))
+                .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(saldo))
         );
 
         getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, -1, -1));
 
         jPanel15.setBackground(new java.awt.Color(244, 244, 244));
         jPanel15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel15MouseClicked(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(114, 114, 114));
@@ -564,6 +575,11 @@ public class master_pegawai extends javax.swing.JFrame {
 
         jPanel16.setBackground(new java.awt.Color(244, 244, 244));
         jPanel16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel16MouseClicked(evt);
+            }
+        });
 
         jLabel20.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(114, 114, 114));
@@ -782,10 +798,9 @@ public class master_pegawai extends javax.swing.JFrame {
                 jenis_kelamin = "Perempuan";
             }
             String sql = "UPDATE pegawai SET nama_pegawai = '"+ field_nama.getText()
-            +"', username = '"+field_username.getText()+"', PASSWORD = '"+ field_password.getText()
-            +"', alamat = '"+field_alamat.getText()+"', no_telp = '"+ field_nomer.getText()
-            +"', gaji_pegawai = '"+ field_gaji.getText()+"', jenis_kelamin = '"+ jenis_kelamin
-            +"'WHERE nik = '"+field_nik.getText()+"'";
+            +"', username = '"+field_username.getText()+"', alamat = '"+field_alamat.getText()
+            +"', no_telp = '"+ field_nomer.getText()+"', gaji_pegawai = '"+ field_gaji.getText()
+            +"', jenis_kelamin = '"+ jenis_kelamin +"'WHERE nik = '"+field_nik.getText()+"'";
             java.sql.Connection conn=(Connection)Workshop_project.foderoDB();
             java.sql.PreparedStatement pst=conn.prepareStatement(sql);
             pst.execute();
@@ -828,6 +843,7 @@ public class master_pegawai extends javax.swing.JFrame {
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
         // TODO add your handling code here:
         if(val_simpan()){
+            if(val_nik()){
             try{
                 String jenis_kelamin = null;
                 if(rdb_laki.isSelected()){
@@ -835,7 +851,7 @@ public class master_pegawai extends javax.swing.JFrame {
                 }else if(rdb_perempuan.isSelected()){
                     jenis_kelamin = "Perempuan";
                 }
-
+                
                 String tipe = "karyawan";
                 String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,tipe,gaji_pegawai,created_at) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()+"',"
                 + "'"+field_username.getText()+"','"+field_password.getText()+"',"
@@ -852,7 +868,7 @@ public class master_pegawai extends javax.swing.JFrame {
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
-            
+            }
         }
     }//GEN-LAST:event_btn_simpanActionPerformed
 
@@ -925,6 +941,34 @@ public class master_pegawai extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rdb_perempuanActionPerformed
 
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+        // TODO add your handling code here:
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel9MouseClicked
+
+    private void jPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseClicked
+        // TODO add your handling code here:
+        new MasterBonus().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel16MouseClicked
+
+    private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
+        // TODO add your handling code here:
+        new MasterMinus().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel15MouseClicked
+
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+        try {
+            // TODO add your handling code here:
+            new LaporanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(master_pegawai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel8MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -992,7 +1036,6 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1022,6 +1065,7 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JLabel name;
     private javax.swing.JRadioButton rdb_laki;
     private javax.swing.JRadioButton rdb_perempuan;
+    private javax.swing.JLabel saldo;
     private javax.swing.JTable tabel;
     private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables

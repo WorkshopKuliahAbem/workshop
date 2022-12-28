@@ -18,6 +18,7 @@ import java.util.Locale;
  * @author Tole
  */
 public class Utils {
+    public static String nama;
     private static Connection koneksi;
     public static Connection foderoDB() throws SQLException{
         try{
