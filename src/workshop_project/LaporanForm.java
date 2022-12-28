@@ -20,6 +20,7 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JTable;
+import static workshop_project.master_pegawai.getDate;
 
 /**
  *
@@ -35,6 +36,7 @@ public class LaporanForm extends javax.swing.JFrame {
     public LaporanForm() throws SQLException {
         initComponents();
         name.setText(util.nama);
+        tanggal.setText(getDate());
         try{
             jLabel6.setText("Saldo: Rp. "+Utils.getSaldo());
         } catch(SQLException e){
@@ -112,7 +114,7 @@ public class LaporanForm extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        tanggal = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
@@ -133,6 +135,11 @@ public class LaporanForm extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(244, 244, 244));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(114, 114, 114));
@@ -481,21 +488,21 @@ public class LaporanForm extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(239, 245, 245));
 
-        jLabel7.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel7.setText("Tanggal");
+        tanggal.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
+        tanggal.setForeground(new java.awt.Color(114, 114, 114));
+        tanggal.setText("Tanggal");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+            .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 3, Short.MAX_VALUE)
-                .addComponent(jLabel7))
+                .addComponent(tanggal))
         );
 
         getContentPane().add(jPanel4);
@@ -709,6 +716,16 @@ public class LaporanForm extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jPanel14MouseClicked
 
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+        try {
+            // TODO add your handling code here:
+            new DashboardForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel6MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -770,7 +787,6 @@ public class LaporanForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -790,5 +806,6 @@ public class LaporanForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel name;
+    private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables
 }

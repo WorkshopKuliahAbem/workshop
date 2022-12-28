@@ -472,6 +472,11 @@ public class MasterMinus extends javax.swing.JFrame {
 
         jPanel11.setBackground(new java.awt.Color(244, 244, 244));
         jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel11MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(114, 114, 114));
@@ -837,6 +842,16 @@ public class MasterMinus extends javax.swing.JFrame {
         new Login().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jPanel9MouseClicked
+
+    private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
+        try {
+            // TODO add your handling code here:
+            new DashboardForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterMinus.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel11MouseClicked
 
     /**
      * @param args the command line arguments

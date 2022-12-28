@@ -185,8 +185,9 @@ public class Login extends javax.swing.JFrame {
                 if(txt_user.getText().equals(rs.getString("username"))
                     && txt_password.getText().equals(rs.getString("password"))){
                     util.nama = rs.getString("nama_pegawai");
+                    util.nik = rs.getString("nik");
                     this.setVisible(false);
-                     new master_pegawai().setVisible(true);
+                     new DashboardForm().setVisible(true);
                      this.dispose();
                      
                 }
