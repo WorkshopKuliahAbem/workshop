@@ -65,8 +65,20 @@ public class master_pegawai extends javax.swing.JFrame {
         }
         return true;
     }
-    // validasi
-    //validasi NIK
+    // validasi username
+    boolean val_username(){
+        try{
+        String sql = "SELECT * FROM pegawai WHERE username ='"+field_username.getText()+"'";
+        Statement statement=(Statement)Workshop_project.foderoDB().createStatement();
+        ResultSet rs=statement.executeQuery("SELECT * FROM pegawai WHERE username ='"+field_username.getText()+"'");
+        if(!rs.next())return true;
+            JOptionPane.showMessageDialog(null, "Username telah ada !", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }catch (Exception e){
+    }
+        return true;
+    }     
+    // validasi NIK
     boolean val_nik(){
         if(field_nik.getText().length() != 16){
             JOptionPane.showMessageDialog(null, "NIK harus 16 karakter !", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
@@ -848,6 +860,7 @@ public class master_pegawai extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(val_simpan()){
             if(val_nik()){
+                if(val_username()){
             try{
                 String jenis_kelamin = null;
                 if(rdb_laki.isSelected()){
@@ -873,6 +886,7 @@ public class master_pegawai extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
             }
+          }
         }
     }//GEN-LAST:event_btn_simpanActionPerformed
 
