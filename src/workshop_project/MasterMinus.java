@@ -24,12 +24,17 @@ public class MasterMinus extends javax.swing.JFrame {
     /**
      * Creates new form MasterMinus
      */
-    public MasterMinus() {
+    public MasterMinus() throws SQLException {
         initComponents();
         loadData("");
         dis();
         tanggal.setText(getDate());
         name.setText(util.nama);
+        try{
+            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
+        } catch(SQLException e){
+            throw e;
+        }
     }
     
     int id = 0;
@@ -114,6 +119,7 @@ public class MasterMinus extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        saldo = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -160,6 +166,11 @@ public class MasterMinus extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        saldo.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
+        saldo.setForeground(new java.awt.Color(114, 114, 114));
+        saldo.setText("Saldo");
+        getContentPane().add(saldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 160, 20));
 
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
         jTextField2.setFont(new java.awt.Font("Montserrat", 0, 8)); // NOI18N
@@ -792,14 +803,22 @@ public class MasterMinus extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
-        // TODO add your handling code here:
-        new master_pegawai().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new master_pegawai().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterMinus.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel10MouseClicked
 
     private void jPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel13MouseClicked
-        // TODO add your handling code here:
-        new MasterBonus().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new MasterBonus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterMinus.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel13MouseClicked
 
@@ -849,7 +868,11 @@ public class MasterMinus extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MasterMinus().setVisible(true);
+                try {
+                    new MasterMinus().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MasterMinus.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -897,6 +920,7 @@ public class MasterMinus extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel name;
+    private javax.swing.JLabel saldo;
     private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables
 }

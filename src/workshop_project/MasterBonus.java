@@ -21,12 +21,17 @@ public class MasterBonus extends javax.swing.JFrame {
     /**
      * Creates new form MasterBonus
      */
-    public MasterBonus() {
+    public MasterBonus() throws SQLException {
         initComponents();
         loadData("");
         dis();
         tanggal.setText(getDate());
         name.setText(util.nama);
+        try{
+            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
+        } catch(SQLException e){
+            throw e;
+        }
     }
     
     // menampilkan tanggal di layar
@@ -111,6 +116,7 @@ public class MasterBonus extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        saldo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -155,6 +161,11 @@ public class MasterBonus extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        saldo.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
+        saldo.setForeground(new java.awt.Color(114, 114, 114));
+        saldo.setText("Saldo");
+        getContentPane().add(saldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 160, 30));
 
         jLabel1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(114, 114, 114));
@@ -210,7 +221,7 @@ public class MasterBonus extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(239, 245, 245));
 
-        tanggal.setFont(new java.awt.Font("Lexend", 0, 12)); // NOI18N
+        tanggal.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
         tanggal.setForeground(new java.awt.Color(114, 114, 114));
         tanggal.setText("Tanggal");
 
@@ -227,7 +238,7 @@ public class MasterBonus extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(tanggal)
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addGap(0, 3, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 96, -1, 20));
@@ -727,8 +738,12 @@ public class MasterBonus extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
-        // TODO add your handling code here:
-        new master_pegawai().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new master_pegawai().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterBonus.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel6MouseClicked
 
@@ -739,8 +754,12 @@ public class MasterBonus extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel13MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        // TODO add your handling code here:
-        new MasterMinus().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new MasterMinus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterBonus.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel9MouseClicked
 
@@ -784,7 +803,11 @@ public class MasterBonus extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MasterBonus().setVisible(true);
+                try {
+                    new MasterBonus().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MasterBonus.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -829,6 +852,7 @@ public class MasterBonus extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel name;
+    private javax.swing.JLabel saldo;
     private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables
 }

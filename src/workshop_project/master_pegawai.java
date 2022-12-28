@@ -27,12 +27,17 @@ public class master_pegawai extends javax.swing.JFrame {
     /**
      * Creates new form master_pegawai
      */
-    public master_pegawai() {
+    public master_pegawai() throws SQLException {
         initComponents();
         tabel();
         name.setText(util.nama);
         tanggal.setText(getDate());
         btn_edit.setEnabled(false);
+        try{
+            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
+        } catch(SQLException e){
+            throw e;
+        }
     }
     
     // menampilkan tanggal di layar
@@ -508,7 +513,7 @@ public class master_pegawai extends javax.swing.JFrame {
         name.setForeground(new java.awt.Color(114, 114, 114));
         name.setText("Nama Pegawai");
         jPanel11.add(name);
-        name.setBounds(0, 5, 150, 20);
+        name.setBounds(0, 0, 150, 30);
 
         getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 84, 150, 30));
 
@@ -528,10 +533,9 @@ public class master_pegawai extends javax.swing.JFrame {
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -948,14 +952,22 @@ public class master_pegawai extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void jPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseClicked
-        // TODO add your handling code here:
-        new MasterBonus().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new MasterBonus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(master_pegawai.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel16MouseClicked
 
     private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
-        // TODO add your handling code here:
-        new MasterMinus().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new MasterMinus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(master_pegawai.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel15MouseClicked
 
@@ -999,7 +1011,11 @@ public class master_pegawai extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new master_pegawai().setVisible(true);
+                try {
+                    new master_pegawai().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(master_pegawai.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

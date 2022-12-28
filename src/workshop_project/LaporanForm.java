@@ -674,20 +674,32 @@ public class LaporanForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
-        // TODO add your handling code here:
-        new master_pegawai().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new master_pegawai().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        // TODO add your handling code here:
-        new MasterBonus().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new MasterBonus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
-        // TODO add your handling code here:
-        new MasterMinus().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new MasterMinus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel10MouseClicked
 
