@@ -6,16 +6,25 @@
 package workshop_project;
 
 /**
- *
- * @author Tole
+ * @author ABADI
  */
-public class Workshop_project {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+import java.sql.*;
+import com.mysql.jdbc.Driver;
+
+public class Workshop_project {
+    private static Connection koneksi;
+    public static Connection foderoDB(){
+        try{
+            String url = "jdbc:mysql://localhost:3306/projectakhir_baru";
+            String user = "root";
+            String pass = "";
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            koneksi = DriverManager.getConnection(url, user, pass);
+        } catch (Exception e){
+            System.err.println("Koneksi Gagal "+e.getMessage());
+        }
+        return koneksi;
     }
-    
 }
+
