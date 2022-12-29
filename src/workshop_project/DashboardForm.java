@@ -100,7 +100,7 @@ public class DashboardForm extends javax.swing.JFrame {
         for (int i = 0; i < 12; i++) {
             dataset.setValue(total_pemasukan.get(i), "Total", bulan[i]);
         }
-        JFreeChart chart = ChartFactory.createBarChart("Pemasukan", "Bulan", "Total", dataset, PlotOrientation.VERTICAL, false, true, false);
+        JFreeChart chart = ChartFactory.createBarChart("Pendapatan", "Bulan", "Total", dataset, PlotOrientation.VERTICAL, false, true, false);
         
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setBackgroundPaint(Color.WHITE);
@@ -321,6 +321,11 @@ public class DashboardForm extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(244, 244, 244));
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel9MouseClicked(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(114, 114, 114));
@@ -613,6 +618,16 @@ public class DashboardForm extends javax.swing.JFrame {
         new Login().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jPanel12MouseClicked
+
+    private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
+        try {
+            // TODO add your handling code here:
+            new PengeluaranForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashboardForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel9MouseClicked
 
     /**
      * @param args the command line arguments

@@ -256,6 +256,11 @@ public class master_pegawai extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(244, 244, 244));
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(114, 114, 114));
@@ -1010,6 +1015,16 @@ public class master_pegawai extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+        try {
+            // TODO add your handling code here:
+            new PengeluaranForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(master_pegawai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_jPanel6MouseClicked
 
     /**
      * @param args the command line arguments
