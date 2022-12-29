@@ -40,11 +40,11 @@ public class LupaPassword extends javax.swing.JFrame {
         txt_psd = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -141,10 +141,9 @@ public class LupaPassword extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(400, 0, 400, 100);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/Lupa Password - resize.jpg"))); // NOI18N
-        jLabel5.setText("jLabel5");
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(0, 60, 845, 450);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/Lupa Password - resize.jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 70, 845, 440);
 
         jPanel3.setBackground(new java.awt.Color(244, 244, 244));
 
@@ -233,8 +232,6 @@ public class LupaPassword extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -246,10 +243,10 @@ public class LupaPassword extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_submit;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
