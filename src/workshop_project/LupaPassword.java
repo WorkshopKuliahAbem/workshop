@@ -172,7 +172,7 @@ public class LupaPassword extends javax.swing.JFrame {
     private void btn_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submitActionPerformed
         try{
             String sql = "SELECT * FROM pegawai WHERE nik = '"+ txt_nik.getText()+"'";
-            Connection conn = (Connection)Config.configDB();
+            Connection conn = (Connection)Workshop_project.foderoDB();
             PreparedStatement pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
             if(rs.next()){
