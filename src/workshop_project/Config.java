@@ -16,7 +16,7 @@ public class Config {
     private static Connection mysqlconfig;
     public static Connection configDB() throws SQLException{
         try{
-            String url = "jdbc:mysql://localhost:3306/project_akhir";//url database
+            String url = "jdbc:mysql://localhost:3306/projectakhir_baru";//url database
             String user = "root"; //user database
             String pass = ""; //password database
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
