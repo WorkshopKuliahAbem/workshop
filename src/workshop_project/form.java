@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pendapatan;
+package workshop_project;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import workshop_project.Workshop_project;
 
 /**
  *
@@ -132,7 +133,7 @@ public class form extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(153, 153, 153));
         jLabel4.setText("Keterangan :");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(233, 140, 80, 14);
+        jLabel4.setBounds(233, 140, 80, 16);
 
         masuktanggal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -230,7 +231,7 @@ public class form extends javax.swing.JFrame {
             DefaultTableModel tabModel = new DefaultTableModel(null, judul_kolom);
             Table1.setModel(tabModel);
 
-            java.sql.Connection conn = (Connection) Config.foderoDB();
+            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
             java.sql.Statement stm = conn.createStatement();
             tabModel.getDataVector().removeAllElements();
 
@@ -262,7 +263,7 @@ public class form extends javax.swing.JFrame {
         {
             String sql = "INSERT INTO pendapatan (id_pendapatan, keterangan_pendapatan,jumlah_pendapatan,tanggal_pemasukan)" + "VALUES"
                     + "(null, '" + ket.getText() + "','" + txtjumlah.getText() + "',now())";
-            java.sql.Connection conn = (Connection) Config.foderoDB();
+            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.execute();
 
@@ -285,7 +286,7 @@ public class form extends javax.swing.JFrame {
             try
             {
                 String sql = "DELETE FROM pendapatan WHERE id_pendapatan = '" + id + "'";
-                java.sql.Connection conn = (Connection) Config.foderoDB();
+                java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
                 java.sql.PreparedStatement pst = conn.prepareStatement(sql);
                 pst.execute();
                 JOptionPane.showMessageDialog(this, "Data berhasil di hapus");
@@ -305,7 +306,7 @@ public class form extends javax.swing.JFrame {
         try
         {
             String sql = "UPDATE pendapatan SET keterangan_pendapatan= '" + ket.getText() + "',jumlah_pendapatan= " + txtjumlah.getText() + ", tanggal_pemasukan = '" + tanggal + "' where id_pendapatan = " + id;
-            java.sql.Connection conn = (Connection) Config.foderoDB();
+            java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.execute();
             JOptionPane.showMessageDialog(this, "Data berhasil di edit");
@@ -330,7 +331,7 @@ public class form extends javax.swing.JFrame {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(Table1.getValueAt(baris, 4).toString());
         } catch (ParseException ex)
         {
-            Logger.getLogger(formpendapatan.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(form.class.getName()).log(Level.SEVERE, null, ex);
         }
         plhtanggal.setDate(date);
         id = Integer.valueOf(Table1.getValueAt(baris, 1).toString());
@@ -357,7 +358,7 @@ public class form extends javax.swing.JFrame {
             DefaultTableModel tabModel = new DefaultTableModel(null, judul_kolom);
             Table1.setModel(tabModel);
 
-            java.sql.Connection conn = (Connection) Config.foderoDB();
+            java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
             java.sql.Statement stm = conn.createStatement();
             tabModel.getDataVector().removeAllElements();
 
@@ -413,7 +414,7 @@ public class form extends javax.swing.JFrame {
         {
             int no = 1;
             String sql = "SELECT * FROM pendapatan";
-            java.sql.Connection conn = (Connection) Config.foderoDB();
+            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
             java.sql.Statement stm = conn.createStatement();
             java.sql.ResultSet rs = stm.executeQuery(sql);
             while (rs.next())
