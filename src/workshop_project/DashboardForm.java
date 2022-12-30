@@ -238,6 +238,11 @@ public class DashboardForm extends javax.swing.JFrame {
         m_gaji.setBackground(new java.awt.Color(244, 244, 244));
         m_gaji.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         m_gaji.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_gaji.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_gajiMouseClicked(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(114, 114, 114));
@@ -686,6 +691,16 @@ public class DashboardForm extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_m_pengeluaranMouseClicked
+
+    private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
+        try {
+            // TODO add your handling code here:
+            new PembayaranGaji().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashboardForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_gajiMouseClicked
 
     /**
      * @param args the command line arguments
