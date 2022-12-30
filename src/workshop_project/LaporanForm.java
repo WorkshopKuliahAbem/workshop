@@ -104,15 +104,15 @@ public class LaporanForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
         tanggal = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -431,19 +431,11 @@ public class LaporanForm extends javax.swing.JFrame {
         jPanel1.add(jLabel2);
         jLabel2.setBounds(340, 20, 119, 20);
 
-        jDateChooser1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jDateChooser1);
-        jDateChooser1.setBounds(20, 40, 220, 28);
-
         jLabel5.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(114, 114, 114));
         jLabel5.setText("Total Pengeluaran:");
         jPanel1.add(jLabel5);
         jLabel5.setBounds(340, 70, 240, 20);
-
-        jDateChooser2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jDateChooser2);
-        jDateChooser2.setBounds(340, 40, 220, 28);
 
         jLabel3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(114, 114, 114));
@@ -487,6 +479,10 @@ public class LaporanForm extends javax.swing.JFrame {
         });
         jPanel1.add(jButton1);
         jButton1.setBounds(20, 320, 150, 30);
+        jPanel1.add(jDateChooser1);
+        jDateChooser1.setBounds(20, 40, 220, 28);
+        jPanel1.add(jDateChooser2);
+        jDateChooser2.setBounds(340, 40, 220, 28);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(200, 130, 580, 360);

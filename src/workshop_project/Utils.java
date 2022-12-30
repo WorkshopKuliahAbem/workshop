@@ -23,7 +23,7 @@ public class Utils {
     private static Connection koneksi;
     public static Connection foderoDB() throws SQLException{
         try{
-            String url = "jdbc:mysql://localhost:3306/project_akhir_db";
+            String url = "jdbc:mysql://localhost:3306/projectakhir_baru";
             String user = "root";
             String pass = "";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
