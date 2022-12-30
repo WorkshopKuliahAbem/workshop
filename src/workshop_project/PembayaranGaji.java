@@ -20,6 +20,7 @@ import javax.swing.table.TableModel;
  * @author alans
  */
 public class PembayaranGaji extends javax.swing.JFrame {
+    Utils util = new Utils();
     void getTabel2(){
         String queryBonus = "select gaji.id_bonus, nama_bonus, nominal_bonus, qty from gaji join mst_bonus on mst_bonus.id_bonus = gaji.id_bonus where gaji.id_pengeluaran =" + id_pengeluaran;
         
@@ -189,16 +190,22 @@ private void kosong(){
     /**
      * Creates new form mbayaranGaji
      */
-    public PembayaranGaji() {
+    public PembayaranGaji() throws SQLException {
         initComponents();
         tabel();
         kosong();
         tanggal.setText(getDate());
+        name.setText(util.nama);
+        nik.setText(util.nik);
         tampil_bonus();
         tampil_minus();
         totalGaji();
         tabelMinus();
-        
+        try {
+            saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+        } catch (SQLException e) {
+            throw e;
+        }
     }
     
   
@@ -219,6 +226,7 @@ private void kosong(){
         jLabel20 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        nik = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -258,6 +266,7 @@ private void kosong(){
         tanggal = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         totalGaji = new javax.swing.JLabel();
+        saldo = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -265,7 +274,7 @@ private void kosong(){
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
@@ -295,15 +304,23 @@ private void kosong(){
 
         jPanel1.setBackground(new java.awt.Color(239, 245, 245));
 
+        nik.setText("nik");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(95, Short.MAX_VALUE)
+                .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(nik)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -669,6 +686,7 @@ private void kosong(){
 
         jPanel13.setBackground(new java.awt.Color(239, 245, 245));
 
+        tanggal.setForeground(new java.awt.Color(114, 114, 114));
         tanggal.setText("Tanggal");
 
         jLabel12.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -677,6 +695,9 @@ private void kosong(){
         totalGaji.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         totalGaji.setText("GAJI");
 
+        saldo.setForeground(new java.awt.Color(114, 114, 114));
+        saldo.setText("Saldo");
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -684,7 +705,9 @@ private void kosong(){
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalGaji, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -693,12 +716,17 @@ private void kosong(){
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel12)
-                        .addComponent(totalGaji))
-                    .addComponent(tanggal))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel12)
+                                .addComponent(totalGaji))
+                            .addComponent(tanggal)))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(saldo)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -740,10 +768,10 @@ private void kosong(){
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel9.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel9.setText("Nama Pegawai");
-        jPanel11.add(jLabel9);
+        name.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        name.setForeground(new java.awt.Color(114, 114, 114));
+        name.setText("Nama Pegawai");
+        jPanel11.add(name);
 
         getContentPane().add(jPanel11);
         jPanel11.setBounds(40, 84, 100, 25);
@@ -1184,7 +1212,11 @@ private void kosong(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PembayaranGaji().setVisible(true);
+                try {
+                    new PembayaranGaji().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -1219,7 +1251,6 @@ private void kosong(){
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1236,8 +1267,11 @@ private void kosong(){
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel name;
+    private javax.swing.JLabel nik;
     private javax.swing.JTextField qtyBonus;
     private javax.swing.JTextField qtyMinus;
+    private javax.swing.JLabel saldo;
     private javax.swing.JTable tabel;
     private javax.swing.JTable tabel1;
     private javax.swing.JLabel tanggal;
