@@ -17,13 +17,14 @@ import static workshop_project.master_pegawai.getDate;
  * @author Tole
  */
 public class PengeluaranForm extends javax.swing.JFrame {
+
     int cond = 0, id = 0;
     Utils util = new Utils();
-    
-    void loadData(String query){
+
+    void loadData(String query) {
         String sql = "select * from pengeluaran "
                 + "join pegawai on pegawai.nik = pengeluaran.nik"
-                + " where jenis_pengeluaran = 'Barang Pokok' or jenis_pengeluaran = 'Lain-Lain' "+query;
+                + " where jenis_pengeluaran = 'Barang Pokok' or jenis_pengeluaran = 'Lain-Lain' " + query;
         Statement stm;
         int i = 1;
         DefaultTableModel dt = new DefaultTableModel();
@@ -37,7 +38,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         try {
             stm = (Statement) Utils.foderoDB().createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 dt.addRow(new Object[]{
                     rs.getInt("id_pengeluaran"),
                     rs.getString("nama_pegawai"),
@@ -52,49 +53,50 @@ public class PengeluaranForm extends javax.swing.JFrame {
             Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    void dis(){
+
+    void dis() {
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
-        jTextField1.setEnabled(false);        
+        jTextField1.setEnabled(false);
         jTextField2.setEnabled(false);
         jButton4.setEnabled(false);
         jButton5.setEnabled(false);
         jRadioButton1.setEnabled(false);
         jRadioButton2.setEnabled(false);
     }
-    
-    void en(){
+
+    void en() {
         jButton1.setEnabled(false);
         jButton2.setEnabled(false);
-        jTextField1.setEnabled(true);    
+        jTextField1.setEnabled(true);
         jTextField2.setEnabled(true);
         jButton4.setEnabled(true);
         jButton5.setEnabled(true);
         jRadioButton1.setEnabled(true);
         jRadioButton2.setEnabled(true);
     }
-    
-    void clear(){
+
+    void clear() {
         dis();
         jTextField1.setText("");
         jTextField2.setText("");
         jRadioButton1.setSelected(false);
         jRadioButton2.setSelected(false);
     }
-    
-    boolean val(){
-        if(jTextField1.getText().length() < 1 || jTextField2.getText().length() < 1){
+
+    boolean val() {
+        if (jTextField1.getText().length() < 1 || jTextField2.getText().length() < 1) {
             JOptionPane.showMessageDialog(null, "Field harus diisi semua!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if(!jRadioButton1.isSelected() && !jRadioButton2.isSelected()){
+        if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected()) {
             JOptionPane.showMessageDialog(null, "Field harus diisi semua!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
+
         return true;
     }
+
     /**
      * Creates new form PengeluaranForm
      */
@@ -105,9 +107,9 @@ public class PengeluaranForm extends javax.swing.JFrame {
         name.setText(util.nama);
         nik.setText(util.nik);
         tanggal.setText(getDate());
-        try{
-            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
-        } catch(SQLException e){
+        try {
+            saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+        } catch (SQLException e) {
             throw e;
         }
     }
@@ -155,7 +157,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         m_laporan = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
+        m_logout = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
@@ -201,7 +203,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
 
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(230, 180, 230, 40);
+        jTextField1.setBounds(230, 180, 230, 30);
 
         jLabel2.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(114, 114, 114));
@@ -403,6 +405,11 @@ public class PengeluaranForm extends javax.swing.JFrame {
         m_gaji.setBackground(new java.awt.Color(244, 244, 244));
         m_gaji.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         m_gaji.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_gaji.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_gajiMouseClicked(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(114, 114, 114));
@@ -525,6 +532,11 @@ public class PengeluaranForm extends javax.swing.JFrame {
         m_pendapatan.setBackground(new java.awt.Color(244, 244, 244));
         m_pendapatan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         m_pendapatan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_pendapatan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_pendapatanMouseClicked(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(114, 114, 114));
@@ -583,12 +595,12 @@ public class PengeluaranForm extends javax.swing.JFrame {
         getContentPane().add(m_laporan);
         m_laporan.setBounds(10, 420, 170, 30);
 
-        jPanel12.setBackground(new java.awt.Color(252, 102, 103));
-        jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
+        m_logout.setBackground(new java.awt.Color(252, 102, 103));
+        m_logout.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel12MouseClicked(evt);
+                m_logoutMouseClicked(evt);
             }
         });
 
@@ -596,25 +608,25 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("LOGOUT");
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+        javax.swing.GroupLayout m_logoutLayout = new javax.swing.GroupLayout(m_logout);
+        m_logout.setLayout(m_logoutLayout);
+        m_logoutLayout.setHorizontalGroup(
+            m_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, m_logoutLayout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(jLabel15)
                 .addGap(34, 34, 34))
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+        m_logoutLayout.setVerticalGroup(
+            m_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, m_logoutLayout.createSequentialGroup()
                 .addContainerGap(7, Short.MAX_VALUE)
                 .addComponent(jLabel15)
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel12);
-        jPanel12.setBounds(20, 470, 150, 40);
+        getContentPane().add(m_logout);
+        m_logout.setBounds(20, 470, 150, 40);
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -752,12 +764,12 @@ public class PengeluaranForm extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        if(id == 0){
+        if (id == 0) {
             JOptionPane.showMessageDialog(null, "Pilih Salah satu data!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Menghapus", "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if (opt == JOptionPane.YES_OPTION) {
-                try{
+                try {
                     String sql = "delete from pengeluaran where id_pengeluaran = " + id;
                     Utils.execQuery(sql);
 
@@ -765,10 +777,10 @@ public class PengeluaranForm extends javax.swing.JFrame {
                     clear();
                     loadData("");
                     JOptionPane.showMessageDialog(null, "Berhasil menghapus data!", "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                } catch(Exception e){
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
-            }else {
+            } else {
 
             }
         }
@@ -776,28 +788,28 @@ public class PengeluaranForm extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        String tipe = (jRadioButton1.isSelected()) ? jRadioButton1.getText() : "Dan lain-lain";
+        String tipe = (jRadioButton1.isSelected()) ? jRadioButton1.getText() : "Lain-Lain";
         if (cond == 1) {
-            if(val()){
-                try{
-                    String sql = "insert into pengeluaran values(null, '21312414123', '"+ jTextField1.getText() +"', '"+ tipe +"', "+ Integer.valueOf(jTextField2.getText().toString()) +", now())";
-                    Utils.execQuery(sql);   
+            if (val()) {
+                try {
+                    String sql = "insert into pengeluaran values(null, '" + util.nik+  "', '" + jTextField1.getText() + "', '" + tipe + "', " + Integer.valueOf(jTextField2.getText().toString()) + ", now())";
+                    Utils.execQuery(sql);
 
                     clear();
                     dis();
                     loadData("");
                     JOptionPane.showMessageDialog(null, "Berhasil insert data!", "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                }catch(Exception e){
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } else if(cond == 2){
-            if(val()){
-                if(jTable1.getSelectedRow() < 0){
+        } else if (cond == 2) {
+            if (val()) {
+                if (jTable1.getSelectedRow() < 0) {
                     JOptionPane.showMessageDialog(null, "Pilih 1 data terlebih dahulu1", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
-                }else {
+                } else {
                     try {
-                        String sql = "update pengeluaran set keterangan_pengeluaran = '"+ jTextField1.getText() +"', jenis_pengeluaran = '"+ tipe +"', jumlah_pengeluaran = "+ Integer.valueOf(jTextField2.getText().toString()) +" where id_pengeluaran = " + id;
+                        String sql = "update pengeluaran set keterangan_pengeluaran = '" + jTextField1.getText() + "', jenis_pengeluaran = '" + tipe + "', jumlah_pengeluaran = " + Integer.valueOf(jTextField2.getText().toString()) + " where id_pengeluaran = " + id;
                         Utils.execQuery(sql);
 
                         id = 0;
@@ -805,7 +817,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
                         dis();
                         loadData("");
                         JOptionPane.showMessageDialog(null, "Berhasil mengupdate data!", "Berhasil", JOptionPane.INFORMATION_MESSAGE);
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -824,9 +836,9 @@ public class PengeluaranForm extends javax.swing.JFrame {
 
     private void jTextField4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyPressed
         // TODO add your handling code here:
-        if(jTextField4.getText().length() > 0){
-            loadData("where nama_pegawai like '%"+ jTextField4.getText() +"%'");
-        } else{
+        if (jTextField4.getText().length() > 0) {
+            loadData("where nama_pegawai like '%" + jTextField4.getText() + "%'");
+        } else {
             loadData("");
         }
     }//GEN-LAST:event_jTextField4KeyPressed
@@ -877,12 +889,12 @@ public class PengeluaranForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
             } else {
                 try {
-            // TODO add your handling code here:
-            new master_pegawai().setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
+                    // TODO add your handling code here:
+                    new master_pegawai().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -900,17 +912,17 @@ public class PengeluaranForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
             } else {
                 try {
-            // TODO add your handling code here:
-            new MasterBonus().setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
+                    // TODO add your handling code here:
+                    new MasterBonus().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
+
     }//GEN-LAST:event_m_bonusMouseClicked
 
     private void m_minusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_minusMouseClicked
@@ -924,17 +936,16 @@ public class PengeluaranForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
             } else {
                 try {
-            // TODO add your handling code here:
-            new MasterMinus().setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
+                    // TODO add your handling code here:
+                    new MasterMinus().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
     }//GEN-LAST:event_m_minusMouseClicked
 
     private void m_laporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_laporanMouseClicked
@@ -947,11 +958,44 @@ public class PengeluaranForm extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_m_laporanMouseClicked
 
-    private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
+    private void m_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_logoutMouseClicked
         // TODO add your handling code here:
         new Login().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jPanel12MouseClicked
+    }//GEN-LAST:event_m_logoutMouseClicked
+
+    private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
+        try {
+            String sql = "SELECT * FROM pegawai WHERE nik = '" + nik.getText() + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            rs.next();
+            if (rs.getString("tipe").equals("karyawan")) {
+                JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
+            } else {
+                try {
+                    // TODO add your handling code here:
+                    new PembayaranGaji().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_m_gajiMouseClicked
+
+    private void m_pendapatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_pendapatanMouseClicked
+        try {
+            // TODO add your handling code here:
+            new PendapatanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_pendapatanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1014,7 +1058,6 @@ public class PengeluaranForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -1031,6 +1074,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
     private javax.swing.JPanel m_dashboard;
     private javax.swing.JPanel m_gaji;
     private javax.swing.JPanel m_laporan;
+    private javax.swing.JPanel m_logout;
     private javax.swing.JPanel m_minus;
     private javax.swing.JPanel m_pegawai;
     private javax.swing.JPanel m_pendapatan;

@@ -27,9 +27,10 @@ import static workshop_project.master_pegawai.getDate;
  * @author Tole
  */
 public class LaporanForm extends javax.swing.JFrame {
+
     ArrayList<Integer> total = new ArrayList<Integer>();
     Utils util = new Utils();
-    
+
     /**
      * Creates new form LaporanForm
      */
@@ -38,38 +39,38 @@ public class LaporanForm extends javax.swing.JFrame {
         name.setText(util.nama);
         nik.setText(util.nik);
         tanggal.setText(getDate());
-        try{
-            jLabel6.setText("Saldo: Rp. "+Utils.getSaldo());
-        } catch(SQLException e){
+        try {
+            jLabel6.setText("Saldo: Rp. " + Utils.getSaldo());
+        } catch (SQLException e) {
             throw e;
         }
     }
-    
-    boolean val(){
+
+    boolean val() {
         if (jDateChooser1.getDate().after(jDateChooser2.getDate())) {
             JOptionPane.showMessageDialog(null, "Tanggal awal tidak boleh lebih besar dari tanggal akhir!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
+
         return true;
     }
-    
-    int sum(){
+
+    int sum() {
         int s = 0;
-        for(int i = 0; i < total.size(); i++){
+        for (int i = 0; i < total.size(); i++) {
             s += total.get(i);
         }
         return s;
     }
-    
-    String rupiah(int num){
+
+    String rupiah(int num) {
         double a = Double.valueOf(String.valueOf(num));
         Locale localeID = new Locale("in", "ID");
         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-       
+
         //merubah mendari 10.000.000.000
         NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
-        
+
         return String.valueOf(nf.format(a));
     }
 
@@ -204,6 +205,11 @@ public class LaporanForm extends javax.swing.JFrame {
         m_gaji.setBackground(new java.awt.Color(244, 244, 244));
         m_gaji.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         m_gaji.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_gaji.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_gajiMouseClicked(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(114, 114, 114));
@@ -331,6 +337,11 @@ public class LaporanForm extends javax.swing.JFrame {
         m_pendapatan.setBackground(new java.awt.Color(244, 244, 244));
         m_pendapatan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         m_pendapatan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_pendapatan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_pendapatanMouseClicked(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(114, 114, 114));
@@ -626,7 +637,7 @@ public class LaporanForm extends javax.swing.JFrame {
                         + "left join mst_minus on gaji.id_minus = mst_minus.id_minus "
                         + "left join mst_bonus on gaji.id_bonus = mst_bonus.id_bonus "
                         + "join pegawai on pegawai.nik = pengeluaran.nik "
-                        + "where jenis_pengeluaran = '"+ tipe +"' and tanggal_pengeluaran >= '"+ awal +"' and tanggal_pengeluaran <= '"+ akhir +"'";  
+                        + "where jenis_pengeluaran = '" + tipe + "' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'";
                 dt.addColumn("Nama Pegawai");
                 dt.addColumn("Tanggal");
                 dt.addColumn("Nominal");
@@ -636,20 +647,19 @@ public class LaporanForm extends javax.swing.JFrame {
                 try {
                     Statement st = (Statement) Utils.foderoDB().createStatement();
                     ResultSet rs = st.executeQuery(query);
-                    while(rs.next()){
+                    while (rs.next()) {
                         dt.addRow(new Object[]{
                             rs.getString("nama_pegawai"),
                             rs.getString("tanggal") + " " + rs.getString("bulan"),
-                            "Rp."+rupiah(Integer.valueOf(rs.getString("jumlah_pengeluaran"))),
+                            "Rp." + rupiah(Integer.valueOf(rs.getString("jumlah_pengeluaran"))),
                             rs.getString("nama_bonus"),
-                            rs.getString("nama_minus"),
-                        });
+                            rs.getString("nama_minus"),});
                         total.add(Integer.valueOf(rs.getString("jumlah_pengeluaran")));
-                        
+
                         jTable1.setModel(dt);
                     }
                     jLabel4.setText("Rp. " + rupiah(sum()));
-                } catch(Exception e){
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e, "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -658,7 +668,7 @@ public class LaporanForm extends javax.swing.JFrame {
                 query = "select pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, tanggal_pengeluaran as tanggal from pengeluaran "
                         + "left join gaji on gaji.id_pengeluaran = pengeluaran.id_pengeluaran "
                         + "join pegawai on pegawai.nik = pengeluaran.nik "
-                        + "where jenis_pengeluaran = '"+ tipe +"' and tanggal_pengeluaran >= '"+ awal +"' and tanggal_pengeluaran <= '"+ akhir +"'";
+                        + "where jenis_pengeluaran = '" + tipe + "' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'";
                 dt.addColumn("Nama Pegawai");
                 dt.addColumn("Tanggal");
                 dt.addColumn("Nominal");
@@ -667,19 +677,18 @@ public class LaporanForm extends javax.swing.JFrame {
                 try {
                     Statement st = (Statement) Utils.foderoDB().createStatement();
                     ResultSet rs = st.executeQuery(query);
-                    while(rs.next()){
+                    while (rs.next()) {
                         dt.addRow(new Object[]{
                             rs.getString("nama_pegawai"),
                             rs.getString("tanggal"),
-                            "Rp."+rupiah(Integer.valueOf(rs.getString("jumlah_pengeluaran"))),
-                            rs.getString("keterangan_pengeluaran"),
-                        });
+                            "Rp." + rupiah(Integer.valueOf(rs.getString("jumlah_pengeluaran"))),
+                            rs.getString("keterangan_pengeluaran"),});
                         total.add(Integer.valueOf(rs.getString("jumlah_pengeluaran")));
-                        
+
                         jTable1.setModel(dt);
                     }
                     jLabel4.setText("Rp. " + rupiah(sum()));
-                } catch(Exception e){
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e, "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -690,12 +699,12 @@ public class LaporanForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         MessageFormat header = new MessageFormat("Laporan Pengeluaran Home Fodero");
         MessageFormat footer = new MessageFormat("");
-        try{
+        try {
             PrintRequestAttributeSet set = new HashPrintRequestAttributeSet();
             set.add(OrientationRequested.PORTRAIT);
             jTable1.print(JTable.PrintMode.FIT_WIDTH, header, footer, true, set, true);
             JOptionPane.showMessageDialog(null, "Sukses", "Berhasil Mencetak Laporan", JOptionPane.INFORMATION_MESSAGE);
-        } catch(PrinterException e){
+        } catch (PrinterException e) {
             JOptionPane.showMessageDialog(null, "Terjadi Kesalahan", e.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -711,17 +720,17 @@ public class LaporanForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
             } else {
                 try {
-            // TODO add your handling code here:
-            new master_pegawai().setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
+                    // TODO add your handling code here:
+                    new master_pegawai().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
+
     }//GEN-LAST:event_m_pegawaiMouseClicked
 
     private void m_bonusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_bonusMouseClicked
@@ -735,17 +744,17 @@ public class LaporanForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
             } else {
                 try {
-            // TODO add your handling code here:
-            new MasterBonus().setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
+                    // TODO add your handling code here:
+                    new MasterBonus().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
+
     }//GEN-LAST:event_m_bonusMouseClicked
 
     private void m_minusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_minusMouseClicked
@@ -759,17 +768,16 @@ public class LaporanForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
             } else {
                 try {
-            // TODO add your handling code here:
-            new MasterMinus().setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
+                    // TODO add your handling code here:
+                    new MasterMinus().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
     }//GEN-LAST:event_m_minusMouseClicked
 
     private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
@@ -797,6 +805,39 @@ public class LaporanForm extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_m_pengeluaranMouseClicked
+
+    private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
+        try {
+            String sql = "SELECT * FROM pegawai WHERE nik = '" + nik.getText() + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            rs.next();
+            if (rs.getString("tipe").equals("karyawan")) {
+                JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
+            } else {
+                try {
+                    // TODO add your handling code here:
+                    new PembayaranGaji().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_m_gajiMouseClicked
+
+    private void m_pendapatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_pendapatanMouseClicked
+        try {
+            // TODO add your handling code here:
+            new PendapatanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(LaporanForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_pendapatanMouseClicked
 
     /**
      * @param args the command line arguments

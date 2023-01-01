@@ -373,6 +373,11 @@ public class MasterBonus extends javax.swing.JFrame {
         m_gaji.setBackground(new java.awt.Color(244, 244, 244));
         m_gaji.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         m_gaji.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_gaji.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_gajiMouseClicked(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(114, 114, 114));
@@ -492,6 +497,11 @@ public class MasterBonus extends javax.swing.JFrame {
         m_pendapatan.setBackground(new java.awt.Color(244, 244, 244));
         m_pendapatan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         m_pendapatan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_pendapatan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_pendapatanMouseClicked(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(114, 114, 114));
@@ -811,6 +821,26 @@ public class MasterBonus extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_m_pengeluaranMouseClicked
+
+    private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
+        try {
+            // TODO add your handling code here:
+            new PembayaranGaji().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterBonus.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_gajiMouseClicked
+
+    private void m_pendapatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_pendapatanMouseClicked
+        try {
+            // TODO add your handling code here:
+            new PendapatanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterBonus.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_pendapatanMouseClicked
 
     /**
      * @param args the command line arguments

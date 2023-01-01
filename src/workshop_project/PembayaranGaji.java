@@ -15,17 +15,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+
 /**
  *
  * @author alans
  */
 public class PembayaranGaji extends javax.swing.JFrame {
+
     Utils util = new Utils();
-    void getTabel2(){
+
+    void getTabel2() {
         String queryBonus = "select gaji.id_bonus, nama_bonus, nominal_bonus, qty from gaji join mst_bonus on mst_bonus.id_bonus = gaji.id_bonus where gaji.id_pengeluaran =" + id_pengeluaran;
-        
+
         String queryMinus = "select gaji.id_minus, nama_minus, nominal_minus, qty from gaji join mst_minus on mst_minus.id_minus = gaji.id_minus where gaji.id_pengeluaran =" + id_pengeluaran;
-        
+
         DefaultTableModel dt = new DefaultTableModel();
         dt.addColumn("ID");
         dt.addColumn("nama bonus / nama minus");
@@ -36,7 +39,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
         try {
             Statement st = (Statement) Workshop_project.foderoDB().createStatement();
             ResultSet rs = st.executeQuery(queryBonus);
-            while(rs.next()){
+            while (rs.next()) {
                 dt.addRow(new Object[]{
                     rs.getString("id_bonus"),
                     rs.getString("nama_bonus"),
@@ -44,14 +47,14 @@ public class PembayaranGaji extends javax.swing.JFrame {
                     rs.getString("qty"),
                     "Bonus"
                 });
-                
+
                 System.out.println(rs.getString("nama_bonus"));
                 tabel1.setModel(dt);
             }
-            
+
             Statement st1 = (Statement) Workshop_project.foderoDB().createStatement();
             ResultSet rs1 = st1.executeQuery(queryMinus);
-            while(rs1.next()){
+            while (rs1.next()) {
                 dt.addRow(new Object[]{
                     rs1.getString("id_minus"),
                     rs1.getString("nama_minus"),
@@ -61,95 +64,92 @@ public class PembayaranGaji extends javax.swing.JFrame {
                 });
                 tabel1.setModel(dt);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));    
-public int id_pengeluaran;
-public int id_bonus;
-public int id_minus;
-public int id_bonusMinus;
-int nominal_bonus = 0, nominal_minus = 0, row_tabel1 = 0;
-            
-DefaultTableModel modelMinus = new DefaultTableModel();
+    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
+    public int id_pengeluaran;
+    public int id_bonus;
+    public int id_minus;
+    public int id_bonusMinus;
+    int nominal_bonus = 0, nominal_minus = 0, row_tabel1 = 0;
 
-private void tabelMinus(){
-    modelMinus.addColumn("ID");
-    modelMinus.addColumn("nama bonus / nama minus");
-    modelMinus.addColumn("Qty");
-    modelMinus.addColumn("Subtotal");
-    modelMinus.addColumn("Keterangan");
-}
+    DefaultTableModel modelMinus = new DefaultTableModel();
 
+    private void tabelMinus() {
+        modelMinus.addColumn("ID");
+        modelMinus.addColumn("nama bonus / nama minus");
+        modelMinus.addColumn("Qty");
+        modelMinus.addColumn("Subtotal");
+        modelMinus.addColumn("Keterangan");
+    }
 
-private void tabel(){    
-    DefaultTableModel model2 = new DefaultTableModel();
+    private void tabel() {
+        DefaultTableModel model2 = new DefaultTableModel();
         model2.addColumn("No");
         model2.addColumn("ID Pengeluaran");
         model2.addColumn("Nama Pengawai");
         model2.addColumn("Gaji");
         model2.addColumn("Total Gaji");
         model2.addColumn("Tanggal");
-        
-        try{
-    int no =1 ;
-   String sql = "SELECT pegawai.nik, pegawai.nama_pegawai, pegawai.gaji_pegawai, pengeluaran.id_pengeluaran, pengeluaran.jumlah_pengeluaran, pengeluaran.tanggal_pengeluaran FROM pengeluaran JOIN pegawai on pegawai.nik = pengeluaran.nik";
-        Connection conn = (Connection)Workshop_project.foderoDB();
-        Statement stm = conn.createStatement();
-        ResultSet res = stm.executeQuery(sql);
-         while(res.next()){
-            model2.addRow(new Object[]{
-                no++,  
-                res.getString("id_pengeluaran"),
-                res.getString("nama_pegawai"),
-                res.getString("gaji_pegawai"),
-                res.getString("jumlah_pengeluaran"),
-                res.getString("tanggal_pengeluaran")});
- 
-          }
-          tabel.setModel(model2);
-        }catch(Exception e){
-             JOptionPane.showMessageDialog(rootPane, e.getMessage());
-        }
-        
-}
 
+        try {
+            int no = 1;
+            String sql = "SELECT pegawai.nik, pegawai.nama_pegawai, pegawai.gaji_pegawai, pengeluaran.id_pengeluaran, pengeluaran.jumlah_pengeluaran, pengeluaran.tanggal_pengeluaran FROM pengeluaran JOIN pegawai on pegawai.nik = pengeluaran.nik";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            while (res.next()) {
+                model2.addRow(new Object[]{
+                    no++,
+                    res.getString("id_pengeluaran"),
+                    res.getString("nama_pegawai"),
+                    res.getString("gaji_pegawai"),
+                    res.getString("jumlah_pengeluaran"),
+                    res.getString("tanggal_pengeluaran")});
 
-public void tampil_bonus(){
-    try{
-        String sql = "select * from mst_bonus";
-        Connection conn = (Connection)Workshop_project.foderoDB();
-        Statement stm = conn.createStatement();
-        ResultSet res = stm.executeQuery(sql);
-        
-        while(res.next()){
-            cb_bonus.addItem(res.getString("nama_bonus"));
+            }
+            tabel.setModel(model2);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-    }catch(Exception e){
-         JOptionPane.showMessageDialog(rootPane, e.getMessage());
+
     }
-}
 
-public void tampil_minus(){
-    try{
-        String sql = "select * from mst_minus";
-        Connection conn = (Connection)Workshop_project.foderoDB();
-        Statement stm = conn.createStatement();
-        ResultSet res = stm.executeQuery(sql);
-        
-        while(res.next()){
-            cb_minus.addItem(res.getString("nama_minus"));
+    public void tampil_bonus() {
+        try {
+            String sql = "select * from mst_bonus";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            while (res.next()) {
+                cb_bonus.addItem(res.getString("nama_bonus"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-    }catch(Exception e){
-       JOptionPane.showMessageDialog(rootPane, e.getMessage());  
     }
-}
-    
 
-private void kosong(){
+    public void tampil_minus() {
+        try {
+            String sql = "select * from mst_minus";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            while (res.next()) {
+                cb_minus.addItem(res.getString("nama_minus"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+    }
+
+    private void kosong() {
         txt_nama.enable();
         txt_nama.setText(null);
         txt_gaji.enable();
@@ -160,33 +160,34 @@ private void kosong(){
         totalGaji.setText(null);
     }
 
-  static String getDate(){
+    static String getDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime dt = LocalDateTime.now();
         return String.valueOf(dtf.format(dt));
     }
-  
-  private int gajiBersih = 0; 
-  
-  private void totalGaji(){
-      String keteranganBonus = txt_keteranganBonus.getText();
-      String keteranganMinus = txt_keteranganMinus.getText();
-      String gaji = txt_gaji.getText();
-      String jumlahMinus = qtyMinus.getText();
-      String jumlahBonus = qtyBonus.getText();
-      
-              int gaji1  = gaji.isBlank() ? 0 : Integer.parseInt(gaji);
-              int bonus1 = keteranganBonus.isBlank() ? 0 : Integer.parseInt(keteranganBonus);
-              int minus1 = keteranganMinus.isBlank() ? 0 : Integer.parseInt(keteranganMinus);
-              int jumlahBonus1 = jumlahBonus.isBlank() ? 0 : Integer.parseInt(jumlahBonus);
-              int jumlahMinus1 = jumlahMinus.isBlank() ? 0 : Integer.parseInt(jumlahMinus);
-              int gajiBersih1 = gaji1 + (nominal_bonus) - (nominal_minus);
-              this.gajiBersih = gajiBersih1;
-              
-              totalGaji.setText("Rp."+nf.format(gajiBersih1));            
-  }
-  
-  private int nominalGaji= 0 ;
+
+    private int gajiBersih = 0;
+
+    private void totalGaji() {
+        String keteranganBonus = txt_keteranganBonus.getText();
+        String keteranganMinus = txt_keteranganMinus.getText();
+        String gaji = txt_gaji.getText();
+        String jumlahMinus = qtyMinus.getText();
+        String jumlahBonus = qtyBonus.getText();
+
+        int gaji1 = gaji.isBlank() ? 0 : Integer.parseInt(gaji);
+        int bonus1 = keteranganBonus.isBlank() ? 0 : Integer.parseInt(keteranganBonus);
+        int minus1 = keteranganMinus.isBlank() ? 0 : Integer.parseInt(keteranganMinus);
+        int jumlahBonus1 = jumlahBonus.isBlank() ? 0 : Integer.parseInt(jumlahBonus);
+        int jumlahMinus1 = jumlahMinus.isBlank() ? 0 : Integer.parseInt(jumlahMinus);
+        int gajiBersih1 = gaji1 + (nominal_bonus) - (nominal_minus);
+        this.gajiBersih = gajiBersih1;
+
+        totalGaji.setText("Rp." + nf.format(gajiBersih1));
+    }
+
+    private int nominalGaji = 0;
+
     /**
      * Creates new form mbayaranGaji
      */
@@ -207,9 +208,6 @@ private void kosong(){
             throw e;
         }
     }
-    
-  
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -227,11 +225,11 @@ private void kosong(){
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         nik = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
+        m_dashboard = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        m_pegawai = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
+        m_gaji = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -267,19 +265,22 @@ private void kosong(){
         jLabel12 = new javax.swing.JLabel();
         totalGaji = new javax.swing.JLabel();
         saldo = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
+        m_pengeluaran = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
+        m_pendapatan = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
+        m_bonus = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
+        m_laporan = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
+        m_minus = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
+        m_logout = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/Pembayaran Gaji - Jadi_Revisi Rezise.jpg"))); // NOI18N
@@ -300,7 +301,7 @@ private void kosong(){
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(239, 245, 245));
 
@@ -323,39 +324,46 @@ private void kosong(){
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 190, 70);
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jPanel5.setBackground(new java.awt.Color(244, 244, 244));
-        jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_dashboard.setBackground(new java.awt.Color(244, 244, 244));
+        m_dashboard.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_dashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_dashboardMouseClicked(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(114, 114, 114));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Dashboard");
-        jPanel5.add(jLabel14);
+        m_dashboard.add(jLabel14);
 
-        getContentPane().add(jPanel5);
-        jPanel5.setBounds(10, 140, 170, 30);
+        getContentPane().add(m_dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 170, 30));
 
-        jPanel4.setBackground(new java.awt.Color(244, 244, 244));
-        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pegawai.setBackground(new java.awt.Color(244, 244, 244));
+        m_pegawai.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pegawai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_pegawaiMouseClicked(evt);
+            }
+        });
 
         jLabel15.setBackground(new java.awt.Color(51, 51, 51));
         jLabel15.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(114, 114, 114));
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Pegawai");
-        jPanel4.add(jLabel15);
+        m_pegawai.add(jLabel15);
 
-        getContentPane().add(jPanel4);
-        jPanel4.setBounds(10, 180, 170, 30);
+        getContentPane().add(m_pegawai, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 170, 30));
 
-        jPanel6.setBackground(new java.awt.Color(167, 191, 191));
-        jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+        m_gaji.setBackground(new java.awt.Color(167, 191, 191));
+        m_gaji.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_gaji.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
+                m_gajiMouseClicked(evt);
             }
         });
 
@@ -363,10 +371,9 @@ private void kosong(){
         jLabel16.setForeground(new java.awt.Color(114, 114, 114));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Gaji");
-        jPanel6.add(jLabel16);
+        m_gaji.add(jLabel16);
 
-        getContentPane().add(jPanel6);
-        jPanel6.setBounds(10, 220, 170, 30);
+        getContentPane().add(m_gaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 170, 30));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -618,16 +625,16 @@ private void kosong(){
                         .addComponent(qtyBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(btn_hapus1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_clear2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(btn_hapus1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_clear2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -670,19 +677,18 @@ private void kosong(){
                     .addComponent(btn_hapus)
                     .addComponent(btn_edit)
                     .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_clear2)
                     .addComponent(btn_hapus1))
-                .addGap(57, 57, 57))
+                .addGap(88, 88, 88))
         );
 
-        getContentPane().add(jPanel3);
-        jPanel3.setBounds(200, 60, 580, 530);
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, -1, 530));
 
         jPanel13.setBackground(new java.awt.Color(239, 245, 245));
 
@@ -730,41 +736,52 @@ private void kosong(){
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel13);
-        jPanel13.setBounds(190, 0, 610, 100);
+        getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
 
-        jPanel7.setBackground(new java.awt.Color(244, 244, 244));
-        jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pengeluaran.setBackground(new java.awt.Color(244, 244, 244));
+        m_pengeluaran.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pengeluaran.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_pengeluaranMouseClicked(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(114, 114, 114));
         jLabel17.setText("Pengeluaran");
-        jPanel7.add(jLabel17);
+        m_pengeluaran.add(jLabel17);
 
-        getContentPane().add(jPanel7);
-        jPanel7.setBounds(10, 340, 170, 30);
+        getContentPane().add(m_pengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 170, 30));
 
-        jPanel9.setBackground(new java.awt.Color(244, 244, 244));
-        jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pendapatan.setBackground(new java.awt.Color(244, 244, 244));
+        m_pendapatan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pendapatan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_pendapatanMouseClicked(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(114, 114, 114));
         jLabel18.setText("Pendapatan");
-        jPanel9.add(jLabel18);
+        m_pendapatan.add(jLabel18);
 
-        getContentPane().add(jPanel9);
-        jPanel9.setBounds(10, 380, 170, 30);
+        getContentPane().add(m_pendapatan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 170, 30));
 
-        jPanel8.setBackground(new java.awt.Color(244, 244, 244));
-        jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_bonus.setBackground(new java.awt.Color(244, 244, 244));
+        m_bonus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_bonus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_bonusMouseClicked(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(114, 114, 114));
         jLabel7.setText("Bonus");
-        jPanel8.add(jLabel7);
+        m_bonus.add(jLabel7);
 
-        getContentPane().add(jPanel8);
-        jPanel8.setBounds(10, 260, 170, 30);
+        getContentPane().add(m_bonus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 170, 30));
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -773,30 +790,37 @@ private void kosong(){
         name.setText("Nama Pegawai");
         jPanel11.add(name);
 
-        getContentPane().add(jPanel11);
-        jPanel11.setBounds(40, 84, 100, 25);
+        getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 84, 100, -1));
 
-        jPanel10.setBackground(new java.awt.Color(244, 244, 244));
-        jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_laporan.setBackground(new java.awt.Color(244, 244, 244));
+        m_laporan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_laporan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_laporanMouseClicked(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(114, 114, 114));
         jLabel10.setText("Laporan");
-        jPanel10.add(jLabel10);
+        m_laporan.add(jLabel10);
 
-        getContentPane().add(jPanel10);
-        jPanel10.setBounds(10, 420, 170, 30);
+        getContentPane().add(m_laporan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 170, 30));
 
-        jPanel12.setBackground(new java.awt.Color(244, 244, 244));
-        jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_minus.setBackground(new java.awt.Color(244, 244, 244));
+        m_minus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_minus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_minusMouseClicked(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(114, 114, 114));
         jLabel11.setText("Minus");
-        jPanel12.add(jLabel11);
+        m_minus.add(jLabel11);
 
-        getContentPane().add(jPanel12);
-        jPanel12.setBounds(10, 300, 170, 29);
+        getContentPane().add(m_minus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 170, -1));
 
         jPanel14.setBackground(new java.awt.Color(239, 245, 245));
 
@@ -811,22 +835,66 @@ private void kosong(){
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel14);
-        jPanel14.setBounds(0, 510, 800, 100);
+        getContentPane().add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 510, -1, -1));
+
+        m_logout.setBackground(new java.awt.Color(252, 102, 103));
+        m_logout.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_logout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                m_logoutMouseClicked(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("LOGOUT");
+
+        javax.swing.GroupLayout m_logoutLayout = new javax.swing.GroupLayout(m_logout);
+        m_logout.setLayout(m_logoutLayout);
+        m_logoutLayout.setHorizontalGroup(
+            m_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, m_logoutLayout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addGap(33, 33, 33))
+        );
+        m_logoutLayout.setVerticalGroup(
+            m_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(m_logoutLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addContainerGap(11, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(m_logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, -1));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 190, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, -1, -1));
 
         jLabel19.setForeground(new java.awt.Color(51, 51, 51));
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/workshop_project/Master Pegawai - Jadi_Revisi.jpg"))); // NOI18N
         jLabel19.setName("gambar dasar"); // NOI18N
-        getContentPane().add(jLabel19);
-        jLabel19.setBounds(0, 70, 800, 449);
+        getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+    private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
 
-    }//GEN-LAST:event_jPanel6MouseClicked
+    }//GEN-LAST:event_m_gajiMouseClicked
 
     private void qtyBonusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyBonusKeyReleased
         // TODO add your handling code here:
@@ -836,19 +904,19 @@ private void kosong(){
     private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
         // TODO add your handling code here:
 
-        try{
+        try {
 
-            String sql = "DELETE  gaji, pengeluaran FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and gaji.id_pengeluaran = '"+id_pengeluaran+"'";
-            String sql2 = "DELETE pengeluaran, gaji FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and pengeluaran.id_pengeluaran = '"+id_pengeluaran+"'";
+            String sql = "DELETE  gaji, pengeluaran FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and gaji.id_pengeluaran = '" + id_pengeluaran + "'";
+            String sql2 = "DELETE pengeluaran, gaji FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and pengeluaran.id_pengeluaran = '" + id_pengeluaran + "'";
 
-            Connection conn = (Connection)Workshop_project.foderoDB();
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-            java.sql.PreparedStatement pst2=conn.prepareStatement(sql2);
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
             pst.execute();
             pst2.execute();
 
             JOptionPane.showMessageDialog(this, "berhasil di hapus");
-        }catch (Exception e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         tabel();
@@ -858,18 +926,18 @@ private void kosong(){
     private void txt_namaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_namaKeyPressed
         // menginisialkan nama pegawai
         String nama = txt_nama.getText();
-        try{
+        try {
             //memilih data dari tabel pegawai yang namanya sesuai dengan nama pegawai
-            String sql= "select * from pegawai where nama_pegawai = '"+ nama +"' limit 1";
-            Connection conn = (Connection)Workshop_project.foderoDB();
+            String sql = "select * from pegawai where nama_pegawai = '" + nama + "' limit 1";
+            Connection conn = (Connection) Workshop_project.foderoDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
-            if(res.next()){
+            if (res.next()) {
                 //yang dipanggil dari data pegawai hanya nik & gaji
                 txt_nik.setText(res.getString("nik"));
                 txt_gaji.setText(res.getString("gaji_pegawai"));
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
@@ -881,21 +949,21 @@ private void kosong(){
     }//GEN-LAST:event_cb_minusKeyPressed
 
     private void cb_minusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_minusActionPerformed
-        try{
+        try {
             //menginisialkan minus dari comboBox
             String minus = String.valueOf(cb_minus.getSelectedItem());
             //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
-            String sql = "select * from mst_minus WHERE nama_minus = '"+ minus +"'";
-            Connection conn = (Connection)Workshop_project.foderoDB();
+            String sql = "select * from mst_minus WHERE nama_minus = '" + minus + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
 
             //yang dipanggil hanya nominal minus saja
-            if(res.next()){
+            if (res.next()) {
                 txt_keteranganMinus.setText(res.getString("nominal_minus"));
             }
             txt_keteranganMinus.disable();
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
@@ -907,19 +975,19 @@ private void kosong(){
     }//GEN-LAST:event_cb_bonusActionPerformed
 
     private void cb_bonusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_bonusItemStateChanged
-        try{
+        try {
             //menginisialkan bonus pada tabel comboBox
             String nama = String.valueOf(cb_bonus.getSelectedItem());
             //menceri data pada tabel master minus yang dipilih dari nama_minus yang berada pada comboBox
-            String sql = "select * from mst_bonus WHERE nama_bonus = '"+ nama +"'";
-            Connection conn = (Connection)Workshop_project.foderoDB();
+            String sql = "select * from mst_bonus WHERE nama_bonus = '" + nama + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
-            if(res.next()){
+            if (res.next()) {
                 txt_keteranganBonus.setText(res.getString("nominal_bonus"));
             }
             txt_keteranganBonus.disable();
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
@@ -932,11 +1000,11 @@ private void kosong(){
 
     private void btn_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bayarActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             String sql1 = "insert into pengeluaran (nik, keterangan_pengeluaran, jenis_pengeluaran, jumlah_pengeluaran, tanggal_pengeluaran) values('"
-            +txt_nik.getText()+"', 'pengeluaran gaji', 'gaji', "+gajiBersih+", now())";
-            Connection conn = (Connection)Workshop_project.foderoDB();
-            PreparedStatement pst1=conn.prepareStatement(sql1);
+                    + txt_nik.getText() + "', 'pengeluaran gaji', 'gaji', " + gajiBersih + ", now())";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            PreparedStatement pst1 = conn.prepareStatement(sql1);
             pst1.execute();
 
             String sql2 = "select * from pengeluaran order by id_pengeluaran desc limit 1";
@@ -946,28 +1014,26 @@ private void kosong(){
             id_pengeluaran = res.getInt("id_pengeluaran");
 
             DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
-            for(int x = 0 ; x < tabel1.getRowCount() ; x++){
+            for (int x = 0; x < tabel1.getRowCount(); x++) {
                 String queryGaji = "";
-                if(tbl.getValueAt(x, 4) == "Bonus"){
-                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, "+id_pengeluaran+", "+ tbl.getValueAt(x, 0) +", null, "+ tbl.getValueAt(x, 2) +")";
-                }else if (tbl.getValueAt(x, 4) == "Minus") {
-                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, "+id_pengeluaran+", null, "+ tbl.getValueAt(x, 0) +", "+ tbl.getValueAt(x, 2) +")";
+                if (tbl.getValueAt(x, 4) == "Bonus") {
+                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", " + tbl.getValueAt(x, 0) + ", null, " + tbl.getValueAt(x, 2) + ")";
+                } else if (tbl.getValueAt(x, 4) == "Minus") {
+                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", null, " + tbl.getValueAt(x, 0) + ", " + tbl.getValueAt(x, 2) + ")";
                 }
                 try {
-                    PreparedStatement pst=conn.prepareStatement(queryGaji);
+                    PreparedStatement pst = conn.prepareStatement(queryGaji);
                     pst.execute();
-                    
-                } catch(Exception ex){
+
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "query 2" + ex.getMessage());
 
                 }
             }
-           
 
             // memanggil ulang table
-
             JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
-        }catch (Exception e){
+        } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, "query 1" + e.getMessage());
         }
@@ -984,8 +1050,7 @@ private void kosong(){
         String field1 = tbl.getValueAt(i, 1).toString();
         String field2 = tbl.getValueAt(i, 2).toString();
         String field3 = tbl.getValueAt(i, 3).toString();
-       
-        
+
         //membuat aritmatika untuk gaji bersih
 //        int bonus = Integer.parseInt(field5);
 //        int minus = Integer.parseInt(field3);
@@ -997,7 +1062,6 @@ private void kosong(){
 //        txt_keteranganMinus.setText(nf.format(minus));
 //        txt_gaji.setText(nf.format(gaji));
 //        totalGaji.setText("Rp. "+nf.format(gajiBersih));
-
         //menginisialkan id_pengeluran
         id_pengeluaran = Integer.valueOf(tbl.getValueAt(i, 1).toString());
 
@@ -1008,7 +1072,7 @@ private void kosong(){
 //        cb_bonus.setSelectedItem(field6);
         txt_gaji.disable();
         txt_gaji.setText(field3);
-        
+
         getTabel2();
     }//GEN-LAST:event_tabelMouseClicked
 
@@ -1022,20 +1086,20 @@ private void kosong(){
         //menginisialkan nik dari textfield
         String nik = txt_nik.getText();
 
-        try{
+        try {
             //mencari data dari tabel pegawai yang dipilih dari nik yang berada pada textField
-            String sql= "select * from pegawai where nik like '%"+ nik +"%' limit 1";
-            Connection conn = (Connection)Workshop_project.foderoDB();
+            String sql = "select * from pegawai where nik like '%" + nik + "%' limit 1";
+            Connection conn = (Connection) Workshop_project.foderoDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
 
-            if(res.next()){
+            if (res.next()) {
                 //data yang diambil hanya nama dan gaji
                 txt_nama.setText(res.getString("nama_pegawai"));
                 txt_gaji.setText(res.getString("gaji_pegawai"));
 
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         //memanggil method aritmatika gaji bersih(gaji pokok + bonus - minus)
@@ -1047,10 +1111,10 @@ private void kosong(){
     }//GEN-LAST:event_txt_nikActionPerformed
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-        try{
+        try {
             String bonus = String.valueOf(cb_bonus.getSelectedItem());
-            String sql3 = "select * from mst_bonus where nama_bonus ='" +bonus+"'order by id_bonus ";
-            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
+            String sql3 = "select * from mst_bonus where nama_bonus ='" + bonus + "'order by id_bonus ";
+            java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
 
             Statement stm3 = conn.createStatement();
             ResultSet res3 = stm3.executeQuery(sql3);
@@ -1058,19 +1122,19 @@ private void kosong(){
             id_bonus = res3.getInt("id_bonus");
 
             String minus = String.valueOf(cb_minus.getSelectedItem());
-            String sql4 =  "select * from mst_minus where nama_minus ='" +minus+"' order by id_minus ";
+            String sql4 = "select * from mst_minus where nama_minus ='" + minus + "' order by id_minus ";
             Statement stm4 = conn.createStatement();
             ResultSet res4 = stm4.executeQuery(sql4);
             res4.next();
             id_minus = res4.getInt("id_minus");
 
-            String sql = "UPDATE gaji SET id_minus = '"+ id_minus
-            +"',id_bonus = '"+ id_bonus
-            + "'WHERE id_pengeluaran = '"+id_pengeluaran+"'";
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            String sql = "UPDATE gaji SET id_minus = '" + id_minus
+                    + "',id_bonus = '" + id_bonus
+                    + "'WHERE id_pengeluaran = '" + id_pengeluaran + "'";
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.execute();
             JOptionPane.showMessageDialog(null, "Data berhasil diedit");
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Perubahan data gagal");
         }
         tabel();
@@ -1082,15 +1146,14 @@ private void kosong(){
 
     private void tabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel1MouseClicked
         // TODO add your handling code here:
-        row_tabel1 = tabel1.getSelectedRow(); 
-        
-        
+        row_tabel1 = tabel1.getSelectedRow();
+
         int i = tabel1.getSelectedRow();
         TableModel tbl = tabel1.getModel();
-     
+
         String field1 = tbl.getValueAt(i, 1).toString();
         String field3 = tbl.getValueAt(i, 3).toString();
-     
+
         if (tbl.getValueAt(i, 4) == "Bonus") {
             cb_bonus.setSelectedItem(field1);
             qtyBonus.setText(field3);
@@ -1098,7 +1161,7 @@ private void kosong(){
             cb_minus.setSelectedItem(field1);
             qtyMinus.setText(field3);
         }
-        
+
     }//GEN-LAST:event_tabel1MouseClicked
 
     private void btn_clear2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clear2ActionPerformed
@@ -1109,8 +1172,8 @@ private void kosong(){
         // TODO add your handling code here:
         int id = 0;
         try {
-            Connection conn = (Connection)Workshop_project.foderoDB();
-            String sql2 = "select * from mst_minus where nama_minus = '"+cb_minus.getSelectedItem()+"'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            String sql2 = "select * from mst_minus where nama_minus = '" + cb_minus.getSelectedItem() + "'";
             Statement stm2 = conn.createStatement();
             ResultSet res = stm2.executeQuery(sql2);
             res.next();
@@ -1118,14 +1181,14 @@ private void kosong(){
             int nominal = res.getInt("nominal_minus");
             nominal_minus = nominal * Integer.valueOf(qtyMinus.getText().toString());
             System.out.println(id);
-                modelMinus.addRow(new Object[]{
-                    res.getString("id_minus"),
-                    cb_minus.getSelectedItem(),
-                    qtyMinus.getText(),
-                    res.getInt("nominal_minus") * Integer.valueOf(qtyMinus.getText()),
-                    "Minus"
-                });
-                tabel1.setModel(modelMinus);
+            modelMinus.addRow(new Object[]{
+                res.getString("id_minus"),
+                cb_minus.getSelectedItem(),
+                qtyMinus.getText(),
+                res.getInt("nominal_minus") * Integer.valueOf(qtyMinus.getText()),
+                "Minus"
+            });
+            tabel1.setModel(modelMinus);
             totalGaji();
         } catch (SQLException ex) {
             try {
@@ -1138,10 +1201,10 @@ private void kosong(){
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-          int id = 0;
+        int id = 0;
         try {
-            Connection conn = (Connection)Workshop_project.foderoDB();
-            String sql2 = "select * from mst_bonus where nama_bonus = '"+cb_bonus.getSelectedItem()+"'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            String sql2 = "select * from mst_bonus where nama_bonus = '" + cb_bonus.getSelectedItem() + "'";
             Statement stm2 = conn.createStatement();
             ResultSet res = stm2.executeQuery(sql2);
             res.next();
@@ -1149,14 +1212,14 @@ private void kosong(){
             int nominal = res.getInt("nominal_bonus");
             nominal_bonus = nominal * Integer.valueOf(qtyBonus.getText().toString());
             System.out.println(id);
-                modelMinus.addRow(new Object[]{
-                    res.getString("id_bonus"),
-                    cb_bonus.getSelectedItem(),
-                    qtyBonus.getText(),
-                    res.getInt("nominal_bonus") * Integer.valueOf(qtyBonus.getText()),
-                    "Bonus"
-                });
-                tabel1.setModel(modelMinus);
+            modelMinus.addRow(new Object[]{
+                res.getString("id_bonus"),
+                cb_bonus.getSelectedItem(),
+                qtyBonus.getText(),
+                res.getInt("nominal_bonus") * Integer.valueOf(qtyBonus.getText()),
+                "Bonus"
+            });
+            tabel1.setModel(modelMinus);
             totalGaji();
         } catch (SQLException ex) {
             try {
@@ -1181,6 +1244,81 @@ private void kosong(){
         dt.removeRow(row_tabel1);
 //        tabel1.setModel(dt);
     }//GEN-LAST:event_btn_hapus1ActionPerformed
+
+    private void m_dashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_dashboardMouseClicked
+        try {
+            // TODO add your handling code here:
+            new DashboardForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_dashboardMouseClicked
+
+    private void m_pegawaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_pegawaiMouseClicked
+        try {
+            new master_pegawai().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_pegawaiMouseClicked
+
+    private void m_bonusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_bonusMouseClicked
+        try {
+            // TODO add your handling code here:
+            new MasterBonus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_bonusMouseClicked
+
+    private void m_minusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_minusMouseClicked
+        try {
+            // TODO add your handling code here:
+            new MasterMinus().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_minusMouseClicked
+
+    private void m_pengeluaranMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_pengeluaranMouseClicked
+        try {
+            // TODO add your handling code here:
+            new PengeluaranForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_pengeluaranMouseClicked
+
+    private void m_pendapatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_pendapatanMouseClicked
+        try {
+            // TODO add your handling code here:
+            new PendapatanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_pendapatanMouseClicked
+
+    private void m_laporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_laporanMouseClicked
+        try {
+            // TODO add your handling code here:
+            new LaporanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+    }//GEN-LAST:event_m_laporanMouseClicked
+
+    private void m_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_logoutMouseClicked
+        // TODO add your handling code here:
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_m_logoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1207,7 +1345,7 @@ private void kosong(){
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PembayaranGaji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-     
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1251,22 +1389,25 @@ private void kosong(){
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel m_bonus;
+    private javax.swing.JPanel m_dashboard;
+    private javax.swing.JPanel m_gaji;
+    private javax.swing.JPanel m_laporan;
+    private javax.swing.JPanel m_logout;
+    private javax.swing.JPanel m_minus;
+    private javax.swing.JPanel m_pegawai;
+    private javax.swing.JPanel m_pendapatan;
+    private javax.swing.JPanel m_pengeluaran;
     private javax.swing.JLabel name;
     private javax.swing.JLabel nik;
     private javax.swing.JTextField qtyBonus;
