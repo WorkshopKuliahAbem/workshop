@@ -48,7 +48,6 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -89,6 +88,7 @@ public class Login extends javax.swing.JFrame {
         btn_login.setBackground(new java.awt.Color(240, 142, 51));
         btn_login.setForeground(new java.awt.Color(0, 0, 0));
         btn_login.setText("Login");
+        btn_login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_loginActionPerformed(evt);

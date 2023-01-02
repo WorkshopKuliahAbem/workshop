@@ -176,7 +176,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         m_dashboard.setBackground(new java.awt.Color(167, 191, 191));
         m_dashboard.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        m_dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel2.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(114, 114, 114));
@@ -595,7 +595,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         nik.setText("jLabel12");
         getContentPane().add(nik);
-        nik.setBounds(600, 80, 43, 16);
+        nik.setBounds(600, 80, 45, 16);
 
         pack();
         setLocationRelativeTo(null);

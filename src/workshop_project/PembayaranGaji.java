@@ -119,8 +119,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
     }
 
-    
-      public void tampil_nama() {
+    public void tampil_nama() {
         try {
             String sql = "select * from pegawai";
             Connection conn = (Connection) Workshop_project.foderoDB();
@@ -134,8 +133,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
     }
-    
-      
+
     public void tampil_bonus() {
         try {
             String sql = "select * from mst_bonus";
@@ -210,6 +208,10 @@ public class PembayaranGaji extends javax.swing.JFrame {
         initComponents();
         tabel();
         kosong();
+        txt_keteranganMinus.setEnabled(false);
+        txt_keteranganBonus.setEnabled(false);
+        txt_gaji.setEnabled(false);
+        txt_nik.setEnabled(false);
         tanggal.setText(getDate());
         name.setText(util.nama);
         nik.setText(util.nik);
@@ -241,7 +243,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        nik = new javax.swing.JLabel();
         m_dashboard = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         m_pegawai = new javax.swing.JPanel();
@@ -258,29 +259,28 @@ public class PembayaranGaji extends javax.swing.JFrame {
         btn_edit = new javax.swing.JButton();
         btn_hapus = new javax.swing.JButton();
         btn_bayar = new javax.swing.JButton();
+        xxxxxxx1 = new javax.swing.JLabel();
+        txt_gaji = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel = new javax.swing.JTable();
-        txt_gaji = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btn_clear = new javax.swing.JButton();
-        xxxxxxx1 = new javax.swing.JLabel();
         cb_minus = new javax.swing.JComboBox<>();
         cb_bonus = new javax.swing.JComboBox<>();
         txt_keteranganMinus = new javax.swing.JTextField();
         txt_keteranganBonus = new javax.swing.JTextField();
         qtyMinus = new javax.swing.JTextField();
         qtyBonus = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabel1 = new javax.swing.JTable();
-        btn_clear2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         btn_hapus1 = new javax.swing.JButton();
         cb_namaPG = new javax.swing.JComboBox<>();
-        jPanel13 = new javax.swing.JPanel();
-        tanggal = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         totalGaji = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        tanggal = new javax.swing.JLabel();
         saldo = new javax.swing.JLabel();
         m_pengeluaran = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -299,6 +299,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
+        nik = new javax.swing.JLabel();
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/Pembayaran Gaji - Jadi_Revisi Rezise.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -322,29 +323,22 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(239, 245, 245));
 
-        nik.setText("nik");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(95, Short.MAX_VALUE)
-                .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
+            .addGap(0, 190, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(nik)
-                .addContainerGap(27, Short.MAX_VALUE))
+            .addGap(0, 70, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         m_dashboard.setBackground(new java.awt.Color(244, 244, 244));
         m_dashboard.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_dashboard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_dashboardMouseClicked(evt);
@@ -361,6 +355,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         m_pegawai.setBackground(new java.awt.Color(244, 244, 244));
         m_pegawai.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pegawai.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_pegawai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_pegawaiMouseClicked(evt);
@@ -378,6 +373,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         m_gaji.setBackground(new java.awt.Color(167, 191, 191));
         m_gaji.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_gaji.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         m_gaji.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_gajiMouseClicked(evt);
@@ -395,29 +391,38 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jLabel6.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(114, 114, 114));
         jLabel6.setText("Nominal Minus :");
 
+        jLabel4.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(114, 114, 114));
         jLabel4.setText("Nominal Bonus :");
 
-        txt_nik.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_nikActionPerformed(evt);
-            }
-        });
+        txt_nik.setBackground(new java.awt.Color(255, 255, 255));
+        txt_nik.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         txt_nik.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_nikKeyPressed(evt);
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(114, 114, 114));
         jLabel5.setText("Gaji Pokok :");
 
+        xxxxxxx.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        xxxxxxx.setForeground(new java.awt.Color(114, 114, 114));
         xxxxxxx.setText("Keterangan Minus :");
 
+        jLabel2.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(114, 114, 114));
         jLabel2.setText("Nama Pegawai :");
 
+        btn_edit.setBackground(new java.awt.Color(90, 90, 90));
         btn_edit.setForeground(new java.awt.Color(0, 0, 0));
         btn_edit.setText("Edit");
+        btn_edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_editActionPerformed(evt);
@@ -427,6 +432,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
         btn_hapus.setBackground(new java.awt.Color(255, 16, 12));
         btn_hapus.setForeground(new java.awt.Color(0, 0, 0));
         btn_hapus.setText("Hapus");
+        btn_hapus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_hapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_hapusActionPerformed(evt);
@@ -436,11 +442,18 @@ public class PembayaranGaji extends javax.swing.JFrame {
         btn_bayar.setBackground(new java.awt.Color(255, 153, 50));
         btn_bayar.setForeground(new java.awt.Color(0, 0, 0));
         btn_bayar.setText("Bayar");
+        btn_bayar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_bayar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_bayarActionPerformed(evt);
             }
         });
+
+        xxxxxxx1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        xxxxxxx1.setForeground(new java.awt.Color(114, 114, 114));
+        xxxxxxx1.setText("Keterangan Bonus :");
+
+        txt_gaji.setBackground(new java.awt.Color(255, 255, 255));
 
         tabel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -460,20 +473,22 @@ public class PembayaranGaji extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabel);
 
-        jLabel8.setText("Cari NIK :");
+        jLabel8.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(114, 114, 114));
+        jLabel8.setText("NIK :");
 
-        btn_clear.setBackground(new java.awt.Color(255, 153, 50));
+        btn_clear.setBackground(new java.awt.Color(90, 90, 90));
         btn_clear.setForeground(new java.awt.Color(0, 0, 0));
         btn_clear.setText("Clear");
+        btn_clear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_clearActionPerformed(evt);
             }
         });
 
-        xxxxxxx1.setText("Keterangan Bonus:");
-
-        cb_minus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "======Keterangan Minus======" }));
+        cb_minus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "===Keterangan Minus===" }));
+        cb_minus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cb_minus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_minusActionPerformed(evt);
@@ -485,7 +500,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
             }
         });
 
-        cb_bonus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "======Keterangan Bonus======" }));
+        cb_bonus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "===Keterangan Bonus===" }));
+        cb_bonus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cb_bonus.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cb_bonusItemStateChanged(evt);
@@ -497,21 +513,34 @@ public class PembayaranGaji extends javax.swing.JFrame {
             }
         });
 
+        txt_keteranganMinus.setBackground(new java.awt.Color(255, 255, 255));
         txt_keteranganMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_keteranganMinusActionPerformed(evt);
             }
         });
 
+        txt_keteranganBonus.setBackground(new java.awt.Color(255, 255, 255));
+
+        qtyMinus.setBackground(new java.awt.Color(255, 255, 255));
         qtyMinus.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 qtyMinusKeyReleased(evt);
             }
         });
 
+        qtyBonus.setBackground(new java.awt.Color(255, 255, 255));
         qtyBonus.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 qtyBonusKeyReleased(evt);
+            }
+        });
+
+        jButton2.setText("Tambah Bonus");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -533,39 +562,26 @@ public class PembayaranGaji extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabel1);
 
-        btn_clear2.setBackground(new java.awt.Color(255, 153, 50));
-        btn_clear2.setForeground(new java.awt.Color(0, 0, 0));
-        btn_clear2.setText("Clear");
-        btn_clear2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_clear2ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Tambah Minus");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Tambah Bonus");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         btn_hapus1.setBackground(new java.awt.Color(255, 16, 12));
         btn_hapus1.setForeground(new java.awt.Color(0, 0, 0));
         btn_hapus1.setText("Hapus");
+        btn_hapus1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_hapus1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_hapus1ActionPerformed(evt);
             }
         });
 
-        cb_namaPG.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "======Nama Pegawai======" }));
+        cb_namaPG.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "====Nama Pegawai====" }));
+        cb_namaPG.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cb_namaPG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_namaPGActionPerformed(evt);
@@ -577,156 +593,150 @@ public class PembayaranGaji extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(114, 114, 114));
+        jLabel12.setText("Total Gaji :");
+
+        totalGaji.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        totalGaji.setForeground(new java.awt.Color(114, 114, 114));
+        totalGaji.setText("GAJI");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(208, 208, 208)
-                                .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(102, 102, 102))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_bayar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(27, 27, 27)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(txt_keteranganMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txt_nik, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(38, 38, 38)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txt_keteranganBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(cb_namaPG, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(xxxxxxx)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(cb_minus, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(qtyMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_gaji, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47)))))
-                .addGap(13, 13, 13))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(xxxxxxx1))
-                        .addGap(122, 122, 122))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(cb_bonus, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(qtyBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(btn_hapus1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_clear2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(xxxxxxx))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_gaji, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btn_hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(btn_bayar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                                .addComponent(jLabel12)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(totalGaji, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btn_hapus1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                                .addComponent(jLabel8)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txt_nik))
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel6)
+                                                .addComponent(txt_keteranganMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(157, 157, 157)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(xxxxxxx1)
+                                            .addComponent(txt_keteranganBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(cb_minus, javax.swing.GroupLayout.Alignment.LEADING, 0, 190, Short.MAX_VALUE)
+                                    .addComponent(cb_namaPG, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(qtyMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(84, 84, 84)
+                                .addComponent(qtyBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cb_bonus, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 23, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_gaji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_namaPG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(xxxxxxx)
-                    .addComponent(xxxxxxx1))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cb_namaPG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_gaji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(xxxxxxx1)
+                    .addComponent(xxxxxxx, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cb_minus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_bonus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(qtyMinus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(qtyBonus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_keteranganBonus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_keteranganMinus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cb_minus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(qtyMinus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(qtyBonus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cb_bonus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(54, 54, 54))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(jButton1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_nik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_keteranganMinus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_keteranganBonus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_bayar)
                     .addComponent(btn_hapus)
-                    .addComponent(btn_edit)
-                    .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_nik, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_clear2)
-                    .addComponent(btn_hapus1))
-                .addGap(88, 88, 88))
+                    .addComponent(btn_edit)
+                    .addComponent(btn_hapus1)
+                    .addComponent(jLabel12)
+                    .addComponent(totalGaji))
+                .addGap(178, 178, 178))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, -1, 530));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 580, 510));
 
         jPanel13.setBackground(new java.awt.Color(239, 245, 245));
 
+        tanggal.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
         tanggal.setForeground(new java.awt.Color(114, 114, 114));
         tanggal.setText("Tanggal");
 
-        jLabel12.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel12.setText("Total Gaji :");
-
-        totalGaji.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        totalGaji.setText("GAJI");
-
+        saldo.setFont(new java.awt.Font("Lexend", 0, 13)); // NOI18N
         saldo.setForeground(new java.awt.Color(114, 114, 114));
         saldo.setText("Saldo");
 
@@ -735,37 +745,27 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(8, 8, 8)
                 .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalGaji, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(351, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel12)
-                                .addComponent(totalGaji))
-                            .addComponent(tanggal)))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(saldo)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(49, 49, 49)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tanggal)
+                    .addComponent(saldo))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
 
         m_pengeluaran.setBackground(new java.awt.Color(244, 244, 244));
         m_pengeluaran.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pengeluaran.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_pengeluaran.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_pengeluaranMouseClicked(evt);
@@ -781,6 +781,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         m_pendapatan.setBackground(new java.awt.Color(244, 244, 244));
         m_pendapatan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_pendapatan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_pendapatan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_pendapatanMouseClicked(evt);
@@ -796,6 +797,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         m_bonus.setBackground(new java.awt.Color(244, 244, 244));
         m_bonus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_bonus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_bonus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_bonusMouseClicked(evt);
@@ -820,6 +822,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         m_laporan.setBackground(new java.awt.Color(244, 244, 244));
         m_laporan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_laporan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_laporan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_laporanMouseClicked(evt);
@@ -835,6 +838,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         m_minus.setBackground(new java.awt.Color(244, 244, 244));
         m_minus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_minus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_minus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_minusMouseClicked(evt);
@@ -865,6 +869,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         m_logout.setBackground(new java.awt.Color(252, 102, 103));
         m_logout.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        m_logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         m_logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 m_logoutMouseClicked(evt);
@@ -914,6 +919,9 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jLabel19.setName("gambar dasar"); // NOI18N
         getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, -1));
 
+        nik.setText("nik");
+        getContentPane().add(nik, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -921,457 +929,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
     private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
 
     }//GEN-LAST:event_m_gajiMouseClicked
-
-    private void qtyBonusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyBonusKeyReleased
-        // TODO add your handling code here:
-        totalGaji();
-    }//GEN-LAST:event_qtyBonusKeyReleased
-
-    private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
-        // TODO add your handling code here:
-
-        try {
-
-            String sql = "DELETE  gaji, pengeluaran FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and gaji.id_pengeluaran = '" + id_pengeluaran + "'";
-            String sql2 = "DELETE pengeluaran, gaji FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and pengeluaran.id_pengeluaran = '" + id_pengeluaran + "'";
-
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
-            pst.execute();
-            pst2.execute();
-
-            JOptionPane.showMessageDialog(this, "berhasil di hapus");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        tabel();
-        kosong();
-    }//GEN-LAST:event_btn_hapusActionPerformed
-
-    private void cb_minusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_minusKeyPressed
-
-    }//GEN-LAST:event_cb_minusKeyPressed
-
-    private void cb_minusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_minusActionPerformed
-        try {
-            //menginisialkan minus dari comboBox
-            String minus = String.valueOf(cb_minus.getSelectedItem());
-            //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
-            String sql = "select * from mst_minus WHERE nama_minus = '" + minus + "'";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-
-            //yang dipanggil hanya nominal minus saja
-            if (res.next()) {
-                txt_keteranganMinus.setText(res.getString("nominal_minus"));
-            }
-            txt_keteranganMinus.disable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
-        totalGaji();
-    }//GEN-LAST:event_cb_minusActionPerformed
-
-    private void cb_bonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_bonusActionPerformed
-
-    }//GEN-LAST:event_cb_bonusActionPerformed
-
-    private void cb_bonusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_bonusItemStateChanged
-        try {
-            //menginisialkan bonus pada tabel comboBox
-            String nama = String.valueOf(cb_bonus.getSelectedItem());
-            //menceri data pada tabel master minus yang dipilih dari nama_minus yang berada pada comboBox
-            String sql = "select * from mst_bonus WHERE nama_bonus = '" + nama + "'";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-            if (res.next()) {
-                txt_keteranganBonus.setText(res.getString("nominal_bonus"));
-            }
-            txt_keteranganBonus.disable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
-        totalGaji();
-    }//GEN-LAST:event_cb_bonusItemStateChanged
-
-    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
-        kosong();
-    }//GEN-LAST:event_btn_clearActionPerformed
-
-    private void btn_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bayarActionPerformed
-        // TODO add your handling code here:
-        try {
-            String sql1 = "insert into pengeluaran (nik, keterangan_pengeluaran, jenis_pengeluaran, jumlah_pengeluaran, tanggal_pengeluaran) values('"
-                    + txt_nik.getText() + "', 'pengeluaran gaji', 'gaji', " + gajiBersih + ", now())";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            PreparedStatement pst1 = conn.prepareStatement(sql1);
-            pst1.execute();
-
-            String sql2 = "select * from pengeluaran order by id_pengeluaran desc limit 1";
-            Statement stm2 = conn.createStatement();
-            ResultSet res = stm2.executeQuery(sql2);
-            res.next();
-            id_pengeluaran = res.getInt("id_pengeluaran");
-
-            DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
-            for (int x = 0; x < tabel1.getRowCount(); x++) {
-                String queryGaji = "";
-                if (tbl.getValueAt(x, 4) == "Bonus") {
-                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", " + tbl.getValueAt(x, 0) + ", null, " + tbl.getValueAt(x, 2) + ")";
-                } else if (tbl.getValueAt(x, 4) == "Minus") {
-                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", null, " + tbl.getValueAt(x, 0) + ", " + tbl.getValueAt(x, 2) + ")";
-                }
-                try {
-                    PreparedStatement pst = conn.prepareStatement(queryGaji);
-                    pst.execute();
-
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "query 2" + ex.getMessage());
-
-                }
-            }
-
-            // memanggil ulang table
-            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "query 1" + e.getMessage());
-        }
-        tabel();
-    }//GEN-LAST:event_btn_bayarActionPerformed
-
-    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
-        // TODO add your handling code here:
-
-        int i = tabel.getSelectedRow();
-        TableModel tbl = tabel.getModel();
-        // Mengambil value dari table
-
-        String field1 = tbl.getValueAt(i, 1).toString();
-        String field2 = tbl.getValueAt(i, 2).toString();
-        String field3 = tbl.getValueAt(i, 3).toString();
-
-        //membuat aritmatika untuk gaji bersih
-//        int bonus = Integer.parseInt(field5);
-//        int minus = Integer.parseInt(field3);
-//        int gaji = Integer.parseInt(field7);
-//        int gajiBersih = gaji + bonus - minus;
-//
-//        //membuat angka terdapat format rupiah dan terdapat titik
-//        txt_keteranganBonus.setText(nf.format(bonus));
-//        txt_keteranganMinus.setText(nf.format(minus));
-//        txt_gaji.setText(nf.format(gaji));
-//        totalGaji.setText("Rp. "+nf.format(gajiBersih));
-        //menginisialkan id_pengeluran
-        id_pengeluaran = Integer.valueOf(tbl.getValueAt(i, 1).toString());
-
-        // Paste data yang telah diambil
-//        txt_nama.setText(field2);
-//        txt_nama.disable();
-//        cb_minus.setSelectedItem(field4);
-//        cb_bonus.setSelectedItem(field6);
-        txt_gaji.disable();
-        txt_gaji.setText(field3);
-
-        getTabel2();
-    }//GEN-LAST:event_tabelMouseClicked
-
-    private void qtyMinusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyMinusKeyReleased
-        // TODO add your handling code here:
-        totalGaji();
-    }//GEN-LAST:event_qtyMinusKeyReleased
-
-    private void txt_nikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nikKeyPressed
-        // TODO add your handling code here:
-        //menginisialkan nik dari textfield
-//        String nik = txt_nik.getText();
-//
-//        try {
-//            //mencari data dari tabel pegawai yang dipilih dari nik yang berada pada textField
-//            String sql = "select * from pegawai where nik like '%" + nik + "%' limit 1";
-//            Connection conn = (Connection) Workshop_project.foderoDB();
-//            Statement stm = conn.createStatement();
-//            ResultSet res = stm.executeQuery(sql);
-//
-//            if (res.next()) {
-//                //data yang diambil hanya nama dan gaji
-////                txt_nama.setText(res.getString("nama_pegawai"));
-//                txt_gaji.setText(res.getString("gaji_pegawai"));
-//
-//            }
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, e.getMessage());
-//        }
-//        //memanggil method aritmatika gaji bersih(gaji pokok + bonus - minus)
-//        totalGaji();
-    }//GEN-LAST:event_txt_nikKeyPressed
-
-    private void txt_nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nikActionPerformed
-
-    }//GEN-LAST:event_txt_nikActionPerformed
-
-    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-            btn_hapus1.setEnabled(true);
-
-
-
-    }//GEN-LAST:event_btn_editActionPerformed
-
-    private void txt_keteranganMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_keteranganMinusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_keteranganMinusActionPerformed
-
-    private void tabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel1MouseClicked
-        // TODO add your handling code here:
-        row_tabel1 = tabel1.getSelectedRow();
-        TableModel tbl = tabel1.getModel();
-        int i = tabel1.getSelectedRow();
-        int subTotal = 0;
-        int jumlah = 0;
-        
-        if (id_pengeluaran != 0) {
-            if (tbl.getValueAt(i, 4) == "Bonus") {
-                String getNominal = "select qty, nominal_bonus from gaji join mst_bonus on mst_bonus.id_bonus = gaji.id_bonus where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + tbl.getValueAt(i, 0) + "";
-                try {
-                    Statement stmt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rst = stmt.executeQuery(getNominal);
-                    if (rst.next()) {
-                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Statement stmnt = (Statement) util.foderoDB().createStatement();
-                            ResultSet rslt = stmnt.executeQuery(getTotal);
-                            if (rslt.next()) {
-                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                            }
-                        } catch(Exception ex){
-                            
-                        }
-                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
-                        System.out.println(t);
-                        JOptionPane.showMessageDialog(rootPane, t);
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
-                        try{
-                            Utils.execQuery(updateGaji);
-                        } catch(Exception ex){
-                            
-                        }
-                    }
-                } catch(Exception e){
-                    
-                }
-                
-                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                try{
-//                    Utils.execQuery(queryHapus);
-                } catch(Exception e){
-                    
-                }
-            } else {
-                String getNominal = "select qty, nominal_minus from gaji join mst_minus on mst_minus.id_minus = gaji.id_minus where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + tbl.getValueAt(i, 0) + "";
-                try {
-                    Statement stmt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rst = stmt.executeQuery(getNominal);
-                    if (rst.next()) {
-                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Statement stmnt = (Statement) util.foderoDB().createStatement();
-                            ResultSet rslt = stmnt.executeQuery(getTotal);
-                            if (rslt.next()) {
-                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                            }
-                        } catch(Exception ex){
-                            
-                        }
-                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
-                        JOptionPane.showMessageDialog(rootPane, t);
-                        
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
-                        try{
-                            Utils.execQuery(updateGaji);
-                        } catch(Exception ex){
-                            
-                        }
-                    }
-                } catch(Exception e){
-                    
-                }
-                
-                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                try{
-//                    Utils.execQuery(queryHapus);
-                    
-                } catch(Exception e){
-                    
-                }
-            }
-        }
-
-
-        String field1 = tbl.getValueAt(i, 1).toString();
-        String field2 = tbl.getValueAt(i, 2).toString();
-
-        if (tbl.getValueAt(i, 4) == "Bonus") {
-            cb_bonus.setSelectedItem(field1);
-            qtyBonus.setText(field2);
-        } else {
-            cb_minus.setSelectedItem(field1);
-            qtyMinus.setText(field2);
-        }
-
-    }//GEN-LAST:event_tabel1MouseClicked
-
-    private void btn_clear2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clear2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_clear2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        int id = 0;
-        try {
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            String sql2 = "select * from mst_minus where nama_minus = '" + cb_minus.getSelectedItem() + "'";
-            Statement stm2 = conn.createStatement();
-            ResultSet res = stm2.executeQuery(sql2);
-            res.next();
-            id = res.getInt("id_minus");
-            int nominal = res.getInt("nominal_minus");
-            nominal_minus = nominal * Integer.valueOf(qtyMinus.getText().toString());
-            System.out.println(id);
-            modelMinus.addRow(new Object[]{
-                res.getString("id_minus"),
-                cb_minus.getSelectedItem(),
-                qtyMinus.getText(),
-                res.getInt("nominal_minus") * Integer.valueOf(qtyMinus.getText()),
-                "Minus"
-            });
-            tabel1.setModel(modelMinus);
-            totalGaji();
-        } catch (SQLException ex) {
-            try {
-                throw ex;
-            } catch (SQLException ex1) {
-                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int id = 0;
-        try {
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            String sql2 = "select * from mst_bonus where nama_bonus = '" + cb_bonus.getSelectedItem() + "'";
-            Statement stm2 = conn.createStatement();
-            ResultSet res = stm2.executeQuery(sql2);
-            res.next();
-            id = res.getInt("id_bonus");
-            int nominal = res.getInt("nominal_bonus");
-            nominal_bonus = nominal * Integer.valueOf(qtyBonus.getText().toString());
-            System.out.println(id);
-            modelMinus.addRow(new Object[]{
-                res.getString("id_bonus"),
-                cb_bonus.getSelectedItem(),
-                qtyBonus.getText(),
-                res.getInt("nominal_bonus") * Integer.valueOf(qtyBonus.getText()),
-                "Bonus"
-            });
-            tabel1.setModel(modelMinus);
-            totalGaji();
-        } catch (SQLException ex) {
-            try {
-                throw ex;
-            } catch (SQLException ex1) {
-                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void btn_hapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapus1ActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel dt = (DefaultTableModel) tabel1.getModel();
-        int nominal_tabel = Integer.valueOf(dt.getValueAt(row_tabel1, 3).toString());
-        
-        row_tabel1 = tabel1.getSelectedRow();
-        TableModel tbl = tabel1.getModel();
-        int i = tabel1.getSelectedRow();
-        int subTotal = 0;
-        int jumlah = 0;
-        
-        if (id_pengeluaran != 0) {
-            if (tbl.getValueAt(i, 4) == "Bonus") {
-                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                try {
-                    Statement stmnt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rslt = stmnt.executeQuery(getTotal);
-                    if (rslt.next()) {
-                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
-                        System.out.println(t);
-//                        JOptionPane.showMessageDialog(rootPane, t);
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
-                        try{
-                            Utils.execQuery(updateGaji);
-
-                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                            try{
-                                Utils.execQuery(queryHapus);
-                                tabel();
-                            } catch(Exception e){
-                                JOptionPane.showMessageDialog(rootPane, "1" + e);
-                            }
-                        } catch(Exception ex){
-                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
-                        }
-                    }
-                } catch(Exception ex){
-                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
-                }
-            } else {
-                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                try {
-                    Statement stmnt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rslt = stmnt.executeQuery(getTotal);
-                    if (rslt.next()) {
-                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
-//                        JOptionPane.showMessageDialog(rootPane, t);
-
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
-                        try{
-                            Utils.execQuery(updateGaji);
-
-                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                            try{
-                                Utils.execQuery(queryHapus);
-                                tabel();
-                            } catch(Exception e){
-                                JOptionPane.showMessageDialog(rootPane, "1" + e);
-                            }
-                        } catch(Exception ex){
-                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
-                        }
-                    }
-                } catch(Exception ex){
-                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
-                }
-            }
-        }
-        if (dt.getValueAt(row_tabel1, 4) == "Bonus") {
-            nominal_bonus -= nominal_tabel;
-            totalGaji();
-        } else {
-            nominal_minus -= nominal_tabel;
-            totalGaji();
-        }
-        btn_hapus1.setEnabled(false);
-        dt.removeRow(row_tabel1);
-//        tabel1.setModel(dt);
-    }//GEN-LAST:event_btn_hapus1ActionPerformed
 
     private void m_dashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_dashboardMouseClicked
         try {
@@ -1448,9 +1005,13 @@ public class PembayaranGaji extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_m_logoutMouseClicked
 
+    private void cb_namaPGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_namaPGKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_namaPGKeyPressed
+
     private void cb_namaPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_namaPGActionPerformed
         // TODO add your handling code here:
-         try {
+        try {
             //menginisialkan minus dari comboBox
             String nama = String.valueOf(cb_namaPG.getSelectedItem());
             //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
@@ -1462,8 +1023,10 @@ public class PembayaranGaji extends javax.swing.JFrame {
             //yang dipanggil hanya nominal minus saja
             if (res.next()) {
                 txt_gaji.setText(res.getString("gaji_Pegawai"));
+                txt_nik.setText(res.getString("nik"));
             }
             txt_gaji.disable();
+            txt_nik.disable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -1471,9 +1034,465 @@ public class PembayaranGaji extends javax.swing.JFrame {
         totalGaji();
     }//GEN-LAST:event_cb_namaPGActionPerformed
 
-    private void cb_namaPGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_namaPGKeyPressed
+    private void btn_hapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapus1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cb_namaPGKeyPressed
+        DefaultTableModel dt = (DefaultTableModel) tabel1.getModel();
+        int nominal_tabel = Integer.valueOf(dt.getValueAt(row_tabel1, 3).toString());
+
+        row_tabel1 = tabel1.getSelectedRow();
+        TableModel tbl = tabel1.getModel();
+        int i = tabel1.getSelectedRow();
+        int subTotal = 0;
+        int jumlah = 0;
+
+        if (id_pengeluaran != 0) {
+            if (tbl.getValueAt(i, 4) == "Bonus") {
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        System.out.println(t);
+                        //                        JOptionPane.showMessageDialog(rootPane, t);
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Utils.execQuery(updateGaji);
+
+                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                            try {
+                                Utils.execQuery(queryHapus);
+                                tabel();
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(rootPane, "1" + e);
+                            }
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                }
+            } else {
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        //                        JOptionPane.showMessageDialog(rootPane, t);
+
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Utils.execQuery(updateGaji);
+
+                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                            try {
+                                Utils.execQuery(queryHapus);
+                                tabel();
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(rootPane, "1" + e);
+                            }
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                }
+            }
+        }
+        if (dt.getValueAt(row_tabel1, 4) == "Bonus") {
+            nominal_bonus -= nominal_tabel;
+            totalGaji();
+        } else {
+            nominal_minus -= nominal_tabel;
+            totalGaji();
+        }
+        btn_hapus1.setEnabled(false);
+        dt.removeRow(row_tabel1);
+        //        tabel1.setModel(dt);
+    }//GEN-LAST:event_btn_hapus1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int id = 0;
+        try {
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            String sql2 = "select * from mst_minus where nama_minus = '" + cb_minus.getSelectedItem() + "'";
+            Statement stm2 = conn.createStatement();
+            ResultSet res = stm2.executeQuery(sql2);
+            res.next();
+            id = res.getInt("id_minus");
+            int nominal = res.getInt("nominal_minus");
+            nominal_minus = nominal * Integer.valueOf(qtyMinus.getText().toString());
+            System.out.println(id);
+            modelMinus.addRow(new Object[]{
+                res.getString("id_minus"),
+                cb_minus.getSelectedItem(),
+                qtyMinus.getText(),
+                res.getInt("nominal_minus") * Integer.valueOf(qtyMinus.getText()),
+                "Minus"
+            });
+            tabel1.setModel(modelMinus);
+            totalGaji();
+        } catch (SQLException ex) {
+            try {
+                throw ex;
+            } catch (SQLException ex1) {
+                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel1MouseClicked
+        // TODO add your handling code here:
+        row_tabel1 = tabel1.getSelectedRow();
+        TableModel tbl = tabel1.getModel();
+        int i = tabel1.getSelectedRow();
+        int subTotal = 0;
+        int jumlah = 0;
+
+        if (id_pengeluaran != 0) {
+            if (tbl.getValueAt(i, 4) == "Bonus") {
+                String getNominal = "select qty, nominal_bonus from gaji join mst_bonus on mst_bonus.id_bonus = gaji.id_bonus where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + tbl.getValueAt(i, 0) + "";
+                try {
+                    Statement stmt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rst = stmt.executeQuery(getNominal);
+                    if (rst.next()) {
+                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Statement stmnt = (Statement) util.foderoDB().createStatement();
+                            ResultSet rslt = stmnt.executeQuery(getTotal);
+                            if (rslt.next()) {
+                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                            }
+                        } catch (Exception ex) {
+
+                        }
+                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        System.out.println(t);
+                        JOptionPane.showMessageDialog(rootPane, t);
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Utils.execQuery(updateGaji);
+                        } catch (Exception ex) {
+
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+
+                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                try {
+                    //                    Utils.execQuery(queryHapus);
+                } catch (Exception e) {
+
+                }
+            } else {
+                String getNominal = "select qty, nominal_minus from gaji join mst_minus on mst_minus.id_minus = gaji.id_minus where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + tbl.getValueAt(i, 0) + "";
+                try {
+                    Statement stmt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rst = stmt.executeQuery(getNominal);
+                    if (rst.next()) {
+                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Statement stmnt = (Statement) util.foderoDB().createStatement();
+                            ResultSet rslt = stmnt.executeQuery(getTotal);
+                            if (rslt.next()) {
+                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                            }
+                        } catch (Exception ex) {
+
+                        }
+                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        JOptionPane.showMessageDialog(rootPane, t);
+
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Utils.execQuery(updateGaji);
+                        } catch (Exception ex) {
+
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+
+                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                try {
+                    //                    Utils.execQuery(queryHapus);
+
+                } catch (Exception e) {
+
+                }
+            }
+        }
+
+        String field1 = tbl.getValueAt(i, 1).toString();
+        String field2 = tbl.getValueAt(i, 2).toString();
+
+        if (tbl.getValueAt(i, 4) == "Bonus") {
+            cb_bonus.setSelectedItem(field1);
+            qtyBonus.setText(field2);
+        } else {
+            cb_minus.setSelectedItem(field1);
+            qtyMinus.setText(field2);
+        }
+    }//GEN-LAST:event_tabel1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int id = 0;
+        try {
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            String sql2 = "select * from mst_bonus where nama_bonus = '" + cb_bonus.getSelectedItem() + "'";
+            Statement stm2 = conn.createStatement();
+            ResultSet res = stm2.executeQuery(sql2);
+            res.next();
+            id = res.getInt("id_bonus");
+            int nominal = res.getInt("nominal_bonus");
+            nominal_bonus = nominal * Integer.valueOf(qtyBonus.getText().toString());
+            System.out.println(id);
+            modelMinus.addRow(new Object[]{
+                res.getString("id_bonus"),
+                cb_bonus.getSelectedItem(),
+                qtyBonus.getText(),
+                res.getInt("nominal_bonus") * Integer.valueOf(qtyBonus.getText()),
+                "Bonus"
+            });
+            tabel1.setModel(modelMinus);
+            totalGaji();
+        } catch (SQLException ex) {
+            try {
+                throw ex;
+            } catch (SQLException ex1) {
+                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void qtyBonusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyBonusKeyReleased
+        // TODO add your handling code here:
+        totalGaji();
+    }//GEN-LAST:event_qtyBonusKeyReleased
+
+    private void qtyMinusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyMinusKeyReleased
+        // TODO add your handling code here:
+        totalGaji();
+    }//GEN-LAST:event_qtyMinusKeyReleased
+
+    private void txt_keteranganMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_keteranganMinusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_keteranganMinusActionPerformed
+
+    private void cb_bonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_bonusActionPerformed
+
+    }//GEN-LAST:event_cb_bonusActionPerformed
+
+    private void cb_bonusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_bonusItemStateChanged
+        try {
+            //menginisialkan bonus pada tabel comboBox
+            String nama = String.valueOf(cb_bonus.getSelectedItem());
+            //menceri data pada tabel master minus yang dipilih dari nama_minus yang berada pada comboBox
+            String sql = "select * from mst_bonus WHERE nama_bonus = '" + nama + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            if (res.next()) {
+                txt_keteranganBonus.setText(res.getString("nominal_bonus"));
+            }
+            txt_keteranganBonus.disable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
+        totalGaji();
+    }//GEN-LAST:event_cb_bonusItemStateChanged
+
+    private void cb_minusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_minusKeyPressed
+
+    }//GEN-LAST:event_cb_minusKeyPressed
+
+    private void cb_minusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_minusActionPerformed
+        try {
+            //menginisialkan minus dari comboBox
+            String minus = String.valueOf(cb_minus.getSelectedItem());
+            //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
+            String sql = "select * from mst_minus WHERE nama_minus = '" + minus + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            //yang dipanggil hanya nominal minus saja
+            if (res.next()) {
+                txt_keteranganMinus.setText(res.getString("nominal_minus"));
+            }
+            txt_keteranganMinus.disable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
+        totalGaji();
+    }//GEN-LAST:event_cb_minusActionPerformed
+
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+        kosong();
+    }//GEN-LAST:event_btn_clearActionPerformed
+
+    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
+        // TODO add your handling code here:
+
+        int i = tabel.getSelectedRow();
+        TableModel tbl = tabel.getModel();
+        // Mengambil value dari table
+
+        String field1 = tbl.getValueAt(i, 1).toString();
+        String field2 = tbl.getValueAt(i, 2).toString();
+        String field3 = tbl.getValueAt(i, 3).toString();
+
+        //membuat aritmatika untuk gaji bersih
+        //        int bonus = Integer.parseInt(field5);
+        //        int minus = Integer.parseInt(field3);
+        //        int gaji = Integer.parseInt(field7);
+        //        int gajiBersih = gaji + bonus - minus;
+        //
+        //        //membuat angka terdapat format rupiah dan terdapat titik
+        //        txt_keteranganBonus.setText(nf.format(bonus));
+        //        txt_keteranganMinus.setText(nf.format(minus));
+        //        txt_gaji.setText(nf.format(gaji));
+        //        totalGaji.setText("Rp. "+nf.format(gajiBersih));
+        //menginisialkan id_pengeluran
+        id_pengeluaran = Integer.valueOf(tbl.getValueAt(i, 1).toString());
+
+        // Paste data yang telah diambil
+        //        txt_nama.setText(field2);
+        //        txt_nama.disable();
+        //        cb_minus.setSelectedItem(field4);
+        //        cb_bonus.setSelectedItem(field6);
+        txt_gaji.disable();
+        txt_gaji.setText(field3);
+
+        getTabel2();
+    }//GEN-LAST:event_tabelMouseClicked
+
+    private void btn_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bayarActionPerformed
+        // TODO add your handling code here:
+        int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Membayar", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (opt == JOptionPane.YES_OPTION){
+        try {
+            JOptionPane.showMessageDialog(null, "berhasil di bayar");
+            String sql1 = "insert into pengeluaran (nik, keterangan_pengeluaran, jenis_pengeluaran, jumlah_pengeluaran, tanggal_pengeluaran) values('"
+                    + txt_nik.getText() + "', 'pengeluaran gaji', 'gaji', " + gajiBersih + ", now())";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            PreparedStatement pst1 = conn.prepareStatement(sql1);
+            pst1.execute();
+
+            String sql2 = "select * from pengeluaran order by id_pengeluaran desc limit 1";
+            Statement stm2 = conn.createStatement();
+            ResultSet res = stm2.executeQuery(sql2);
+            res.next();
+            id_pengeluaran = res.getInt("id_pengeluaran");
+
+            DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
+            for (int x = 0; x < tabel1.getRowCount(); x++) {
+                String queryGaji = "";
+                if (tbl.getValueAt(x, 4) == "Bonus") {
+                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", " + tbl.getValueAt(x, 0) + ", null, " + tbl.getValueAt(x, 2) + ")";
+                } else if (tbl.getValueAt(x, 4) == "Minus") {
+                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", null, " + tbl.getValueAt(x, 0) + ", " + tbl.getValueAt(x, 2) + ")";
+                }
+                try {
+                    PreparedStatement pst = conn.prepareStatement(queryGaji);
+                    pst.execute();
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "query 2" + ex.getMessage());
+                }
+                try {
+                    saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+                } catch (SQLException e) {
+                    throw e;
+                }
+            }
+
+            // memanggil ulang table
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "query 1" + e.getMessage());
+        }
+        tabel();
+        getTabel2();
+            }
+    }//GEN-LAST:event_btn_bayarActionPerformed
+
+    private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
+        // TODO add your handling code here:
+        int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Menghapus", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (opt == JOptionPane.YES_OPTION){
+        try {
+
+            String sql = "DELETE  gaji, pengeluaran FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and gaji.id_pengeluaran = '" + id_pengeluaran + "'";
+            String sql2 = "DELETE pengeluaran, gaji FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and pengeluaran.id_pengeluaran = '" + id_pengeluaran + "'";
+
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
+            pst.execute();
+            pst2.execute();
+
+            JOptionPane.showMessageDialog(this, "berhasil di hapus");
+            tabel();
+            getTabel2();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        try{
+            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
+        } catch(SQLException e){
+            try {
+                throw e;
+            } catch (SQLException ex) {
+                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        kosong();
+            }
+    }//GEN-LAST:event_btn_hapusActionPerformed
+
+    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
+        btn_hapus1.setEnabled(true);
+
+    }//GEN-LAST:event_btn_editActionPerformed
+
+    private void txt_nikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nikKeyPressed
+        // TODO add your handling code here:
+        //menginisialkan nik dari textfield
+        //        String nik = txt_nik.getText();
+        //
+        //        try {
+        //            //mencari data dari tabel pegawai yang dipilih dari nik yang berada pada textField
+        //            String sql = "select * from pegawai where nik like '%" + nik + "%' limit 1";
+        //            Connection conn = (Connection) Workshop_project.foderoDB();
+        //            Statement stm = conn.createStatement();
+        //            ResultSet res = stm.executeQuery(sql);
+        //
+        //            if (res.next()) {
+        //                //data yang diambil hanya nama dan gaji
+        ////                txt_nama.setText(res.getString("nama_pegawai"));
+        //                txt_gaji.setText(res.getString("gaji_pegawai"));
+        //
+        //            }
+        //        } catch (Exception e) {
+        //            JOptionPane.showMessageDialog(this, e.getMessage());
+        //        }
+        //        //memanggil method aritmatika gaji bersih(gaji pokok + bonus - minus)
+        //        totalGaji();
+    }//GEN-LAST:event_txt_nikKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1517,7 +1536,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_bayar;
     private javax.swing.JButton btn_clear;
-    private javax.swing.JButton btn_clear2;
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_hapus1;

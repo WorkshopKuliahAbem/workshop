@@ -234,7 +234,7 @@ public class master_pegawai extends javax.swing.JFrame {
 
         m_pegawai.setBackground(new java.awt.Color(167, 191, 191));
         m_pegawai.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        m_pegawai.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_pegawai.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 51));
         jLabel3.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
@@ -424,6 +424,7 @@ public class master_pegawai extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tabel);
 
         cari_data.setBackground(new java.awt.Color(255, 255, 255));
+        cari_data.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         cari_data.setForeground(new java.awt.Color(114, 114, 114));
         cari_data.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -433,6 +434,7 @@ public class master_pegawai extends javax.swing.JFrame {
 
         btn_simpan.setBackground(new java.awt.Color(255, 153, 50));
         btn_simpan.setText("Simpan");
+        btn_simpan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_simpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_simpanActionPerformed(evt);
@@ -441,6 +443,7 @@ public class master_pegawai extends javax.swing.JFrame {
 
         btn_hapus.setBackground(new java.awt.Color(255, 16, 12));
         btn_hapus.setText("Hapus");
+        btn_hapus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_hapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_hapusActionPerformed(evt);
@@ -449,6 +452,7 @@ public class master_pegawai extends javax.swing.JFrame {
 
         btn_edit.setBackground(new java.awt.Color(90, 90, 90));
         btn_edit.setText("Edit");
+        btn_edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_editActionPerformed(evt);
@@ -457,6 +461,7 @@ public class master_pegawai extends javax.swing.JFrame {
 
         btn_clear.setBackground(new java.awt.Color(90, 90, 90));
         btn_clear.setText("Clear");
+        btn_clear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_clearActionPerformed(evt);

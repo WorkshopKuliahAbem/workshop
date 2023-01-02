@@ -369,7 +369,7 @@ public class LaporanForm extends javax.swing.JFrame {
 
         m_laporan.setBackground(new java.awt.Color(167, 191, 192));
         m_laporan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        m_laporan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_laporan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel17.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(114, 114, 114));
@@ -439,6 +439,7 @@ public class LaporanForm extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(255, 149, 51));
         jButton2.setText("Export Data");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -494,6 +495,7 @@ public class LaporanForm extends javax.swing.JFrame {
         jScrollPane1.setBounds(20, 140, 540, 180);
 
         jButton1.setText("Tampilkan Data");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -610,7 +612,7 @@ public class LaporanForm extends javax.swing.JFrame {
 
         nik.setText("jLabel7");
         getContentPane().add(nik);
-        nik.setBounds(510, 100, 37, 16);
+        nik.setBounds(510, 100, 39, 16);
 
         pack();
         setLocationRelativeTo(null);

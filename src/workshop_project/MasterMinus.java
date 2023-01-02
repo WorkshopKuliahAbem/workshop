@@ -173,7 +173,7 @@ public class MasterMinus extends javax.swing.JFrame {
         getContentPane().add(saldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 160, 20));
 
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setFont(new java.awt.Font("Montserrat", 0, 8)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -213,6 +213,7 @@ public class MasterMinus extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(90, 90, 90));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Edit");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -223,6 +224,7 @@ public class MasterMinus extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(1, 102, 125));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Tambah");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -233,6 +235,7 @@ public class MasterMinus extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(254, 17, 23));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Hapus");
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -243,6 +246,7 @@ public class MasterMinus extends javax.swing.JFrame {
         jButton4.setBackground(new java.awt.Color(255, 149, 51));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Simpan");
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -257,6 +261,7 @@ public class MasterMinus extends javax.swing.JFrame {
         jButton5.setBackground(new java.awt.Color(90, 90, 90));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Clear");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -634,7 +639,7 @@ public class MasterMinus extends javax.swing.JFrame {
 
         m_minus.setBackground(new java.awt.Color(167, 191, 192));
         m_minus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        m_minus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_minus.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel12.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(114, 114, 114));

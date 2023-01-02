@@ -28,6 +28,7 @@ public class PendapatanForm extends javax.swing.JFrame {
         initComponents();
         foderoDB();
         btn_edit.setEnabled(false);
+        field_id.setEnabled(false);
         name.setText(util.nama);
         nik.setText(util.nik);
         tanggal.setText(getDate());
@@ -47,9 +48,19 @@ public class PendapatanForm extends javax.swing.JFrame {
         }
         return true;
     }
+
+    //validasi tombol hapus
+    boolean val_delete() {
+        if (field_id.getText().length() < 1) {
+            JOptionPane.showMessageDialog(null, "Pilih salah satu data terlebih dahulu!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     // load data ke tabel
+
     void loadData(String query) {
-            String sql = "select * from pendapatan "
+        String sql = "select * from pendapatan "
                 + "join pegawai on pegawai.nik = pendapatan.nik " + query;
         Statement stm;
         int i = 1;
@@ -77,14 +88,16 @@ public class PendapatanForm extends javax.swing.JFrame {
             Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     // clear text
-    void clear_text(){
+    void clear_text() {
         field_keterangan.setText("");
         field_jumlah.setText("");
+        field_id.setText("");
         btn_simpan.setEnabled(true);
         btn_edit.setEnabled(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,8 +142,10 @@ public class PendapatanForm extends javax.swing.JFrame {
         cari_data = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        field_id = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -385,9 +400,9 @@ public class PendapatanForm extends javax.swing.JFrame {
 
         getContentPane().add(m_pengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 170, 30));
 
-        m_pendapatan.setBackground(new java.awt.Color(244, 244, 244));
+        m_pendapatan.setBackground(new java.awt.Color(167, 191, 191));
         m_pendapatan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        m_pendapatan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_pendapatan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel8.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(114, 114, 114));
@@ -518,6 +533,7 @@ public class PendapatanForm extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 278, 530, 180));
 
         btn_edit.setText("Edit");
+        btn_edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_editActionPerformed(evt);
@@ -526,6 +542,7 @@ public class PendapatanForm extends javax.swing.JFrame {
         getContentPane().add(btn_edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 460, 70, -1));
 
         btn_clear.setText("Clear");
+        btn_clear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_clearActionPerformed(evt);
@@ -535,6 +552,7 @@ public class PendapatanForm extends javax.swing.JFrame {
 
         btn_hapus.setBackground(new java.awt.Color(255, 16, 12));
         btn_hapus.setText("Hapus");
+        btn_hapus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_hapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_hapusActionPerformed(evt);
@@ -544,6 +562,7 @@ public class PendapatanForm extends javax.swing.JFrame {
 
         btn_simpan.setBackground(new java.awt.Color(255, 153, 50));
         btn_simpan.setText("Simpan");
+        btn_simpan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_simpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_simpanActionPerformed(evt);
@@ -552,12 +571,13 @@ public class PendapatanForm extends javax.swing.JFrame {
         getContentPane().add(btn_simpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 460, 70, -1));
 
         cari_data.setBackground(new java.awt.Color(255, 255, 255));
+        cari_data.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         cari_data.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cari_dataKeyReleased(evt);
             }
         });
-        getContentPane().add(cari_data, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 240, 230, 30));
+        getContentPane().add(cari_data, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, 140, 20));
 
         jLabel11.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(114, 114, 114));
@@ -569,22 +589,44 @@ public class PendapatanForm extends javax.swing.JFrame {
         jLabel12.setText("Jumlah Pendapatan :");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 170, -1, -1));
 
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel13.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(114, 114, 114));
         jLabel13.setText("Cari Tanggal :");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, -1, -1));
 
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        field_id.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel14.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(114, 114, 114));
+        jLabel14.setText("ID Pendapatan :");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(field_id, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
+                        .addComponent(jLabel13)
+                        .addGap(156, 156, 156))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 340, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(field_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 560, 340));
@@ -758,27 +800,84 @@ public class PendapatanForm extends javax.swing.JFrame {
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
         // TODO add your handling code here:
-        if(val_simpan())
-        try {
-            String sql = "INSERT INTO pendapatan VALUES(null, '" + field_keterangan.getText() + "', " + field_jumlah.getText() + ", now() , '"+ util.nik +"')";
-            System.out.println(sql);
-            java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
-            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+        if (val_simpan()) {
+            try {
+                String sql = "INSERT INTO pendapatan VALUES(null, '" + field_keterangan.getText() + "', " + field_jumlah.getText() + ", now() , '" + util.nik + "')";
+                java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+            }
+            try {
+                saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+            } catch (SQLException e) {
+                try {
+                    throw e;
+                } catch (SQLException ex) {
+                    Logger.getLogger(PendapatanForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            loadData("");
         }
-        loadData("");
-
     }//GEN-LAST:event_btn_simpanActionPerformed
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
         // TODO add your handling code here:
+        int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Mengedit Data ?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
+            try {
+                String sql = "UPDATE pendapatan SET keterangan_pemasukan = '" + field_keterangan.getText()
+                        + "', jumlah_pendapatan = '" + field_jumlah.getText() + "'WHERE id_pendapatan = '" + field_id.getText() + "'";
+                java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Data berhasil diedit");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Perubahan data gagal" + e.getMessage());
+            }
+            try {
+                saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+            } catch (SQLException e) {
+                try {
+                    throw e;
+                } catch (SQLException ex) {
+                    Logger.getLogger(PendapatanForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            loadData("");
+            clear_text();
+        }
     }//GEN-LAST:event_btn_editActionPerformed
 
     private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
         // TODO add your handling code here:
+        if (val_delete()) {
+            int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Menghapus", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (opt == JOptionPane.YES_OPTION) {
+                try {
+                    String sql = "DELETE FROM pendapatan where id_pendapatan='" + field_id.getText() + "'";
+                    java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
+                    java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.execute();
+                    JOptionPane.showMessageDialog(this, "berhasil di hapus");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                }
+                try {
+                    saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+                } catch (SQLException e) {
+                    try {
+                        throw e;
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PendapatanForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                loadData("");
+                clear_text();
+            }
+        }
     }//GEN-LAST:event_btn_hapusActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
@@ -791,11 +890,15 @@ public class PendapatanForm extends javax.swing.JFrame {
         int i = tabel.getSelectedRow();
         TableModel tbl = tabel.getModel();
         // Mengambil value dari table
+        String field0 = tbl.getValueAt(i, 0).toString();
         String field1 = tbl.getValueAt(i, 1).toString();
         String field2 = tbl.getValueAt(i, 2).toString();
+
         // Paste data yang telah diambil
+        field_id.setText(field0);
         field_keterangan.setText(field1);
         field_jumlah.setText(field2);
+
         // button
         btn_edit.setEnabled(true);
         btn_simpan.setEnabled(false);
@@ -803,9 +906,9 @@ public class PendapatanForm extends javax.swing.JFrame {
 
     private void cari_dataKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cari_dataKeyReleased
         // TODO add your handling code here:
-        if(cari_data.getText().length() > 0){
-            loadData("where DAY(tanggal_pemasukan) = '"+ cari_data.getText() +"'");
-        }else{
+        if (cari_data.getText().length() > 0) {
+            loadData("where DAY(tanggal_pemasukan) = '" + cari_data.getText() + "'");
+        } else {
             loadData("");
         }
     }//GEN-LAST:event_cari_dataKeyReleased
@@ -855,6 +958,7 @@ public class PendapatanForm extends javax.swing.JFrame {
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_simpan;
     private javax.swing.JTextField cari_data;
+    private javax.swing.JTextField field_id;
     private javax.swing.JTextField field_jumlah;
     private javax.swing.JTextField field_keterangan;
     private javax.swing.JLabel jLabel1;
@@ -862,6 +966,7 @@ public class PendapatanForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

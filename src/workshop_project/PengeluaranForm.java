@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
 import static workshop_project.master_pegawai.getDate;
 
@@ -246,6 +247,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(1, 102, 125));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Tambah");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -257,6 +259,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(90, 90, 90));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Edit");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -268,6 +271,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(254, 17, 23));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Hapus");
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -279,6 +283,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jButton4.setBackground(new java.awt.Color(255, 153, 50));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Simpan");
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -287,9 +292,10 @@ public class PengeluaranForm extends javax.swing.JFrame {
         getContentPane().add(jButton4);
         jButton4.setBounds(690, 460, 70, 30);
 
-        jButton5.setBackground(new java.awt.Color(255, 153, 50));
+        jButton5.setBackground(new java.awt.Color(90, 90, 90));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Clear");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -299,7 +305,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jButton5.setBounds(450, 460, 70, 30);
 
         jTextField4.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField4.setFont(new java.awt.Font("Montserrat", 0, 8)); // NOI18N
+        jTextField4.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
@@ -311,7 +317,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField4);
-        jTextField4.setBounds(600, 260, 160, 22);
+        jTextField4.setBounds(600, 260, 160, 25);
 
         jLabel5.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(114, 114, 114));
@@ -503,7 +509,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
 
         m_pengeluaran.setBackground(new java.awt.Color(167, 191, 191));
         m_pengeluaran.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        m_pengeluaran.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        m_pengeluaran.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel12.setFont(new java.awt.Font("Montserrat SemiBold", 0, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(114, 114, 114));
@@ -757,9 +763,18 @@ public class PengeluaranForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
         cond = 2;
         en();
+        try{
+            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
+        } catch(SQLException e){
+            try {
+                throw e;
+            } catch (SQLException ex) {
+                Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -780,8 +795,16 @@ public class PengeluaranForm extends javax.swing.JFrame {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
+                try {
+                    saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+                } catch (SQLException e) {
+                    try {
+                        throw e;
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } else {
-
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -792,7 +815,7 @@ public class PengeluaranForm extends javax.swing.JFrame {
         if (cond == 1) {
             if (val()) {
                 try {
-                    String sql = "insert into pengeluaran values(null, '" + util.nik+  "', '" + jTextField1.getText() + "', '" + tipe + "', " + Integer.valueOf(jTextField2.getText().toString()) + ", now())";
+                    String sql = "insert into pengeluaran values(null, '" + util.nik + "', '" + jTextField1.getText() + "', '" + tipe + "', " + Integer.valueOf(jTextField2.getText().toString()) + ", now())";
                     Utils.execQuery(sql);
 
                     clear();
@@ -819,6 +842,15 @@ public class PengeluaranForm extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Berhasil mengupdate data!", "Berhasil", JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+                    }
+                    try {
+                        saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+                    } catch (SQLException e) {
+                        try {
+                            throw e;
+                        } catch (SQLException ex) {
+                            Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }
@@ -858,6 +890,12 @@ public class PengeluaranForm extends javax.swing.JFrame {
             jRadioButton2.setSelected(true);
             jRadioButton1.setSelected(false);
         }
+        jButton2.setEnabled(false);
+        jButton5.setEnabled(true);
+        jTextField1.setEnabled(true);
+        jTextField2.setEnabled(true);
+        
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
