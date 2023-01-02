@@ -213,6 +213,11 @@ public class PengeluaranForm extends javax.swing.JFrame {
         jLabel2.setBounds(530, 160, 60, 15);
 
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
         getContentPane().add(jTextField2);
         jTextField2.setBounds(530, 180, 230, 30);
 
@@ -825,6 +830,15 @@ public class PengeluaranForm extends javax.swing.JFrame {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
+                try {
+                    saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+                } catch (SQLException e) {
+                    try {
+                        throw e;
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PengeluaranForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         } else if (cond == 2) {
             if (val()) {
@@ -854,6 +868,10 @@ public class PengeluaranForm extends javax.swing.JFrame {
                     }
                 }
             }
+        }
+        try {
+        } catch(Exception e){
+            
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -1034,6 +1052,14 @@ public class PengeluaranForm extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_m_pendapatanMouseClicked
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField2KeyTyped
 
     /**
      * @param args the command line arguments

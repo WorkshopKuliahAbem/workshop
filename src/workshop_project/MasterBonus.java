@@ -219,6 +219,16 @@ public class MasterBonus extends javax.swing.JFrame {
 
         jTextField3.setBackground(new java.awt.Color(255, 255, 255));
         jTextField3.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField3KeyTyped(evt);
+            }
+        });
         getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 180, 240, 30));
 
         jPanel4.setBackground(new java.awt.Color(239, 245, 245));
@@ -850,6 +860,18 @@ public class MasterBonus extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_m_pendapatanMouseClicked
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField3KeyTyped
 
     /**
      * @param args the command line arguments

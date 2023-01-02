@@ -86,4 +86,15 @@ public class Utils {
             throw e;
         }
     }
+    
+    public static String rupiah(String num){
+        double a = Double.valueOf(String.valueOf(num));
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+        //merubah mendari 10.000.000.000
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
+
+        return String.valueOf(nf.format(a));
+    }
 }

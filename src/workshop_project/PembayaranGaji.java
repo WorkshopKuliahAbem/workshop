@@ -98,7 +98,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         try {
             int no = 1;
-            String sql = "SELECT pegawai.nik, pegawai.nama_pegawai, pegawai.gaji_pegawai, pengeluaran.id_pengeluaran, pengeluaran.jumlah_pengeluaran, pengeluaran.tanggal_pengeluaran FROM pengeluaran JOIN pegawai on pegawai.nik = pengeluaran.nik";
+            String sql = "SELECT pegawai.nik, pegawai.nama_pegawai, pegawai.gaji_pegawai, pengeluaran.id_pengeluaran, pengeluaran.jumlah_pengeluaran, pengeluaran.tanggal_pengeluaran FROM pengeluaran JOIN pegawai on pegawai.nik = pengeluaran.nik where jenis_pengeluaran = 'gaji'";
             Connection conn = (Connection) Workshop_project.foderoDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
@@ -119,7 +119,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
     }
 
-    public void tampil_nama() {
+    
+      public void tampil_nama() {
         try {
             String sql = "select * from pegawai";
             Connection conn = (Connection) Workshop_project.foderoDB();
@@ -133,7 +134,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
     }
-
+    
+      
     public void tampil_bonus() {
         try {
             String sql = "select * from mst_bonus";
@@ -171,6 +173,13 @@ public class PembayaranGaji extends javax.swing.JFrame {
         txt_keteranganBonus.setText(null);
         id_pengeluaran = 0;
         totalGaji.setText(null);
+        DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
+        
+        if (tbl.getRowCount() > 0) {
+            for (int i = tbl.getRowCount() - 1; i > -1; i--) {
+                tbl.removeRow(i);
+            }
+        }
     }
 
     static String getDate() {
@@ -208,14 +217,10 @@ public class PembayaranGaji extends javax.swing.JFrame {
         initComponents();
         tabel();
         kosong();
-        txt_keteranganMinus.setEnabled(false);
-        txt_keteranganBonus.setEnabled(false);
-        txt_gaji.setEnabled(false);
-        txt_nik.setEnabled(false);
         tanggal.setText(getDate());
         name.setText(util.nama);
         nik.setText(util.nik);
-        btn_hapus1.setEnabled(false);
+        txt_nik.setEnabled(false);
         tampil_bonus();
         tampil_minus();
         tampil_nama();
@@ -256,7 +261,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         xxxxxxx = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btn_edit = new javax.swing.JButton();
         btn_hapus = new javax.swing.JButton();
         btn_bayar = new javax.swing.JButton();
         xxxxxxx1 = new javax.swing.JLabel();
@@ -419,16 +423,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(114, 114, 114));
         jLabel2.setText("Nama Pegawai :");
 
-        btn_edit.setBackground(new java.awt.Color(90, 90, 90));
-        btn_edit.setForeground(new java.awt.Color(0, 0, 0));
-        btn_edit.setText("Edit");
-        btn_edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btn_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_editActionPerformed(evt);
-            }
-        });
-
         btn_hapus.setBackground(new java.awt.Color(255, 16, 12));
         btn_hapus.setForeground(new java.awt.Color(0, 0, 0));
         btn_hapus.setText("Hapus");
@@ -527,12 +521,18 @@ public class PembayaranGaji extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 qtyMinusKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                qtyMinusKeyTyped(evt);
+            }
         });
 
         qtyBonus.setBackground(new java.awt.Color(255, 255, 255));
         qtyBonus.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 qtyBonusKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                qtyBonusKeyTyped(evt);
             }
         });
 
@@ -641,8 +641,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(totalGaji, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(btn_hapus1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
@@ -722,7 +720,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_edit)
                     .addComponent(btn_hapus1)
                     .addComponent(jLabel12)
                     .addComponent(totalGaji))
@@ -931,6 +928,544 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
     }//GEN-LAST:event_m_gajiMouseClicked
 
+    private void qtyBonusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyBonusKeyReleased
+        // TODO add your handling code here:
+        totalGaji();
+    }//GEN-LAST:event_qtyBonusKeyReleased
+
+    private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
+        // TODO add your handling code here:
+        int opt = JOptionPane.showConfirmDialog(null, "Apakah anda yakin ingin menghapus?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
+            try {
+
+                String sql = "DELETE FROM pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                String sql2 = "DELETE FROM pengeluaran where id_pengeluaran = '" + id_pengeluaran + "'";
+
+                Connection conn = (Connection) Workshop_project.foderoDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
+                pst.execute();
+                pst2.execute();
+
+                JOptionPane.showMessageDialog(this, "berhasil di hapus");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            tabel();
+            kosong();
+            DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
+            if (tbl.getRowCount() > 0) {
+                for (int i = tbl.getRowCount() - 1; i > -1; i--) {
+                    tbl.removeRow(i);
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_hapusActionPerformed
+
+    private void cb_minusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_minusKeyPressed
+
+    }//GEN-LAST:event_cb_minusKeyPressed
+
+    private void cb_minusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_minusActionPerformed
+        try {
+            //menginisialkan minus dari comboBox
+            String minus = String.valueOf(cb_minus.getSelectedItem());
+            //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
+            String sql = "select * from mst_minus WHERE nama_minus = '" + minus + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            //yang dipanggil hanya nominal minus saja
+            if (res.next()) {
+                txt_keteranganMinus.setText(res.getString("nominal_minus"));
+            }
+            txt_keteranganMinus.disable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
+        totalGaji();
+    }//GEN-LAST:event_cb_minusActionPerformed
+
+    private void cb_bonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_bonusActionPerformed
+        try {
+            //menginisialkan bonus pada tabel comboBox
+            String nama = String.valueOf(cb_bonus.getSelectedItem());
+            //menceri data pada tabel master minus yang dipilih dari nama_minus yang berada pada comboBox
+            String sql = "select * from mst_bonus WHERE nama_bonus = '" + nama + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            if (res.next()) {
+                txt_keteranganBonus.setText(res.getString("nominal_bonus"));
+            }
+            txt_keteranganBonus.disable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
+        totalGaji();
+    }//GEN-LAST:event_cb_bonusActionPerformed
+
+    private void cb_bonusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_bonusItemStateChanged
+        try {
+            //menginisialkan bonus pada tabel comboBox
+            String nama = String.valueOf(cb_bonus.getSelectedItem());
+            //menceri data pada tabel master minus yang dipilih dari nama_minus yang berada pada comboBox
+            String sql = "select * from mst_bonus WHERE nama_bonus = '" + nama + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            if (res.next()) {
+                txt_keteranganBonus.setText(res.getString("nominal_bonus"));
+            }
+            txt_keteranganBonus.disable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
+        totalGaji();
+    }//GEN-LAST:event_cb_bonusItemStateChanged
+
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+        kosong();
+    }//GEN-LAST:event_btn_clearActionPerformed
+
+    private void btn_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bayarActionPerformed
+        // TODO add your handling code here:
+        String queryVal = "select count(id_pengeluaran) as hitung from pengeluaran where nik = '"+ txt_nik.getText() +"' and month(tanggal_pengeluaran) = month(now()) and jenis_pengeluaran = 'gaji'";
+        try {
+            Statement statement = Utils.foderoDB().createStatement();
+            ResultSet result = statement.executeQuery(queryVal);
+            result.next();
+            if (Integer.valueOf(result.getString("hitung")) != 0) {
+                JOptionPane.showMessageDialog(null, "Data Gaji untuk bulan ini telah dibayarkan", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+                kosong();
+            } else{
+                String sql1 = "insert into pengeluaran (nik, keterangan_pengeluaran, jenis_pengeluaran, jumlah_pengeluaran, tanggal_pengeluaran) values('"
+                        + txt_nik.getText() + "', 'pengeluaran gaji', 'gaji', " + gajiBersih + ", now())";
+                Connection conn = (Connection) Workshop_project.foderoDB();
+                PreparedStatement pst1 = conn.prepareStatement(sql1);
+                pst1.execute();
+
+                String sql2 = "select * from pengeluaran order by id_pengeluaran desc limit 1";
+                Statement stm2 = conn.createStatement();
+                ResultSet res = stm2.executeQuery(sql2);
+                res.next();
+                id_pengeluaran = res.getInt("id_pengeluaran");
+
+                DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
+                if (tbl.getRowCount() > 0) {
+                    for (int x = 0; x < tabel1.getRowCount(); x++) {
+                        String queryGaji = "";
+                        if (tbl.getValueAt(x, 4) == "Bonus") {
+                            queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", " + tbl.getValueAt(x, 0) + ", null, " + tbl.getValueAt(x, 2) + ")";
+                        } else if (tbl.getValueAt(x, 4) == "Minus") {
+                            queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", null, " + tbl.getValueAt(x, 0) + ", " + tbl.getValueAt(x, 2) + ")";
+                        }
+                        try {
+                            PreparedStatement pst = conn.prepareStatement(queryGaji);
+                            pst.execute();
+
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "query 2" + ex.getMessage());
+
+                        }
+                    }
+                }
+
+                if (tbl.getRowCount() > 0) {
+                    for (int i = tbl.getRowCount() - 1; i > -1; i--) {
+                        tbl.removeRow(i);
+                    }
+                }
+                // memanggil ulang table
+                JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+                id_pengeluaran = 0;
+            }
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "query Gagal 1" + e.getMessage());
+        }
+        tabel();
+    }//GEN-LAST:event_btn_bayarActionPerformed
+
+    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
+        // TODO add your handling code here:
+
+        int i = tabel.getSelectedRow();
+        TableModel tbl = tabel.getModel();
+        // Mengambil value dari table
+
+        String field1 = tbl.getValueAt(i, 1).toString();
+        String field2 = tbl.getValueAt(i, 2).toString();
+        String field3 = tbl.getValueAt(i, 3).toString();
+        String field4 = tbl.getValueAt(i, 4).toString();
+
+        //membuat aritmatika untuk gaji bersih
+//        int bonus = Integer.parseInt(field5);
+//        int minus = Integer.parseInt(field3);
+//        int gaji = Integer.parseInt(field7);
+//        int gajiBersih = gaji + bonus - minus;
+//
+//        //membuat angka terdapat format rupiah dan terdapat titik
+//        txt_keteranganBonus.setText(nf.format(bonus));
+//        txt_keteranganMinus.setText(nf.format(minus));
+//        txt_gaji.setText(nf.format(gaji));
+//        totalGaji.setText("Rp. "+nf.format(gajiBersih));
+        //menginisialkan id_pengeluran
+        id_pengeluaran = Integer.valueOf(tbl.getValueAt(i, 1).toString());
+
+        // Paste data yang telah diambil
+//        txt_nama.setText(field2);
+//        txt_nama.disable();
+        cb_namaPG.setSelectedItem(field2);
+//        cb_bonus.setSelectedItem(field6);
+        txt_gaji.disable();
+        txt_gaji.setText(field3);
+        totalGaji.setText("Rp. "+Utils.rupiah(tbl.getValueAt(i, 4).toString()));
+
+        getTabel2();
+    }//GEN-LAST:event_tabelMouseClicked
+
+    private void qtyMinusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyMinusKeyReleased
+        // TODO add your handling code here:
+        totalGaji();
+    }//GEN-LAST:event_qtyMinusKeyReleased
+
+    private void txt_nikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nikKeyPressed
+        // TODO add your handling code here:
+        //menginisialkan nik dari textfield
+//        String nik = txt_nik.getText();
+//
+//        try {
+//            //mencari data dari tabel pegawai yang dipilih dari nik yang berada pada textField
+//            String sql = "select * from pegawai where nik like '%" + nik + "%' limit 1";
+//            Connection conn = (Connection) Workshop_project.foderoDB();
+//            Statement stm = conn.createStatement();
+//            ResultSet res = stm.executeQuery(sql);
+//
+//            if (res.next()) {
+//                //data yang diambil hanya nama dan gaji
+////                txt_nama.setText(res.getString("nama_pegawai"));
+//                txt_gaji.setText(res.getString("gaji_pegawai"));
+//
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, e.getMessage());
+//        }
+//        //memanggil method aritmatika gaji bersih(gaji pokok + bonus - minus)
+//        totalGaji();
+    }//GEN-LAST:event_txt_nikKeyPressed
+
+    private void txt_nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nikActionPerformed
+
+    }//GEN-LAST:event_txt_nikActionPerformed
+
+    private void txt_keteranganMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_keteranganMinusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_keteranganMinusActionPerformed
+
+    private void tabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel1MouseClicked
+        // TODO add your handling code here:
+        row_tabel1 = tabel1.getSelectedRow();
+        TableModel tbl = tabel1.getModel();
+        int i = tabel1.getSelectedRow();
+        int subTotal = 0;
+        int jumlah = 0;
+        
+        if (id_pengeluaran != 0) {
+            if (tbl.getValueAt(i, 4) == "Bonus") {
+                String getNominal = "select qty, nominal_bonus from gaji join mst_bonus on mst_bonus.id_bonus = gaji.id_bonus where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + tbl.getValueAt(i, 0) + "";
+                try {
+                    Statement stmt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rst = stmt.executeQuery(getNominal);
+                    if (rst.next()) {
+                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Statement stmnt = (Statement) util.foderoDB().createStatement();
+                            ResultSet rslt = stmnt.executeQuery(getTotal);
+                            if (rslt.next()) {
+                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                            }
+                        } catch(Exception ex){
+                            
+                        }
+                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        System.out.println(t);
+                        JOptionPane.showMessageDialog(rootPane, t);
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+                        } catch(Exception ex){
+                            
+                        }
+                    }
+                } catch(Exception e){
+                    
+                }
+                
+                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                try{
+//                    Utils.execQuery(queryHapus);
+                } catch(Exception e){
+                    
+                }
+            } else {
+                String getNominal = "select qty, nominal_minus from gaji join mst_minus on mst_minus.id_minus = gaji.id_minus where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + tbl.getValueAt(i, 0) + "";
+                try {
+                    Statement stmt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rst = stmt.executeQuery(getNominal);
+                    if (rst.next()) {
+                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Statement stmnt = (Statement) util.foderoDB().createStatement();
+                            ResultSet rslt = stmnt.executeQuery(getTotal);
+                            if (rslt.next()) {
+                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                            }
+                        } catch(Exception ex){
+                            
+                        }
+                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        JOptionPane.showMessageDialog(rootPane, t);
+                        
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+                        } catch(Exception ex){
+                            
+                        }
+                    }
+                } catch(Exception e){
+                    
+                }
+                
+                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                try{
+//                    Utils.execQuery(queryHapus);
+                    
+                } catch(Exception e){
+                    
+                }
+            }
+        }
+
+
+        String field1 = tbl.getValueAt(i, 1).toString();
+        String field2 = tbl.getValueAt(i, 2).toString();
+
+        if (tbl.getValueAt(i, 4) == "Bonus") {
+            cb_bonus.setSelectedItem(field1);
+            qtyBonus.setText(field2);
+        } else {
+            cb_minus.setSelectedItem(field1);
+            qtyMinus.setText(field2);
+        }
+
+    }//GEN-LAST:event_tabel1MouseClicked
+
+    private void btn_clear2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clear2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_clear2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int id = 0;
+        try {
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            String sql2 = "select * from mst_minus where nama_minus = '" + cb_minus.getSelectedItem() + "'";
+            Statement stm2 = conn.createStatement();
+            ResultSet res = stm2.executeQuery(sql2);
+            res.next();
+            id = res.getInt("id_minus");
+            int nominal = res.getInt("nominal_minus");
+            nominal_minus = nominal * Integer.valueOf(qtyMinus.getText().toString());
+            System.out.println(id);
+            modelMinus.addRow(new Object[]{
+                res.getString("id_minus"),
+                cb_minus.getSelectedItem(),
+                qtyMinus.getText(),
+                res.getInt("nominal_minus") * Integer.valueOf(qtyMinus.getText()),
+                "Minus"
+            });
+            if (id_pengeluaran != 0) {
+                String queryInsert = "insert into gaji(id_minus, qty, id_pengeluaran) values("+id+", "+ Integer.valueOf(qtyMinus.getText().toString()) +", "+id_pengeluaran+")";
+                Utils.execQuery(queryInsert);
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        int jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah - nominal_minus;
+//                        JOptionPane.showMessageDialog(rootPane, t);
+
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+                            tabel();
+                            getTabel2();
+                        } catch(Exception ex){
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch(Exception ex){
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                } 
+            }else{
+                tabel1.setModel(modelMinus);
+            }
+            totalGaji();
+        } catch (SQLException ex) {
+            try {
+                throw ex;
+            } catch (SQLException ex1) {
+                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int id = 0;
+        try {
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            String sql2 = "select * from mst_bonus where nama_bonus = '" + cb_bonus.getSelectedItem() + "'";
+            Statement stm2 = conn.createStatement();
+            ResultSet res = stm2.executeQuery(sql2);
+            res.next();
+            id = res.getInt("id_bonus");
+            int nominal = res.getInt("nominal_bonus");
+            nominal_bonus = nominal * Integer.valueOf(qtyBonus.getText().toString());
+            System.out.println(id);
+            modelMinus.addRow(new Object[]{
+                res.getString("id_bonus"),
+                cb_bonus.getSelectedItem(),
+                qtyBonus.getText(),
+                res.getInt("nominal_bonus") * Integer.valueOf(qtyBonus.getText()),
+                "Bonus"
+            });
+            if (id_pengeluaran != 0) {
+                String queryInsert = "insert into gaji(id_bonus, qty, id_pengeluaran) values("+Integer.valueOf(id)+", "+ Integer.valueOf(qtyBonus.getText().toString()) +", "+id_pengeluaran+")";
+                Utils.execQuery(queryInsert);
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        int jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah + nominal_bonus;
+//                        JOptionPane.showMessageDialog(rootPane, t);
+
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+                            tabel();
+                            getTabel2();    
+                        } catch(Exception ex){
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch(Exception ex){
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                } 
+            }else{
+                tabel1.setModel(modelMinus);
+            }
+            totalGaji();
+        } catch (SQLException ex) {
+            try {
+                throw ex;
+            } catch (SQLException ex1) {
+                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_hapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapus1ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel dt = (DefaultTableModel) tabel1.getModel();
+        int nominal_tabel = Integer.valueOf(dt.getValueAt(row_tabel1, 3).toString());
+        
+        row_tabel1 = tabel1.getSelectedRow();
+        TableModel tbl = tabel1.getModel();
+        int i = tabel1.getSelectedRow();
+        int subTotal = 0;
+        int jumlah = 0;
+        
+        if (id_pengeluaran != 0) {
+            if (tbl.getValueAt(i, 4) == "Bonus") {
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        System.out.println(t);
+//                        JOptionPane.showMessageDialog(rootPane, t);
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+
+                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                            try{
+                                Utils.execQuery(queryHapus);
+                                tabel();
+                            } catch(Exception e){
+                                JOptionPane.showMessageDialog(rootPane, "1" + e);
+                            }
+                        } catch(Exception ex){
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch(Exception ex){
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                }
+            } else {
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
+//                        JOptionPane.showMessageDialog(rootPane, t);
+
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+
+                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                            try{
+                                Utils.execQuery(queryHapus);
+                                tabel();
+                            } catch(Exception e){
+                                JOptionPane.showMessageDialog(rootPane, "1" + e);
+                            }
+                        } catch(Exception ex){
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch(Exception ex){
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                }
+            }
+        }
+        if (dt.getValueAt(row_tabel1, 4) == "Bonus") {
+            nominal_bonus -= nominal_tabel;
+            totalGaji();
+        } else {
+            nominal_minus -= nominal_tabel;
+            totalGaji();
+        }
+        dt.removeRow(row_tabel1);
+//        tabel1.setModel(dt);
+    }//GEN-LAST:event_btn_hapus1ActionPerformed
+
     private void m_dashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_dashboardMouseClicked
         try {
             // TODO add your handling code here:
@@ -1006,13 +1541,9 @@ public class PembayaranGaji extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_m_logoutMouseClicked
 
-    private void cb_namaPGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_namaPGKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cb_namaPGKeyPressed
-
     private void cb_namaPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_namaPGActionPerformed
         // TODO add your handling code here:
-        try {
+         try {
             //menginisialkan minus dari comboBox
             String nama = String.valueOf(cb_namaPG.getSelectedItem());
             //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
@@ -1027,7 +1558,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
                 txt_nik.setText(res.getString("nik"));
             }
             txt_gaji.disable();
-            txt_nik.disable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -1035,465 +1565,25 @@ public class PembayaranGaji extends javax.swing.JFrame {
         totalGaji();
     }//GEN-LAST:event_cb_namaPGActionPerformed
 
-    private void btn_hapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapus1ActionPerformed
+    private void cb_namaPGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_namaPGKeyPressed
         // TODO add your handling code here:
-        DefaultTableModel dt = (DefaultTableModel) tabel1.getModel();
-        int nominal_tabel = Integer.valueOf(dt.getValueAt(row_tabel1, 3).toString());
+    }//GEN-LAST:event_cb_namaPGKeyPressed
 
-        row_tabel1 = tabel1.getSelectedRow();
-        TableModel tbl = tabel1.getModel();
-        int i = tabel1.getSelectedRow();
-        int subTotal = 0;
-        int jumlah = 0;
-
-        if (id_pengeluaran != 0) {
-            if (tbl.getValueAt(i, 4) == "Bonus") {
-                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                try {
-                    Statement stmnt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rslt = stmnt.executeQuery(getTotal);
-                    if (rslt.next()) {
-                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
-                        System.out.println(t);
-                        //                        JOptionPane.showMessageDialog(rootPane, t);
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Utils.execQuery(updateGaji);
-
-                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                            try {
-                                Utils.execQuery(queryHapus);
-                                tabel();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(rootPane, "1" + e);
-                            }
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
-                        }
-                    }
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
-                }
-            } else {
-                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                try {
-                    Statement stmnt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rslt = stmnt.executeQuery(getTotal);
-                    if (rslt.next()) {
-                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
-                        //                        JOptionPane.showMessageDialog(rootPane, t);
-
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Utils.execQuery(updateGaji);
-
-                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                            try {
-                                Utils.execQuery(queryHapus);
-                                tabel();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(rootPane, "1" + e);
-                            }
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
-                        }
-                    }
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
-                }
-            }
-        }
-        if (dt.getValueAt(row_tabel1, 4) == "Bonus") {
-            nominal_bonus -= nominal_tabel;
-            totalGaji();
-        } else {
-            nominal_minus -= nominal_tabel;
-            totalGaji();
-        }
-        btn_hapus1.setEnabled(false);
-        dt.removeRow(row_tabel1);
-        //        tabel1.setModel(dt);
-    }//GEN-LAST:event_btn_hapus1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void qtyMinusKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyMinusKeyTyped
         // TODO add your handling code here:
-        int id = 0;
-        try {
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            String sql2 = "select * from mst_minus where nama_minus = '" + cb_minus.getSelectedItem() + "'";
-            Statement stm2 = conn.createStatement();
-            ResultSet res = stm2.executeQuery(sql2);
-            res.next();
-            id = res.getInt("id_minus");
-            int nominal = res.getInt("nominal_minus");
-            nominal_minus = nominal * Integer.valueOf(qtyMinus.getText().toString());
-            System.out.println(id);
-            modelMinus.addRow(new Object[]{
-                res.getString("id_minus"),
-                cb_minus.getSelectedItem(),
-                qtyMinus.getText(),
-                res.getInt("nominal_minus") * Integer.valueOf(qtyMinus.getText()),
-                "Minus"
-            });
-            tabel1.setModel(modelMinus);
-            totalGaji();
-        } catch (SQLException ex) {
-            try {
-                throw ex;
-            } catch (SQLException ex1) {
-                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
-            }
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_qtyMinusKeyTyped
 
-    private void tabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel1MouseClicked
+    private void qtyBonusKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyBonusKeyTyped
         // TODO add your handling code here:
-        row_tabel1 = tabel1.getSelectedRow();
-        TableModel tbl = tabel1.getModel();
-        int i = tabel1.getSelectedRow();
-        int subTotal = 0;
-        int jumlah = 0;
-
-        if (id_pengeluaran != 0) {
-            if (tbl.getValueAt(i, 4) == "Bonus") {
-                String getNominal = "select qty, nominal_bonus from gaji join mst_bonus on mst_bonus.id_bonus = gaji.id_bonus where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + tbl.getValueAt(i, 0) + "";
-                try {
-                    Statement stmt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rst = stmt.executeQuery(getNominal);
-                    if (rst.next()) {
-                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Statement stmnt = (Statement) util.foderoDB().createStatement();
-                            ResultSet rslt = stmnt.executeQuery(getTotal);
-                            if (rslt.next()) {
-                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                            }
-                        } catch (Exception ex) {
-
-                        }
-                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
-                        System.out.println(t);
-                        JOptionPane.showMessageDialog(rootPane, t);
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Utils.execQuery(updateGaji);
-                        } catch (Exception ex) {
-
-                        }
-                    }
-                } catch (Exception e) {
-
-                }
-
-                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                try {
-                    //                    Utils.execQuery(queryHapus);
-                } catch (Exception e) {
-
-                }
-            } else {
-                String getNominal = "select qty, nominal_minus from gaji join mst_minus on mst_minus.id_minus = gaji.id_minus where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + tbl.getValueAt(i, 0) + "";
-                try {
-                    Statement stmt = (Statement) util.foderoDB().createStatement();
-                    ResultSet rst = stmt.executeQuery(getNominal);
-                    if (rst.next()) {
-                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Statement stmnt = (Statement) util.foderoDB().createStatement();
-                            ResultSet rslt = stmnt.executeQuery(getTotal);
-                            if (rslt.next()) {
-                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
-                            }
-                        } catch (Exception ex) {
-
-                        }
-                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
-                        JOptionPane.showMessageDialog(rootPane, t);
-
-                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = " + t + " where id_pengeluaran = " + id_pengeluaran;
-                        try {
-                            Utils.execQuery(updateGaji);
-                        } catch (Exception ex) {
-
-                        }
-                    }
-                } catch (Exception e) {
-
-                }
-
-                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
-                try {
-                    //                    Utils.execQuery(queryHapus);
-
-                } catch (Exception e) {
-
-                }
-            }
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
         }
-
-        String field1 = tbl.getValueAt(i, 1).toString();
-        String field2 = tbl.getValueAt(i, 2).toString();
-
-        if (tbl.getValueAt(i, 4) == "Bonus") {
-            cb_bonus.setSelectedItem(field1);
-            qtyBonus.setText(field2);
-        } else {
-            cb_minus.setSelectedItem(field1);
-            qtyMinus.setText(field2);
-        }
-    }//GEN-LAST:event_tabel1MouseClicked
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int id = 0;
-        try {
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            String sql2 = "select * from mst_bonus where nama_bonus = '" + cb_bonus.getSelectedItem() + "'";
-            Statement stm2 = conn.createStatement();
-            ResultSet res = stm2.executeQuery(sql2);
-            res.next();
-            id = res.getInt("id_bonus");
-            int nominal = res.getInt("nominal_bonus");
-            nominal_bonus = nominal * Integer.valueOf(qtyBonus.getText().toString());
-            System.out.println(id);
-            modelMinus.addRow(new Object[]{
-                res.getString("id_bonus"),
-                cb_bonus.getSelectedItem(),
-                qtyBonus.getText(),
-                res.getInt("nominal_bonus") * Integer.valueOf(qtyBonus.getText()),
-                "Bonus"
-            });
-            tabel1.setModel(modelMinus);
-            totalGaji();
-        } catch (SQLException ex) {
-            try {
-                throw ex;
-            } catch (SQLException ex1) {
-                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void qtyBonusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyBonusKeyReleased
-        // TODO add your handling code here:
-        totalGaji();
-    }//GEN-LAST:event_qtyBonusKeyReleased
-
-    private void qtyMinusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyMinusKeyReleased
-        // TODO add your handling code here:
-        totalGaji();
-    }//GEN-LAST:event_qtyMinusKeyReleased
-
-    private void txt_keteranganMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_keteranganMinusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_keteranganMinusActionPerformed
-
-    private void cb_bonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_bonusActionPerformed
-
-    }//GEN-LAST:event_cb_bonusActionPerformed
-
-    private void cb_bonusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_bonusItemStateChanged
-        try {
-            //menginisialkan bonus pada tabel comboBox
-            String nama = String.valueOf(cb_bonus.getSelectedItem());
-            //menceri data pada tabel master minus yang dipilih dari nama_minus yang berada pada comboBox
-            String sql = "select * from mst_bonus WHERE nama_bonus = '" + nama + "'";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-            if (res.next()) {
-                txt_keteranganBonus.setText(res.getString("nominal_bonus"));
-            }
-            txt_keteranganBonus.disable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
-        totalGaji();
-    }//GEN-LAST:event_cb_bonusItemStateChanged
-
-    private void cb_minusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_minusKeyPressed
-
-    }//GEN-LAST:event_cb_minusKeyPressed
-
-    private void cb_minusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_minusActionPerformed
-        try {
-            //menginisialkan minus dari comboBox
-            String minus = String.valueOf(cb_minus.getSelectedItem());
-            //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
-            String sql = "select * from mst_minus WHERE nama_minus = '" + minus + "'";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-
-            //yang dipanggil hanya nominal minus saja
-            if (res.next()) {
-                txt_keteranganMinus.setText(res.getString("nominal_minus"));
-            }
-            txt_keteranganMinus.disable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
-        totalGaji();
-    }//GEN-LAST:event_cb_minusActionPerformed
-
-    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
-        kosong();
-    }//GEN-LAST:event_btn_clearActionPerformed
-
-    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
-        // TODO add your handling code here:
-
-        int i = tabel.getSelectedRow();
-        TableModel tbl = tabel.getModel();
-        // Mengambil value dari table
-
-        String field1 = tbl.getValueAt(i, 1).toString();
-        String field2 = tbl.getValueAt(i, 2).toString();
-        String field3 = tbl.getValueAt(i, 3).toString();
-
-        //membuat aritmatika untuk gaji bersih
-        //        int bonus = Integer.parseInt(field5);
-        //        int minus = Integer.parseInt(field3);
-        //        int gaji = Integer.parseInt(field7);
-        //        int gajiBersih = gaji + bonus - minus;
-        //
-        //        //membuat angka terdapat format rupiah dan terdapat titik
-        //        txt_keteranganBonus.setText(nf.format(bonus));
-        //        txt_keteranganMinus.setText(nf.format(minus));
-        //        txt_gaji.setText(nf.format(gaji));
-        //        totalGaji.setText("Rp. "+nf.format(gajiBersih));
-        //menginisialkan id_pengeluran
-        id_pengeluaran = Integer.valueOf(tbl.getValueAt(i, 1).toString());
-
-        // Paste data yang telah diambil
-        //        txt_nama.setText(field2);
-        //        txt_nama.disable();
-        //        cb_minus.setSelectedItem(field4);
-        //        cb_bonus.setSelectedItem(field6);
-        txt_gaji.disable();
-        txt_gaji.setText(field3);
-
-        getTabel2();
-    }//GEN-LAST:event_tabelMouseClicked
-
-    private void btn_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bayarActionPerformed
-        // TODO add your handling code here:
-        int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Membayar", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-            if (opt == JOptionPane.YES_OPTION){
-        try {
-            JOptionPane.showMessageDialog(null, "berhasil di bayar");
-            String sql1 = "insert into pengeluaran (nik, keterangan_pengeluaran, jenis_pengeluaran, jumlah_pengeluaran, tanggal_pengeluaran) values('"
-                    + txt_nik.getText() + "', 'pengeluaran gaji', 'gaji', " + gajiBersih + ", now())";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            PreparedStatement pst1 = conn.prepareStatement(sql1);
-            pst1.execute();
-
-            String sql2 = "select * from pengeluaran order by id_pengeluaran desc limit 1";
-            Statement stm2 = conn.createStatement();
-            ResultSet res = stm2.executeQuery(sql2);
-            res.next();
-            id_pengeluaran = res.getInt("id_pengeluaran");
-
-            DefaultTableModel tbl = (DefaultTableModel) tabel1.getModel();
-            for (int x = 0; x < tabel1.getRowCount(); x++) {
-                String queryGaji = "";
-                if (tbl.getValueAt(x, 4) == "Bonus") {
-                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", " + tbl.getValueAt(x, 0) + ", null, " + tbl.getValueAt(x, 2) + ")";
-                } else if (tbl.getValueAt(x, 4) == "Minus") {
-                    queryGaji = "insert into gaji(id_gaji, id_pengeluaran, id_bonus, id_minus, qty) values(null, " + id_pengeluaran + ", null, " + tbl.getValueAt(x, 0) + ", " + tbl.getValueAt(x, 2) + ")";
-                }
-                try {
-                    PreparedStatement pst = conn.prepareStatement(queryGaji);
-                    pst.execute();
-
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "query 2" + ex.getMessage());
-                }
-                try {
-                    saldo.setText("Saldo: Rp. " + Utils.getSaldo());
-                } catch (SQLException e) {
-                    throw e;
-                }
-            }
-
-            // memanggil ulang table
-            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "query 1" + e.getMessage());
-        }
-        tabel();
-        getTabel2();
-            }
-    }//GEN-LAST:event_btn_bayarActionPerformed
-
-    private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
-        // TODO add your handling code here:
-        int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Menghapus", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-            if (opt == JOptionPane.YES_OPTION){
-        try {
-
-            String sql = "DELETE  gaji, pengeluaran FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and gaji.id_pengeluaran = '" + id_pengeluaran + "'";
-            String sql2 = "DELETE pengeluaran, gaji FROM pengeluaran inner join gaji where pengeluaran.id_pengeluaran = gaji.id_pengeluaran and pengeluaran.id_pengeluaran = '" + id_pengeluaran + "'";
-
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            java.sql.PreparedStatement pst2 = conn.prepareStatement(sql2);
-            pst.execute();
-            pst2.execute();
-
-            JOptionPane.showMessageDialog(this, "berhasil di hapus");
-            tabel();
-            getTabel2();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        try{
-            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
-        } catch(SQLException e){
-            try {
-                throw e;
-            } catch (SQLException ex) {
-                Logger.getLogger(PembayaranGaji.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        kosong();
-            }
-    }//GEN-LAST:event_btn_hapusActionPerformed
-
-    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-        btn_hapus1.setEnabled(true);
-
-    }//GEN-LAST:event_btn_editActionPerformed
-
-    private void txt_nikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nikKeyPressed
-        // TODO add your handling code here:
-        //menginisialkan nik dari textfield
-        //        String nik = txt_nik.getText();
-        //
-        //        try {
-        //            //mencari data dari tabel pegawai yang dipilih dari nik yang berada pada textField
-        //            String sql = "select * from pegawai where nik like '%" + nik + "%' limit 1";
-        //            Connection conn = (Connection) Workshop_project.foderoDB();
-        //            Statement stm = conn.createStatement();
-        //            ResultSet res = stm.executeQuery(sql);
-        //
-        //            if (res.next()) {
-        //                //data yang diambil hanya nama dan gaji
-        ////                txt_nama.setText(res.getString("nama_pegawai"));
-        //                txt_gaji.setText(res.getString("gaji_pegawai"));
-        //
-        //            }
-        //        } catch (Exception e) {
-        //            JOptionPane.showMessageDialog(this, e.getMessage());
-        //        }
-        //        //memanggil method aritmatika gaji bersih(gaji pokok + bonus - minus)
-        //        totalGaji();
-    }//GEN-LAST:event_txt_nikKeyPressed
+    }//GEN-LAST:event_qtyBonusKeyTyped
 
     /**
      * @param args the command line arguments
@@ -1537,7 +1627,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_bayar;
     private javax.swing.JButton btn_clear;
-    private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_hapus1;
     private javax.swing.JComboBox<String> cb_bonus;

@@ -350,14 +350,29 @@ public class master_pegawai extends javax.swing.JFrame {
 
         field_nik.setBackground(new java.awt.Color(255, 255, 255));
         field_nik.setForeground(new java.awt.Color(114, 114, 114));
+        field_nik.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                field_nikKeyTyped(evt);
+            }
+        });
         getContentPane().add(field_nik, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 140, 230, -1));
 
         field_gaji.setBackground(new java.awt.Color(255, 255, 255));
         field_gaji.setForeground(new java.awt.Color(114, 114, 114));
+        field_gaji.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                field_gajiKeyTyped(evt);
+            }
+        });
         getContentPane().add(field_gaji, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 230, -1));
 
         field_nomer.setBackground(new java.awt.Color(255, 255, 255));
         field_nomer.setForeground(new java.awt.Color(114, 114, 114));
+        field_nomer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                field_nomerKeyTyped(evt);
+            }
+        });
         getContentPane().add(field_nomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 230, -1));
 
         field_password.setBackground(new java.awt.Color(255, 255, 255));
@@ -1081,6 +1096,30 @@ public class master_pegawai extends javax.swing.JFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_m_gajiMouseClicked
+
+    private void field_gajiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_field_gajiKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_field_gajiKeyTyped
+
+    private void field_nomerKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_field_nomerKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_field_nomerKeyTyped
+
+    private void field_nikKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_field_nikKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_field_nikKeyTyped
 
     /**
      * @param args the command line arguments

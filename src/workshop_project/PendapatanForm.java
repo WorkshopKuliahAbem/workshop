@@ -510,6 +510,11 @@ public class PendapatanForm extends javax.swing.JFrame {
         getContentPane().add(field_keterangan, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, 230, -1));
 
         field_jumlah.setBackground(new java.awt.Color(255, 255, 255));
+        field_jumlah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                field_jumlahKeyTyped(evt);
+            }
+        });
         getContentPane().add(field_jumlah, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 190, 230, -1));
 
         tabel.setModel(new javax.swing.table.DefaultTableModel(
@@ -912,6 +917,14 @@ public class PendapatanForm extends javax.swing.JFrame {
             loadData("");
         }
     }//GEN-LAST:event_cari_dataKeyReleased
+
+    private void field_jumlahKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_field_jumlahKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_field_jumlahKeyTyped
 
     /**
      * @param args the command line arguments

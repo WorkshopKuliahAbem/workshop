@@ -42,7 +42,7 @@ public class LaporanForm extends javax.swing.JFrame {
         try {
             jLabel6.setText("Saldo: Rp. " + Utils.getSaldo());
         } catch (SQLException e) {
-            throw e;
+            JOptionPane.showMessageDialog(rootPane, e + "ERror");
         }
     }
 
@@ -134,7 +134,7 @@ public class LaporanForm extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(114, 114, 114));
         jLabel6.setText("saldo");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(300, 100, 140, 20);
+        jLabel6.setBounds(300, 100, 180, 20);
 
         m_dashboard.setBackground(new java.awt.Color(244, 244, 244));
         m_dashboard.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -456,7 +456,7 @@ public class LaporanForm extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(114, 114, 114));
-        jLabel5.setText("Total Pengeluaran:");
+        jLabel5.setText("Total :");
         jPanel1.add(jLabel5);
         jLabel5.setBounds(340, 70, 240, 20);
 
@@ -468,7 +468,7 @@ public class LaporanForm extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setEditable(true);
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---Pilih---", "Gaji", "Pengeluaran", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gaji", "Pengeluaran", "Pendapatan" }));
         jPanel1.add(jComboBox1);
         jComboBox1.setBounds(20, 90, 220, 30);
 
@@ -623,17 +623,24 @@ public class LaporanForm extends javax.swing.JFrame {
         if (val()) {
             java.sql.Date awal, akhir;
             String tipe, query;
-            int i = 1;
+            int i = 1, jumlah = 0;
             DefaultTableModel dt = new DefaultTableModel();
             awal = new java.sql.Date(jDateChooser1.getDate().getTime());
             akhir = new java.sql.Date(jDateChooser2.getDate().getTime());
-            tipe = (jComboBox1.getSelectedIndex() == 0) ? null : jComboBox1.getSelectedItem().toString();
+            tipe = jComboBox1.getSelectedItem().toString();
             if (tipe == "Gaji") {
                 total.clear();
-                query = "select pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, monthname(tanggal_pengeluaran) as bulan, day(tanggal_pengeluaran) as tanggal, mst_bonus.nama_bonus, mst_minus.nama_minus from pengeluaran "
-                        + "left join gaji on gaji.id_pengeluaran = pengeluaran.id_pengeluaran "
-                        + "left join mst_minus on gaji.id_minus = mst_minus.id_minus "
-                        + "left join mst_bonus on gaji.id_bonus = mst_bonus.id_bonus "
+                query = "select qty, pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, monthname(tanggal_pengeluaran) as bulan, day(tanggal_pengeluaran) as tanggal, mst_minus.nama_minus from pengeluaran "
+                        + "join gaji on gaji.id_pengeluaran = pengeluaran.id_pengeluaran "
+                        + "join pegawai on pegawai.nik = pengeluaran.nik "
+                        + "join mst_minus on gaji.id_minus = mst_minus.id_minus "
+                        + "where jenis_pengeluaran = '" + tipe + "' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'";
+                String query1 = "select qty, pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, monthname(tanggal_pengeluaran) as bulan, day(tanggal_pengeluaran) as tanggal, mst_bonus.nama_bonus from pengeluaran "
+                        + "join gaji on gaji.id_pengeluaran = pengeluaran.id_pengeluaran "
+                        + "join mst_bonus on gaji.id_bonus = mst_bonus.id_bonus "
+                        + "join pegawai on pegawai.nik = pengeluaran.nik "
+                        + "where jenis_pengeluaran = '" + tipe + "' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'";
+                String query2 = "select pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, monthname(tanggal_pengeluaran) as bulan, day(tanggal_pengeluaran) as tanggal from pengeluaran "
                         + "join pegawai on pegawai.nik = pengeluaran.nik "
                         + "where jenis_pengeluaran = '" + tipe + "' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'";
                 dt.addColumn("Nama Pegawai");
@@ -641,32 +648,60 @@ public class LaporanForm extends javax.swing.JFrame {
                 dt.addColumn("Nominal");
                 dt.addColumn("Bonus");
                 dt.addColumn("Minus");
+                dt.addColumn("Qty");
                 jTable1.setModel(dt);
                 try {
                     Statement st = (Statement) Utils.foderoDB().createStatement();
                     ResultSet rs = st.executeQuery(query);
+                    Statement st1 = (Statement) Utils.foderoDB().createStatement();
+                    ResultSet rs1 = st1.executeQuery(query1);
+                    Statement st2 = (Statement) Utils.foderoDB().createStatement();
+                    ResultSet rs2 = st2.executeQuery(query2);
+                    Statement st3 = (Statement) Utils.foderoDB().createStatement();
+                    ResultSet rs3 = st3.executeQuery("select sum(jumlah_pengeluaran) as jumlah from pengeluaran where jenis_pengeluaran = '" + tipe + "' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'");
+                    if (rs3.next()) {
+                        jumlah = Integer.parseInt(rs3.getString("jumlah"));
+                    }
                     while (rs.next()) {
                         dt.addRow(new Object[]{
                             rs.getString("nama_pegawai"),
                             rs.getString("tanggal") + " " + rs.getString("bulan"),
                             "Rp." + rupiah(Integer.valueOf(rs.getString("jumlah_pengeluaran"))),
-                            rs.getString("nama_bonus"),
-                            rs.getString("nama_minus"),});
+                            "",
+                            rs.getString("nama_minus"),
+                            rs.getString("qty")
+                        });
                         total.add(Integer.valueOf(rs.getString("jumlah_pengeluaran")));
-
-                        jTable1.setModel(dt);
                     }
-                    jLabel4.setText("Rp. " + rupiah(sum()));
+                    while (rs1.next()) {
+                        dt.addRow(new Object[]{
+                            rs1.getString("nama_pegawai"),
+                            rs1.getString("tanggal") + " " + rs1.getString("bulan"),
+                            "Rp." + rupiah(Integer.valueOf(rs1.getString("jumlah_pengeluaran"))),
+                            rs1.getString("nama_bonus"),
+                            "",
+                            rs1.getString("qty")
+                        });
+                    }
+                    while (rs2.next()) {
+                        dt.addRow(new Object[]{
+                            rs2.getString("nama_pegawai"),
+                            rs2.getString("tanggal") + " " + rs2.getString("bulan"),
+                            "Rp." + rupiah(Integer.valueOf(rs2.getString("jumlah_pengeluaran"))),});
+                    }
+
+                    jTable1.setModel(dt);
+                    jLabel4.setText("Rp. " + rupiah(jumlah));
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e, "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
 
-            } else {
+            } else if(tipe == "Pengeluaran") {
                 total.clear();
-                query = "select pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, tanggal_pengeluaran as tanggal from pengeluaran "
+                query = "select pengeluaran.keterangan_pengeluaran, pegawai.nama_pegawai, pengeluaran.nik, pengeluaran.jumlah_pengeluaran, tanggal_pengeluaran as tanggal from pengeluaran "
                         + "left join gaji on gaji.id_pengeluaran = pengeluaran.id_pengeluaran "
                         + "join pegawai on pegawai.nik = pengeluaran.nik "
-                        + "where jenis_pengeluaran = '" + tipe + "' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'";
+                        + "where jenis_pengeluaran = 'Barang Pokok' or jenis_pengeluaran = 'Lain-Lain' and tanggal_pengeluaran >= '" + awal + "' and tanggal_pengeluaran <= '" + akhir + "'";
                 dt.addColumn("Nama Pegawai");
                 dt.addColumn("Tanggal");
                 dt.addColumn("Nominal");
@@ -687,7 +722,32 @@ public class LaporanForm extends javax.swing.JFrame {
                     }
                     jLabel4.setText("Rp. " + rupiah(sum()));
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e, "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e + "Error", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (tipe == "Pendapatan") {
+                query = "select pendapatan.*, pegawai.nama_pegawai from pendapatan join pegawai on pegawai.nik = pendapatan.nik "
+                        + "where tanggal_pemasukan >= '" + awal + "' and tanggal_pemasukan <= '" + akhir + "'";
+                dt.addColumn("Nama Pegawai");
+                dt.addColumn("Tanggal");
+                dt.addColumn("Nominal");
+                dt.addColumn("Keterangan");
+                jTable1.setModel(dt);
+                try {
+                    Statement st = (Statement) Utils.foderoDB().createStatement();
+                    ResultSet rs = st.executeQuery(query);
+                    while (rs.next()) {
+                        dt.addRow(new Object[]{
+                            rs.getString("nama_pegawai"),
+                            rs.getString("tanggal_pemasukan"),
+                            "Rp." + rupiah(Integer.valueOf(rs.getString("jumlah_pendapatan"))),
+                            rs.getString("keterangan_pemasukan"),});
+                        total.add(Integer.valueOf(rs.getString("jumlah_pendapatan")));
+
+                        jTable1.setModel(dt);
+                    }
+                    jLabel4.setText("Rp. " + rupiah(sum()));
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e + "Error", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
