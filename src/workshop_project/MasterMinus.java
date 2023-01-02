@@ -30,6 +30,7 @@ public class MasterMinus extends javax.swing.JFrame {
         dis();
         tanggal.setText(getDate());
         name.setText(util.nama);
+        nik.setText(util.nik);
         try{
             saldo.setText("Saldo: Rp. "+Utils.getSaldo());
         } catch(SQLException e){
@@ -163,6 +164,7 @@ public class MasterMinus extends javax.swing.JFrame {
         jPanel18 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
+        nik = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -730,6 +732,9 @@ public class MasterMinus extends javax.swing.JFrame {
 
         getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, -1, 80));
 
+        nik.setText("jLabel4");
+        getContentPane().add(nik, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -994,6 +999,7 @@ public class MasterMinus extends javax.swing.JFrame {
     private javax.swing.JPanel m_pendapatan;
     private javax.swing.JPanel m_pengeluaran;
     private javax.swing.JLabel name;
+    private javax.swing.JLabel nik;
     private javax.swing.JLabel saldo;
     private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables

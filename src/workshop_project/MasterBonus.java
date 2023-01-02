@@ -27,6 +27,7 @@ public class MasterBonus extends javax.swing.JFrame {
         dis();
         tanggal.setText(getDate());
         name.setText(util.nama);
+        nik.setText(util.nik);
         try{
             saldo.setText("Saldo: Rp. "+Utils.getSaldo());
         } catch(SQLException e){
@@ -157,6 +158,7 @@ public class MasterBonus extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        nik = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(800, 600));
@@ -664,6 +666,9 @@ public class MasterBonus extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 80));
 
+        nik.setText("jLabel5");
+        getContentPane().add(nik, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, -1, -1));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -925,6 +930,7 @@ public class MasterBonus extends javax.swing.JFrame {
     private javax.swing.JPanel m_pendapatan;
     private javax.swing.JPanel m_pengeluaran;
     private javax.swing.JLabel name;
+    private javax.swing.JLabel nik;
     private javax.swing.JLabel saldo;
     private javax.swing.JLabel tanggal;
     // End of variables declaration//GEN-END:variables

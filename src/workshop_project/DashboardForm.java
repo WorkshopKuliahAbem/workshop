@@ -673,12 +673,12 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void m_laporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_laporanMouseClicked
         try {
-                    // TODO add your handling code here:
-                    new LaporanForm().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(DashboardForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                this.setVisible(false);
+            // TODO add your handling code here:
+            new LaporanForm().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashboardForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
     }//GEN-LAST:event_m_laporanMouseClicked
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
@@ -699,12 +699,25 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
         try {
-            // TODO add your handling code here:
-            new PembayaranGaji().setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(DashboardForm.class.getName()).log(Level.SEVERE, null, ex);
+            String sql = "SELECT * FROM pegawai WHERE nik = '" + nik.getText() + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            rs.next();
+            if (rs.getString("tipe").equals("karyawan")) {
+                JOptionPane.showMessageDialog(null, "Anda tidak berhak mengakses menu ini !");
+            } else {
+                try {
+                    // TODO add your handling code here:
+                    new PembayaranGaji().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DashboardForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
-        this.setVisible(false);
     }//GEN-LAST:event_m_gajiMouseClicked
 
     private void m_pendapatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_pendapatanMouseClicked

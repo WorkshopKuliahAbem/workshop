@@ -7,7 +7,6 @@ package workshop_project;
 /**
  * @author bima
  */
-
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -23,7 +22,9 @@ import javax.swing.table.TableModel;
 import workshop_project.Workshop_project;
 
 public class master_pegawai extends javax.swing.JFrame {
+
     Utils util = new Utils();
+
     /**
      * Creates new form master_pegawai
      */
@@ -31,63 +32,70 @@ public class master_pegawai extends javax.swing.JFrame {
         initComponents();
         tabel();
         name.setText(util.nama);
+        nik.setText(util.nik);
         tanggal.setText(getDate());
         btn_edit.setEnabled(false);
-        try{
-            saldo.setText("Saldo: Rp. "+Utils.getSaldo());
-        } catch(SQLException e){
+        try {
+            saldo.setText("Saldo: Rp. " + Utils.getSaldo());
+        } catch (SQLException e) {
             throw e;
         }
     }
-    
+
     // menampilkan tanggal di layar
-    static String getDate(){
+    static String getDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime dt = LocalDateTime.now();
         return String.valueOf(dtf.format(dt));
     }
-    
+
     // validasi
-    boolean val_simpan(){
-        if(field_nik.getText().length() < 1 || field_nama.getText().length() < 1 || field_alamat.getText().length() < 1
-                || field_gaji.getText().length() < 1 || field_username.getText().length() < 1 || field_nomer.getText().length() < 1 
-                || field_password.getText().length() < 1){
+    boolean val_simpan() {
+        if (field_nik.getText().length() < 1 || field_nama.getText().length() < 1 || field_alamat.getText().length() < 1
+                || field_gaji.getText().length() < 1 || field_username.getText().length() < 1 || field_nomer.getText().length() < 1
+                || field_password.getText().length() < 1) {
             JOptionPane.showMessageDialog(null, "Field harus diisi semua!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
+
     // validasi
-    boolean val_delete(){
-        if(field_nik.getText().length() < 1){
+    boolean val_delete() {
+        if (field_nik.getText().length() < 1) {
             JOptionPane.showMessageDialog(null, "Pilih salah satu data terlebih dahulu!", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
+
     // validasi username
-    boolean val_username(){
-        try{
-        String sql = "SELECT * FROM pegawai WHERE username ='"+field_username.getText()+"'";
-        Statement statement=(Statement)Workshop_project.foderoDB().createStatement();
-        ResultSet rs=statement.executeQuery("SELECT * FROM pegawai WHERE username ='"+field_username.getText()+"'");
-        if(!rs.next())return true;
+    boolean val_username() {
+        try {
+            String sql = "SELECT * FROM pegawai WHERE username ='" + field_username.getText() + "'";
+            Statement statement = (Statement) Workshop_project.foderoDB().createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM pegawai WHERE username ='" + field_username.getText() + "'");
+            if (!rs.next()) {
+                return true;
+            }
             JOptionPane.showMessageDialog(null, "Username telah ada !", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
-        }catch (Exception e){
-    }
+        } catch (Exception e) {
+        }
         return true;
-    }     
+    }
+
     // validasi NIK
-    boolean val_nik(){
-        if(field_nik.getText().length() != 16){
+    boolean val_nik() {
+        if (field_nik.getText().length() != 16) {
             JOptionPane.showMessageDialog(null, "NIK harus 16 karakter !", "Terjadi Kesalahan", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
+
     // clear text
-    void clear_text(){
+    void clear_text() {
         field_nik.setText("");
         field_nama.setText("");
         field_alamat.setText("");
@@ -102,9 +110,10 @@ public class master_pegawai extends javax.swing.JFrame {
         field_password.setBackground(Color.white);
         btn_simpan.setEnabled(true);
     }
+
     // isi table
-    private void tabel(){
-        DefaultTableModel tb= new DefaultTableModel();
+    private void tabel() {
+        DefaultTableModel tb = new DefaultTableModel();
         // Memberi nama pada setiap kolom tabel
         tb.addColumn("NIK");
         tb.addColumn("Nama Pegawai");
@@ -114,30 +123,30 @@ public class master_pegawai extends javax.swing.JFrame {
         tb.addColumn("Jenis Kelamin");
         tb.addColumn("Gaji Pegawai");
         tabel.setModel(tb);
-    try{
-        // Mengambil data dibuat dari database
-        Statement statement=(Statement)Workshop_project.foderoDB().createStatement();
-        ResultSet rs=statement.executeQuery("select * from pegawai group by created_at order by created_at desc");
+        try {
+            // Mengambil data dibuat dari database
+            Statement statement = (Statement) Workshop_project.foderoDB().createStatement();
+            ResultSet rs = statement.executeQuery("select * from pegawai group by created_at order by created_at desc");
 
-    while (rs.next())
-    {
-        // Mengambil data dari database berdasarkan nama kolom pada tabel
-        // Lalu di tampilkan ke dalam Table
-        tb.addRow(new Object[]{
-        rs.getString("nik"),
-        rs.getString("nama_pegawai"),
-        rs.getString("username"),
-        rs.getString("alamat"),
-        rs.getString("no_telp"),
-        rs.getString("jenis_kelamin"),
-        rs.getInt("gaji_pegawai")
-        });
-        tabel.setModel(tb);
+            while (rs.next()) {
+                // Mengambil data dari database berdasarkan nama kolom pada tabel
+                // Lalu di tampilkan ke dalam Table
+                tb.addRow(new Object[]{
+                    rs.getString("nik"),
+                    rs.getString("nama_pegawai"),
+                    rs.getString("username"),
+                    rs.getString("alamat"),
+                    rs.getString("no_telp"),
+                    rs.getString("jenis_kelamin"),
+                    rs.getInt("gaji_pegawai")
+                });
+                tabel.setModel(tb);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
     }
-    }catch (Exception e){
-        JOptionPane.showMessageDialog(rootPane, e.getMessage());
-    }
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -210,6 +219,7 @@ public class master_pegawai extends javax.swing.JFrame {
         jPanel28 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        nik = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -828,6 +838,9 @@ public class master_pegawai extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(239, 245, 245));
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 800, 80));
 
+        nik.setText("jLabel9");
+        getContentPane().add(nik, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -840,88 +853,88 @@ public class master_pegawai extends javax.swing.JFrame {
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
         // TODO add your handling code here:
         int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Mengedit Data ?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-        if (opt == JOptionPane.YES_OPTION){
-        try{
-            String jenis_kelamin = null;
-            if(rdb_laki.isSelected()){
-                jenis_kelamin = "Laki-Laki";
-            }else if(rdb_perempuan.isSelected()){
-                jenis_kelamin = "Perempuan";
+        if (opt == JOptionPane.YES_OPTION) {
+            try {
+                String jenis_kelamin = null;
+                if (rdb_laki.isSelected()) {
+                    jenis_kelamin = "Laki-Laki";
+                } else if (rdb_perempuan.isSelected()) {
+                    jenis_kelamin = "Perempuan";
+                }
+                String sql = "UPDATE pegawai SET nama_pegawai = '" + field_nama.getText()
+                        + "', username = '" + field_username.getText() + "', alamat = '" + field_alamat.getText()
+                        + "', no_telp = '" + field_nomer.getText() + "', gaji_pegawai = '" + field_gaji.getText()
+                        + "', jenis_kelamin = '" + jenis_kelamin + "'WHERE nik = '" + field_nik.getText() + "'";
+                java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Data berhasil diedit");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Perubahan data gagal" + e.getMessage());
             }
-            String sql = "UPDATE pegawai SET nama_pegawai = '"+ field_nama.getText()
-            +"', username = '"+field_username.getText()+"', alamat = '"+field_alamat.getText()
-            +"', no_telp = '"+ field_nomer.getText()+"', gaji_pegawai = '"+ field_gaji.getText()
-            +"', jenis_kelamin = '"+ jenis_kelamin +"'WHERE nik = '"+field_nik.getText()+"'";
-            java.sql.Connection conn=(Connection)Workshop_project.foderoDB();
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Data berhasil diedit");
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Perubahan data gagal" + e.getMessage());
-        }
-        tabel();
-        clear_text();
-        field_nik.setEnabled(true);
-        field_password.setEnabled(true);
-        field_password.setBackground(Color.white);
+            tabel();
+            clear_text();
+            field_nik.setEnabled(true);
+            field_password.setEnabled(true);
+            field_password.setBackground(Color.white);
         }
     }//GEN-LAST:event_btn_editActionPerformed
 
     private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
         // TODO add your handling code here:
-        if(val_delete()){
+        if (val_delete()) {
             int opt = JOptionPane.showConfirmDialog(null, "Yakin Untuk Menghapus", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-            if (opt == JOptionPane.YES_OPTION){
-                
-        try{
-            String sql = "DELETE FROM pegawai where nik='"+field_nik.getText()+"'";
-            java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(this, "berhasil di hapus");
-        }catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        tabel();
-        clear_text();
-        field_nik.setEnabled(true);
-        field_password.setEnabled(true);
-        field_password.setBackground(Color.white);
-        }
+            if (opt == JOptionPane.YES_OPTION) {
+
+                try {
+                    String sql = "DELETE FROM pegawai where nik='" + field_nik.getText() + "'";
+                    java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
+                    java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.execute();
+                    JOptionPane.showMessageDialog(this, "berhasil di hapus");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                }
+                tabel();
+                clear_text();
+                field_nik.setEnabled(true);
+                field_password.setEnabled(true);
+                field_password.setBackground(Color.white);
+            }
         }
     }//GEN-LAST:event_btn_hapusActionPerformed
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
         // TODO add your handling code here:
-        if(val_simpan()){
-            if(val_nik()){
-                if(val_username()){
-            try{
-                String jenis_kelamin = null;
-                if(rdb_laki.isSelected()){
-                    jenis_kelamin = "Laki-Laki";
-                }else if(rdb_perempuan.isSelected()){
-                    jenis_kelamin = "Perempuan";
+        if (val_simpan()) {
+            if (val_nik()) {
+                if (val_username()) {
+                    try {
+                        String jenis_kelamin = null;
+                        if (rdb_laki.isSelected()) {
+                            jenis_kelamin = "Laki-Laki";
+                        } else if (rdb_perempuan.isSelected()) {
+                            jenis_kelamin = "Perempuan";
+                        }
+
+                        String tipe = "karyawan";
+                        String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,tipe,gaji_pegawai,created_at) VALUES ('" + field_nik.getText() + "','" + field_nama.getText() + "',"
+                                + "'" + field_username.getText() + "','" + field_password.getText() + "',"
+                                + "'" + field_alamat.getText() + "','" + field_nomer.getText() + "',"
+                                + "'" + jenis_kelamin + "',"
+                                + "'" + tipe + "','" + field_gaji.getText() + "', now())";
+                        java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
+                        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                        pst.execute();
+                        // memanggil ulang table
+                        tabel();
+                        clear_text();
+                        JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, e.getMessage());
+                    }
                 }
-                
-                String tipe = "karyawan";
-                String sql = "INSERT INTO pegawai (nik,nama_pegawai,username,PASSWORD,alamat,no_telp,jenis_kelamin,tipe,gaji_pegawai,created_at) VALUES ('"+field_nik.getText()+"','"+field_nama.getText()+"',"
-                + "'"+field_username.getText()+"','"+field_password.getText()+"',"
-                + "'"+field_alamat.getText()+"','"+field_nomer.getText()+"',"
-                + "'"+jenis_kelamin+"',"
-                + "'"+tipe+"','"+field_gaji.getText()+"', now())";
-                java.sql.Connection conn = (Connection)Workshop_project.foderoDB();
-                java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-                pst.execute();
-                // memanggil ulang table
-                tabel();
-                clear_text();
-                JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
-            }catch (Exception e){
-                JOptionPane.showMessageDialog(this, e.getMessage());
             }
-            }
-          }
         }
     }//GEN-LAST:event_btn_simpanActionPerformed
 
@@ -939,10 +952,10 @@ public class master_pegawai extends javax.swing.JFrame {
         dtm.addColumn("gaji_pegawai");
         tabel.setModel(dtm);
         try {
-            Statement statement = (Statement)Workshop_project.foderoDB().createStatement();
-            ResultSet res = statement.executeQuery("select * from pegawai where nik like '%"+cari+"%' or nama_pegawai like '%"+cari+"%'");
+            Statement statement = (Statement) Workshop_project.foderoDB().createStatement();
+            ResultSet res = statement.executeQuery("select * from pegawai where nik like '%" + cari + "%' or nama_pegawai like '%" + cari + "%'");
 
-            while(res.next()){
+            while (res.next()) {
                 dtm.addRow(new Object[]{
                     res.getString("nik"),
                     res.getString("nama_pegawai"),
@@ -978,9 +991,9 @@ public class master_pegawai extends javax.swing.JFrame {
         field_username.setText(field3);
         field_alamat.setText(field4);
         field_nomer.setText(field5);
-        if(field6.equals("Laki-Laki")){
+        if (field6.equals("Laki-Laki")) {
             rdb_laki.setSelected(true);
-        }else{
+        } else {
             rdb_perempuan.setSelected(true);
         }
         field_gaji.setText(field7);
@@ -1062,7 +1075,6 @@ public class master_pegawai extends javax.swing.JFrame {
 
     private void m_gajiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_gajiMouseClicked
         try {
-            // TODO add your handling code here:
             new PembayaranGaji().setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(master_pegawai.class.getName()).log(Level.SEVERE, null, ex);
@@ -1168,6 +1180,7 @@ public class master_pegawai extends javax.swing.JFrame {
     private javax.swing.JPanel m_pendapatan;
     private javax.swing.JPanel m_pengeluaran;
     private javax.swing.JLabel name;
+    private javax.swing.JLabel nik;
     private javax.swing.JRadioButton rdb_laki;
     private javax.swing.JRadioButton rdb_perempuan;
     private javax.swing.JLabel saldo;
