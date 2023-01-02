@@ -595,7 +595,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         nik.setText("jLabel12");
         getContentPane().add(nik);
-        nik.setBounds(600, 80, 45, 16);
+        nik.setBounds(600, 80, 43, 16);
 
         pack();
         setLocationRelativeTo(null);

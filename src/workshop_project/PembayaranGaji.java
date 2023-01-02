@@ -32,8 +32,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
         DefaultTableModel dt = new DefaultTableModel();
         dt.addColumn("ID");
         dt.addColumn("nama bonus / nama minus");
-        dt.addColumn("sub");
         dt.addColumn("Qty");
+        dt.addColumn("subTotal");
         dt.addColumn("Keterangan");
         tabel1.setModel(dt);
         try {
@@ -43,8 +43,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
                 dt.addRow(new Object[]{
                     rs.getString("id_bonus"),
                     rs.getString("nama_bonus"),
-                    Integer.parseInt(rs.getString("nominal_bonus")) * Integer.valueOf(rs.getString("qty")),
                     rs.getString("qty"),
+                    Integer.parseInt(rs.getString("nominal_bonus")) * Integer.valueOf(rs.getString("qty")),
                     "Bonus"
                 });
 
@@ -58,8 +58,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
                 dt.addRow(new Object[]{
                     rs1.getString("id_minus"),
                     rs1.getString("nama_minus"),
-                    Integer.parseInt(rs1.getString("nominal_minus")) * Integer.valueOf(rs1.getString("qty")),
                     rs1.getString("qty"),
+                    Integer.parseInt(rs1.getString("nominal_minus")) * Integer.valueOf(rs1.getString("qty")),
                     "Minus"
                 });
                 tabel1.setModel(dt);
@@ -83,7 +83,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
         modelMinus.addColumn("ID");
         modelMinus.addColumn("nama bonus / nama minus");
         modelMinus.addColumn("Qty");
-        modelMinus.addColumn("Subtotal");
+        modelMinus.addColumn("SubTotal");
         modelMinus.addColumn("Keterangan");
     }
 
@@ -119,6 +119,23 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
     }
 
+    
+      public void tampil_nama() {
+        try {
+            String sql = "select * from pegawai";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            while (res.next()) {
+                cb_namaPG.addItem(res.getString("nama_pegawai"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+    }
+    
+      
     public void tampil_bonus() {
         try {
             String sql = "select * from mst_bonus";
@@ -150,8 +167,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
     }
 
     private void kosong() {
-        txt_nama.enable();
-        txt_nama.setText(null);
         txt_gaji.enable();
         txt_gaji.setText(null);
         txt_keteranganMinus.setText(null);
@@ -198,8 +213,10 @@ public class PembayaranGaji extends javax.swing.JFrame {
         tanggal.setText(getDate());
         name.setText(util.nama);
         nik.setText(util.nik);
+        btn_hapus1.setEnabled(false);
         tampil_bonus();
         tampil_minus();
+        tampil_nama();
         totalGaji();
         tabelMinus();
         try {
@@ -245,7 +262,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
         tabel = new javax.swing.JTable();
         txt_gaji = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txt_nama = new javax.swing.JTextField();
         btn_clear = new javax.swing.JButton();
         xxxxxxx1 = new javax.swing.JLabel();
         cb_minus = new javax.swing.JComboBox<>();
@@ -260,6 +276,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btn_hapus1 = new javax.swing.JButton();
+        cb_namaPG = new javax.swing.JComboBox<>();
         jPanel13 = new javax.swing.JPanel();
         tanggal = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -445,12 +462,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
 
         jLabel8.setText("Cari NIK :");
 
-        txt_nama.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txt_namaKeyPressed(evt);
-            }
-        });
-
         btn_clear.setBackground(new java.awt.Color(255, 153, 50));
         btn_clear.setForeground(new java.awt.Color(0, 0, 0));
         btn_clear.setText("Clear");
@@ -554,6 +565,18 @@ public class PembayaranGaji extends javax.swing.JFrame {
             }
         });
 
+        cb_namaPG.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "======Nama Pegawai======" }));
+        cb_namaPG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_namaPGActionPerformed(evt);
+            }
+        });
+        cb_namaPG.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cb_namaPGKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -590,18 +613,21 @@ public class PembayaranGaji extends javax.swing.JFrame {
                                         .addComponent(txt_nik, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(38, 38, 38)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txt_keteranganBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txt_keteranganBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(cb_namaPG, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(xxxxxxx)
-                            .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(48, 48, 48)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(cb_minus, 0, 1, Short.MAX_VALUE)
+                                .addComponent(cb_minus, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(qtyMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -645,8 +671,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_gaji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_gaji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cb_namaPG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(xxxxxxx)
@@ -923,27 +949,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
         kosong();
     }//GEN-LAST:event_btn_hapusActionPerformed
 
-    private void txt_namaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_namaKeyPressed
-        // menginisialkan nama pegawai
-        String nama = txt_nama.getText();
-        try {
-            //memilih data dari tabel pegawai yang namanya sesuai dengan nama pegawai
-            String sql = "select * from pegawai where nama_pegawai = '" + nama + "' limit 1";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-            if (res.next()) {
-                //yang dipanggil dari data pegawai hanya nik & gaji
-                txt_nik.setText(res.getString("nik"));
-                txt_gaji.setText(res.getString("gaji_pegawai"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
-        totalGaji();
-    }//GEN-LAST:event_txt_namaKeyPressed
-
     private void cb_minusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_minusKeyPressed
 
     }//GEN-LAST:event_cb_minusKeyPressed
@@ -1066,8 +1071,8 @@ public class PembayaranGaji extends javax.swing.JFrame {
         id_pengeluaran = Integer.valueOf(tbl.getValueAt(i, 1).toString());
 
         // Paste data yang telah diambil
-        txt_nama.setText(field2);
-        txt_nama.disable();
+//        txt_nama.setText(field2);
+//        txt_nama.disable();
 //        cb_minus.setSelectedItem(field4);
 //        cb_bonus.setSelectedItem(field6);
         txt_gaji.disable();
@@ -1084,26 +1089,26 @@ public class PembayaranGaji extends javax.swing.JFrame {
     private void txt_nikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nikKeyPressed
         // TODO add your handling code here:
         //menginisialkan nik dari textfield
-        String nik = txt_nik.getText();
-
-        try {
-            //mencari data dari tabel pegawai yang dipilih dari nik yang berada pada textField
-            String sql = "select * from pegawai where nik like '%" + nik + "%' limit 1";
-            Connection conn = (Connection) Workshop_project.foderoDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-
-            if (res.next()) {
-                //data yang diambil hanya nama dan gaji
-                txt_nama.setText(res.getString("nama_pegawai"));
-                txt_gaji.setText(res.getString("gaji_pegawai"));
-
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        //memanggil method aritmatika gaji bersih(gaji pokok + bonus - minus)
-        totalGaji();
+//        String nik = txt_nik.getText();
+//
+//        try {
+//            //mencari data dari tabel pegawai yang dipilih dari nik yang berada pada textField
+//            String sql = "select * from pegawai where nik like '%" + nik + "%' limit 1";
+//            Connection conn = (Connection) Workshop_project.foderoDB();
+//            Statement stm = conn.createStatement();
+//            ResultSet res = stm.executeQuery(sql);
+//
+//            if (res.next()) {
+//                //data yang diambil hanya nama dan gaji
+////                txt_nama.setText(res.getString("nama_pegawai"));
+//                txt_gaji.setText(res.getString("gaji_pegawai"));
+//
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, e.getMessage());
+//        }
+//        //memanggil method aritmatika gaji bersih(gaji pokok + bonus - minus)
+//        totalGaji();
     }//GEN-LAST:event_txt_nikKeyPressed
 
     private void txt_nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nikActionPerformed
@@ -1111,33 +1116,10 @@ public class PembayaranGaji extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_nikActionPerformed
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-        try {
-            String bonus = String.valueOf(cb_bonus.getSelectedItem());
-            String sql3 = "select * from mst_bonus where nama_bonus ='" + bonus + "'order by id_bonus ";
-            java.sql.Connection conn = (Connection) Workshop_project.foderoDB();
+            btn_hapus1.setEnabled(true);
 
-            Statement stm3 = conn.createStatement();
-            ResultSet res3 = stm3.executeQuery(sql3);
-            res3.next();
-            id_bonus = res3.getInt("id_bonus");
 
-            String minus = String.valueOf(cb_minus.getSelectedItem());
-            String sql4 = "select * from mst_minus where nama_minus ='" + minus + "' order by id_minus ";
-            Statement stm4 = conn.createStatement();
-            ResultSet res4 = stm4.executeQuery(sql4);
-            res4.next();
-            id_minus = res4.getInt("id_minus");
 
-            String sql = "UPDATE gaji SET id_minus = '" + id_minus
-                    + "',id_bonus = '" + id_bonus
-                    + "'WHERE id_pengeluaran = '" + id_pengeluaran + "'";
-            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Data berhasil diedit");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Perubahan data gagal");
-        }
-        tabel();
     }//GEN-LAST:event_btn_editActionPerformed
 
     private void txt_keteranganMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_keteranganMinusActionPerformed
@@ -1147,19 +1129,98 @@ public class PembayaranGaji extends javax.swing.JFrame {
     private void tabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel1MouseClicked
         // TODO add your handling code here:
         row_tabel1 = tabel1.getSelectedRow();
-
-        int i = tabel1.getSelectedRow();
         TableModel tbl = tabel1.getModel();
+        int i = tabel1.getSelectedRow();
+        int subTotal = 0;
+        int jumlah = 0;
+        
+        if (id_pengeluaran != 0) {
+            if (tbl.getValueAt(i, 4) == "Bonus") {
+                String getNominal = "select qty, nominal_bonus from gaji join mst_bonus on mst_bonus.id_bonus = gaji.id_bonus where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + tbl.getValueAt(i, 0) + "";
+                try {
+                    Statement stmt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rst = stmt.executeQuery(getNominal);
+                    if (rst.next()) {
+                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Statement stmnt = (Statement) util.foderoDB().createStatement();
+                            ResultSet rslt = stmnt.executeQuery(getTotal);
+                            if (rslt.next()) {
+                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                            }
+                        } catch(Exception ex){
+                            
+                        }
+                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        System.out.println(t);
+                        JOptionPane.showMessageDialog(rootPane, t);
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+                        } catch(Exception ex){
+                            
+                        }
+                    }
+                } catch(Exception e){
+                    
+                }
+                
+                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                try{
+//                    Utils.execQuery(queryHapus);
+                } catch(Exception e){
+                    
+                }
+            } else {
+                String getNominal = "select qty, nominal_minus from gaji join mst_minus on mst_minus.id_minus = gaji.id_minus where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + tbl.getValueAt(i, 0) + "";
+                try {
+                    Statement stmt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rst = stmt.executeQuery(getNominal);
+                    if (rst.next()) {
+                        String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                        try {
+                            Statement stmnt = (Statement) util.foderoDB().createStatement();
+                            ResultSet rslt = stmnt.executeQuery(getTotal);
+                            if (rslt.next()) {
+                                jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                            }
+                        } catch(Exception ex){
+                            
+                        }
+                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        JOptionPane.showMessageDialog(rootPane, t);
+                        
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+                        } catch(Exception ex){
+                            
+                        }
+                    }
+                } catch(Exception e){
+                    
+                }
+                
+                String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                try{
+//                    Utils.execQuery(queryHapus);
+                    
+                } catch(Exception e){
+                    
+                }
+            }
+        }
+
 
         String field1 = tbl.getValueAt(i, 1).toString();
-        String field3 = tbl.getValueAt(i, 3).toString();
+        String field2 = tbl.getValueAt(i, 2).toString();
 
         if (tbl.getValueAt(i, 4) == "Bonus") {
             cb_bonus.setSelectedItem(field1);
-            qtyBonus.setText(field3);
+            qtyBonus.setText(field2);
         } else {
             cb_minus.setSelectedItem(field1);
-            qtyMinus.setText(field3);
+            qtyMinus.setText(field2);
         }
 
     }//GEN-LAST:event_tabel1MouseClicked
@@ -1234,6 +1295,72 @@ public class PembayaranGaji extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel dt = (DefaultTableModel) tabel1.getModel();
         int nominal_tabel = Integer.valueOf(dt.getValueAt(row_tabel1, 3).toString());
+        
+        row_tabel1 = tabel1.getSelectedRow();
+        TableModel tbl = tabel1.getModel();
+        int i = tabel1.getSelectedRow();
+        int subTotal = 0;
+        int jumlah = 0;
+        
+        if (id_pengeluaran != 0) {
+            if (tbl.getValueAt(i, 4) == "Bonus") {
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah - Integer.parseInt(tbl.getValueAt(i, 3).toString());
+                        System.out.println(t);
+//                        JOptionPane.showMessageDialog(rootPane, t);
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+
+                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_bonus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                            try{
+                                Utils.execQuery(queryHapus);
+                                tabel();
+                            } catch(Exception e){
+                                JOptionPane.showMessageDialog(rootPane, "1" + e);
+                            }
+                        } catch(Exception ex){
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch(Exception ex){
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                }
+            } else {
+                String getTotal = "select jumlah_pengeluaran from pengeluaran where id_pengeluaran = " + id_pengeluaran;
+                try {
+                    Statement stmnt = (Statement) util.foderoDB().createStatement();
+                    ResultSet rslt = stmnt.executeQuery(getTotal);
+                    if (rslt.next()) {
+                        jumlah = Integer.parseInt(rslt.getString("jumlah_pengeluaran"));
+                        int t = jumlah + Integer.parseInt(tbl.getValueAt(i, 3).toString());
+//                        JOptionPane.showMessageDialog(rootPane, t);
+
+                        String updateGaji = "update pengeluaran set jumlah_pengeluaran = "+ t + " where id_pengeluaran = "+id_pengeluaran;
+                        try{
+                            Utils.execQuery(updateGaji);
+
+                            String queryHapus = "delete from gaji where id_pengeluaran = " + id_pengeluaran + " and id_minus = " + Integer.parseInt(tbl.getValueAt(i, 0).toString());
+                            try{
+                                Utils.execQuery(queryHapus);
+                                tabel();
+                            } catch(Exception e){
+                                JOptionPane.showMessageDialog(rootPane, "1" + e);
+                            }
+                        } catch(Exception ex){
+                            JOptionPane.showMessageDialog(rootPane, "2" + ex);
+                        }
+                    }
+                } catch(Exception ex){
+                    JOptionPane.showMessageDialog(rootPane, "3" + ex);
+                }
+            }
+        }
         if (dt.getValueAt(row_tabel1, 4) == "Bonus") {
             nominal_bonus -= nominal_tabel;
             totalGaji();
@@ -1241,6 +1368,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
             nominal_minus -= nominal_tabel;
             totalGaji();
         }
+        btn_hapus1.setEnabled(false);
         dt.removeRow(row_tabel1);
 //        tabel1.setModel(dt);
     }//GEN-LAST:event_btn_hapus1ActionPerformed
@@ -1320,6 +1448,33 @@ public class PembayaranGaji extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_m_logoutMouseClicked
 
+    private void cb_namaPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_namaPGActionPerformed
+        // TODO add your handling code here:
+         try {
+            //menginisialkan minus dari comboBox
+            String nama = String.valueOf(cb_namaPG.getSelectedItem());
+            //mencari data pada tabel master minus yang dipilih dari nama_minus yang berada pada tabel comboBox
+            String sql = "select * from pegawai WHERE nama_pegawai = '" + nama + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            //yang dipanggil hanya nominal minus saja
+            if (res.next()) {
+                txt_gaji.setText(res.getString("gaji_Pegawai"));
+            }
+            txt_gaji.disable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        //memanggil method arimatika dari gaji bersih(gaji pokok + bonus - minus)
+        totalGaji();
+    }//GEN-LAST:event_cb_namaPGActionPerformed
+
+    private void cb_namaPGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cb_namaPGKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_namaPGKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -1368,6 +1523,7 @@ public class PembayaranGaji extends javax.swing.JFrame {
     private javax.swing.JButton btn_hapus1;
     private javax.swing.JComboBox<String> cb_bonus;
     private javax.swing.JComboBox<String> cb_minus;
+    private javax.swing.JComboBox<String> cb_namaPG;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -1420,7 +1576,6 @@ public class PembayaranGaji extends javax.swing.JFrame {
     private javax.swing.JTextField txt_gaji;
     private javax.swing.JTextField txt_keteranganBonus;
     private javax.swing.JTextField txt_keteranganMinus;
-    private javax.swing.JTextField txt_nama;
     private javax.swing.JTextField txt_nik;
     private javax.swing.JLabel xxxxxxx;
     private javax.swing.JLabel xxxxxxx1;
