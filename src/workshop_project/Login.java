@@ -14,7 +14,9 @@ import javax.swing.JOptionPane;
  * @author alans
  */
 public class Login extends javax.swing.JFrame {
+
     Utils util = new Utils();
+
     /**
      * Creates new form Login
      */
@@ -23,7 +25,6 @@ public class Login extends javax.swing.JFrame {
         txt_user.requestFocus();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -177,37 +178,44 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-         try{
-            String sql = "SELECT * FROM pegawai WHERE username ='"+txt_user.getText()
-            +"' AND password='"+txt_password.getText()+"'";
-            Connection conn = (Connection)Workshop_project.foderoDB();
+        try {
+            String sql = "SELECT * FROM pegawai WHERE username ='" + txt_user.getText()
+                    + "' AND password='" + txt_password.getText() + "'";
+            Connection conn = (Connection) Workshop_project.foderoDB();
             PreparedStatement pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
-            if(rs.next()){
-                if(txt_user.getText().equals(rs.getString("username"))
-                    && txt_password.getText().equals(rs.getString("password"))){
+            if (rs.next()) {
+                if (txt_user.getText().equals(rs.getString("username"))
+                        && txt_password.getText().equals(rs.getString("password"))) {
                     util.nama = rs.getString("nama_pegawai");
                     util.nik = rs.getString("nik");
                     this.setVisible(false);
-                     new DashboardForm().setVisible(true);
-                     this.dispose();
-                     
+                    String sql1 = "SELECT * FROM pegawai WHERE nik ='" + util.nik + "'";
+                    PreparedStatement pst1 = conn.prepareStatement(sql1);
+                    ResultSet rs1 = pst1.executeQuery(sql1);
+                    rs1.next();
+                    if(rs1.getString("tipe").equals("owner")){
+                        new DashboardForm().setVisible(true);
+                        this.dispose();
+                    }else{
+                        new DashboardForm2().setVisible(true);
+                        this.dispose();
+                    }
                 }
-            }else{
+            }else {
                 JOptionPane.showMessageDialog(null,
-                    "username atau password anda salah");
+                        "username atau password anda salah");
             }
-
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btn_loginActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-         if (jCheckBox1.isSelected()) {
+        if (jCheckBox1.isSelected()) {
             txt_password.setEchoChar((char) 0);
-        }else{
+        } else {
             txt_password.setEchoChar('*');
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
@@ -244,7 +252,7 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
